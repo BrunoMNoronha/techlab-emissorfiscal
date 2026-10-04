@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+# Schemas oficiais e manifest devem preservar os bytes usados nos SHA-256.
+/schemas/nfe/4.00/files/*.xsd -text -eol
+/schemas/nfe/4.00/manifest.json -text -eol

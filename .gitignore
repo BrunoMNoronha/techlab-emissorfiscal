@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+TestResults/
+tmp/
+.validation/
+.vs/
+.idea/
+*.pfx
+*.p12
+*.key
+*.pem
+.env
+.env.*
+!.env.example
+package-lock.json

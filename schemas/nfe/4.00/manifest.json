@@ -1,0 +1,259 @@
+{
+  "manifestVersion": 1,
+  "baselineId": "nfe-4.00-offline-2026-10-04",
+  "reviewedOn": "2026-10-04",
+  "precedence": [
+    "PL009n",
+    "PL010d",
+    "PL010f"
+  ],
+  "packages": [
+    {
+      "id": "PL009n",
+      "archive": "PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "sha256": "8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62",
+      "origin": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "catalog": "https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos",
+      "publishedOn": "2024-03-19",
+      "subtree": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/"
+    },
+    {
+      "id": "PL010d",
+      "archive": "PL_010d_v1.03.zip",
+      "sha256": "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+      "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
+      "catalog": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+      "publishedOn": "2026-07-10",
+      "subtree": "PL_010d_v1.03/NFe/"
+    },
+    {
+      "id": "PL010f",
+      "archive": "PL_010f_v1.04.zip",
+      "sha256": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998",
+      "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D",
+      "catalog": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+      "publishedOn": "2026-08-31",
+      "subtree": "PL_010f_v1.04/"
+    }
+  ],
+  "entrypoints": {
+    "nfe": "nfe_v4.00.xsd",
+    "enviNFe": "enviNFe_v4.00.xsd",
+    "retEnviNFe": "retEnviNFe_v4.00.xsd",
+    "consSitNFe": "consSitNFe_v4.00.xsd",
+    "retConsSitNFe": "retConsSitNFe_v4.00.xsd",
+    "procNFe": "procNFe_v4.00.xsd"
+  },
+  "files": [
+    {
+      "name": "DFeTiposBasicos_v1.00.xsd",
+      "path": "files/DFeTiposBasicos_v1.00.xsd",
+      "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09",
+      "packageId": "PL010f",
+      "archiveEntry": "PL_010f_v1.04/DFeTiposBasicos_v1.00.xsd",
+      "dependencies": [],
+      "supersedes": [
+        {
+          "name": "DFeTiposBasicos_v1.00.xsd",
+          "path": "files/DFeTiposBasicos_v1.00.xsd",
+          "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+          "packageId": "PL010d",
+          "archiveEntry": "PL_010d_v1.03/NFe/DFeTiposBasicos_v1.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "consSitNFe_v4.00.xsd",
+      "path": "files/consSitNFe_v4.00.xsd",
+      "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1",
+      "packageId": "PL010d",
+      "archiveEntry": "PL_010d_v1.03/NFe/consSitNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteConsSitNFe_v4.00.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "consSitNFe_v4.00.xsd",
+          "path": "files/consSitNFe_v4.00.xsd",
+          "sha256": "ec103f360d2193f56a18630ec2b9676a1d09d1dbf2d98123f8c42ad0497e3db5",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/consSitNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "enviNFe_v4.00.xsd",
+      "path": "files/enviNFe_v4.00.xsd",
+      "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef",
+      "packageId": "PL009n",
+      "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/enviNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteNFe_v4.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "leiauteConsSitNFe_v4.00.xsd",
+      "path": "files/leiauteConsSitNFe_v4.00.xsd",
+      "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+      "packageId": "PL010d",
+      "archiveEntry": "PL_010d_v1.03/NFe/leiauteConsSitNFe_v4.00.xsd",
+      "dependencies": [
+        "tiposBasico_v4.00.xsd",
+        "xmldsig-core-schema_v1.01.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "leiauteConsSitNFe_v4.00.xsd",
+          "path": "files/leiauteConsSitNFe_v4.00.xsd",
+          "sha256": "5d8826f29ff1b0f2fd3c1ccda808fdc2ebac73f6d4abf716cb9049eb5169c535",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteConsSitNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "leiauteNFe_v4.00.xsd",
+      "path": "files/leiauteNFe_v4.00.xsd",
+      "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542",
+      "packageId": "PL010f",
+      "archiveEntry": "PL_010f_v1.04/leiauteNFe_v4.00.xsd",
+      "dependencies": [
+        "DFeTiposBasicos_v1.00.xsd",
+        "tiposBasico_v4.00.xsd",
+        "xmldsig-core-schema_v1.01.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "leiauteNFe_v4.00.xsd",
+          "path": "files/leiauteNFe_v4.00.xsd",
+          "sha256": "a2a39a43bbd01184baa03849bad5328da9cde746ec247ba334daf3dae2b5f435",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteNFe_v4.00.xsd"
+        },
+        {
+          "name": "leiauteNFe_v4.00.xsd",
+          "path": "files/leiauteNFe_v4.00.xsd",
+          "sha256": "69df93e582507d50db581d871655f6fbdc8ae51957cce2292c8f672b13d336f1",
+          "packageId": "PL010d",
+          "archiveEntry": "PL_010d_v1.03/NFe/leiauteNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "nfe_v4.00.xsd",
+      "path": "files/nfe_v4.00.xsd",
+      "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+      "packageId": "PL010f",
+      "archiveEntry": "PL_010f_v1.04/nfe_v4.00.xsd",
+      "dependencies": [
+        "leiauteNFe_v4.00.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "nfe_v4.00.xsd",
+          "path": "files/nfe_v4.00.xsd",
+          "sha256": "0ac9d4c146b6db779f4b6a531045899b919d42e1bb87eb96d6f692bb14b8b646",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/nfe_v4.00.xsd"
+        },
+        {
+          "name": "nfe_v4.00.xsd",
+          "path": "files/nfe_v4.00.xsd",
+          "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+          "packageId": "PL010d",
+          "archiveEntry": "PL_010d_v1.03/NFe/nfe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "procNFe_v4.00.xsd",
+      "path": "files/procNFe_v4.00.xsd",
+      "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0",
+      "packageId": "PL009n",
+      "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/procNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteNFe_v4.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "retConsSitNFe_v4.00.xsd",
+      "path": "files/retConsSitNFe_v4.00.xsd",
+      "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5",
+      "packageId": "PL010d",
+      "archiveEntry": "PL_010d_v1.03/NFe/retConsSitNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteConsSitNFe_v4.00.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "retConsSitNFe_v4.00.xsd",
+          "path": "files/retConsSitNFe_v4.00.xsd",
+          "sha256": "b1f23b66a55356ecf1207a833ec4d57093a54d7a58f8d6d237db0694ccb4393d",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retConsSitNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "retEnviNFe_v4.00.xsd",
+      "path": "files/retEnviNFe_v4.00.xsd",
+      "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299",
+      "packageId": "PL009n",
+      "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retEnviNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteNFe_v4.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "tiposBasico_v4.00.xsd",
+      "path": "files/tiposBasico_v4.00.xsd",
+      "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+      "packageId": "PL010f",
+      "archiveEntry": "PL_010f_v1.04/tiposBasico_v4.00.xsd",
+      "dependencies": [],
+      "supersedes": [
+        {
+          "name": "tiposBasico_v4.00.xsd",
+          "path": "files/tiposBasico_v4.00.xsd",
+          "sha256": "1ab4a4ebb9580a7efb45c9d545a9d3b7316cc965213345f667c86a5c7e56e33f",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/tiposBasico_v4.00.xsd"
+        },
+        {
+          "name": "tiposBasico_v4.00.xsd",
+          "path": "files/tiposBasico_v4.00.xsd",
+          "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+          "packageId": "PL010d",
+          "archiveEntry": "PL_010d_v1.03/NFe/tiposBasico_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "xmldsig-core-schema_v1.01.xsd",
+      "path": "files/xmldsig-core-schema_v1.01.xsd",
+      "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+      "packageId": "PL010f",
+      "archiveEntry": "PL_010f_v1.04/xmldsig-core-schema_v1.01.xsd",
+      "dependencies": [],
+      "supersedes": [
+        {
+          "name": "xmldsig-core-schema_v1.01.xsd",
+          "path": "files/xmldsig-core-schema_v1.01.xsd",
+          "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/xmldsig-core-schema_v1.01.xsd"
+        },
+        {
+          "name": "xmldsig-core-schema_v1.01.xsd",
+          "path": "files/xmldsig-core-schema_v1.01.xsd",
+          "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+          "packageId": "PL010d",
+          "archiveEntry": "PL_010d_v1.03/NFe/xmldsig-core-schema_v1.01.xsd"
+        }
+      ]
+    }
+  ]
+}

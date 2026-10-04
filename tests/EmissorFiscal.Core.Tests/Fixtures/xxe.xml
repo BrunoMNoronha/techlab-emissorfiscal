@@ -1,0 +1,1 @@
+<!DOCTYPE NFe [<!ENTITY external SYSTEM "https://invalid.example/never-read">]><NFe xmlns="http://www.portalfiscal.inf.br/nfe">&external;</NFe>

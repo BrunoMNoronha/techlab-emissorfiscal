@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../EmissorFiscal.Core/EmissorFiscal.Core.csproj" />
+    <Compile Include="../../samples/OfflineFixtures.cs" Link="OfflineFixtures.cs" />
+    <None Include="../../schemas/nfe/4.00/**/*" Link="schemas/nfe/4.00/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../tests/EmissorFiscal.Core.Tests/Fixtures/*.xml" Link="Fixtures/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
