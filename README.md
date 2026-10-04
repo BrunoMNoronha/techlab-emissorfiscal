@@ -11,6 +11,9 @@ O build terminou com zero avisos/erros. Os seis entrypoints compilaram em .NET,
 e a assinatura/PKCS#12 sintética foi verificada após serialização, envelope e
 nfeProc. Evidências e limites estão em `docs/VALIDATION.md`.
 
+O [roadmap](docs/ROADMAP.md) registra as entregas, dependências, decisões pendentes
+e critérios para evoluir da prova local à homologação e operação.
+
 Nenhuma transmissão fiscal foi feita. Não houve homologação fiscal nem liberação
 para operação. Fixtures, certificado sintético e retornos simulados não têm
 validade fiscal. Operações, regimes, permissões e custódia real continuam `TBD`.
@@ -60,6 +63,7 @@ recebe A1 real, senha, CSC, endpoint, comando de transmissão ou parâmetros tri
 - `schemas/nfe/4.00`: manifest e 11 arquivos XSD oficiais preservados byte a byte.
 - `docs/TECHNICAL-SCOPE.md`: matriz normativa, limites e contrato mínimo futuro.
 - `docs/VALIDATION.md`: evidências, comandos, pendências e relatório deste incremento.
+- `docs/ROADMAP.md`: andamento verificado e próximos incrementos com aceite e dependências.
 
 ## Atualizações de schemas
 

@@ -6,7 +6,7 @@
     ],
     "TIPO_PROBLEMA_E_EVIDÊNCIAS": [
       {"status": "CONFIRMADO", "texto": "Desenvolver emissor próprio de NF-e e NFC-e com integração direta à SEFAZ, usando documentação oficial.", "fonte": "Pedido de Bruno neste chat, 04/10/2026"},
-      {"status": "CONFIRMADO", "texto": "O catálogo oficial lista MOC 7.00, anexos, schemas e a NT 2025.002 v1.52 publicada em 01/10/2026. Verificação do catálogo; PDFs, XSDs e cronogramas completos ainda não foram analisados.", "fonte": "[Documentos NF-e/SVRS](https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos), consulta em 04/10/2026"}
+      {"status": "CONFIRMADO", "texto": "MOC 7.00/anexos, PDFs técnicos, cronogramas e schemas oficiais foram analisados para o primeiro recorte NFC-e offline. Onze XSDs tiveram hashes conferidos; seis entrypoints compilaram em .NET. Restore, build sem avisos/erros, 70 testes e CLI offline passaram com PFX sintético em memória. Não houve transmissão ou homologação fiscal; a matriz não representa cobertura tributária integral.", "fonte": "docs/TECHNICAL-SCOPE.md, docs/VALIDATION.md e revisão do código/evidências em 04/10/2026"}
     ],
     "OBJETIVO_E_SUCESSO": [
       {"status": "CONFIRMADO", "texto": "Gerar, validar, assinar, transmitir e consultar documentos fiscais, evoluindo para cancelamento, inutilização, documentos auxiliares e contingência.", "fonte": "Sequência fornecida por Bruno"},
@@ -56,12 +56,13 @@
       {"status": "DECISÃO PENDENTE", "texto": "TBD — prazo, orçamento, hospedagem e autorização de uso operacional de certificados e empresas reais.", "fonte": "Lacuna no levantamento"}
     ],
     "AMBIENTE": [
-      {"status": "CONFIRMADO", "texto": "C:/Development/Projects/techlab-emissorfiscal estava vazio na inspeção inicial. git status informou que o diretório não é repositório Git. Este briefing é o primeiro artefato local.", "fonte": "Get-ChildItem -Force e git status --short --branch, 04/10/2026"},
-      {"status": "DECISÃO PENDENTE", "texto": "TBD — remoto Git, branch, CI, ambientes e destinos de publicação.", "fonte": "Lacuna no levantamento"}
+      {"status": "CONFIRMADO", "texto": "C:/Development/Projects/techlab-emissorfiscal contém a prova offline .NET e está na branch main, com origin em https://github.com/BrunoMNoronha/techlab-emissorfiscal, repositório privado. Na revisão, main local/remota coincidiram em d981b92; não há issues, PRs, execuções de CI ou workflow versionado. docs/ROADMAP.md registra andamento e dependências.", "fonte": "Pedido de publicação, git status/log/remote, gh repo/issue/pr/run/API e revisão em 04/10/2026"},
+      {"status": "DECISÃO PENDENTE", "texto": "TBD — configuração de CI, ambientes e destinos de deploy. Publicação do código não define infraestrutura nem autoriza transmissão fiscal.", "fonte": "docs/PROJECT.md e recorte autorizado"}
     ],
     "TECNOLOGIA": [
-      {"status": "DECISÃO PENDENTE", "texto": "TBD — linguagem/framework, banco, armazenamento de arquivos e segredos, execução de trabalhadores e infraestrutura. Nenhuma stack existente foi encontrada.", "fonte": "Inspeção inicial e lacuna no levantamento"},
-      {"status": "RECOMENDAÇÃO", "texto": "Avaliar stack pela capacidade verificável de validar XSD, assinar XML corretamente e comunicar com os serviços fiscais, além de transações para numeração/idempotência. Começar com poucos componentes e usar bibliotecas especializadas quando adequadas; integração direta não implica reimplementar criptografia.", "fonte": "Critério técnico proposto pelo agente; seleção de bibliotecas depende de pesquisa e prova de compatibilidade"}
+      {"status": "CONFIRMADO", "texto": ".NET 10 foi escolhido para a prova local; global.json fixa SDK 10.0.401. Após instalação pelo usuário, SDK 10.0.401/runtime 10.0.12 executaram restore, build, 70 testes e CLI schemas/demo com sucesso.", "fonte": "Pedido do incremento, global.json e docs/VALIDATION.md, 04/10/2026"},
+      {"status": "DECISÃO PENDENTE", "texto": "TBD — stack operacional completa, banco, armazenamento de arquivos e segredos, execução de trabalhadores e infraestrutura. A prova .NET não escolhe esses componentes.", "fonte": "docs/PROJECT.md e lacunas do próximo incremento"},
+      {"status": "RECOMENDAÇÃO", "texto": "Usar a prova de XML/XSD/assinatura como base e verificar transporte fiscal e transações para numeração/idempotência antes do fluxo real. Começar com poucos componentes e usar bibliotecas especializadas quando adequadas; integração direta não implica reimplementar criptografia.", "fonte": "Critério técnico do projeto; comunicação e persistência fiscal permanecem futuras"}
     ],
     "CRITÉRIOS_DE_CONCLUSÃO": [
       {"status": "RECOMENDAÇÃO", "texto": "Para este briefing: 15 campos, seis seções preservadas, fontes acessíveis e TBD explícitos. Para o emissor: XML válido no pacote selecionado, assinatura verificável, autorização e consulta reais em homologação com protocolo/XML persistidos; isolamento e concorrência testados; recuperação de timeout/crash sem nova emissão indevida; eventos, documentos e contingência comprovados no recorte aprovado. Reportar separadamente validação local, homologação fiscal e prontidão de produção.", "fonte": "Critérios propostos pelo agente, derivados do escopo informado"},

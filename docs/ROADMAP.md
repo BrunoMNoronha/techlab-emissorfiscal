@@ -1,0 +1,166 @@
+# Roadmap — TechLab+ Emissor Fiscal
+
+Atualizado em **04/10/2026**, após revisão do código, testes, documentação,
+evidências locais e estado do GitHub. Base do código: commit
+`d981b927907737515cfb5c2e59b94c84da4cde40`, branch `main`, no
+[repositório privado](https://github.com/BrunoMNoronha/techlab-emissorfiscal).
+
+O primeiro incremento está concluído como **prova técnica offline de NFC-e
+65/DF/ambiente 2/emissão normal 1 em .NET 10**. O emissor operacional ainda não
+está implementado. O primeiro fluxo fiscal previsto é NFC-e em homologação;
+NF-e modelo 55 vem depois, com recorte próprio. O sistema cliente fornece a
+tributação. Operações e regimes aceitos continuam `TBD`.
+
+## Base verificada
+
+| Área | Estado confirmado | Evidência e limite |
+| --- | --- | --- |
+| XML, XSD e assinatura | Concluído no recorte offline | Parser seguro, 11 XSDs oficiais, seis entrypoints, chave/CNPJ numéricos e alfanuméricos, A1 sintético em memória e assinatura após serialização/envelope/nfeProc. [Código e execução](VALIDATION.md). |
+| QR e mensagens | Concluído no recorte offline | QR 3 online DF, envio síncrono unitário, consulta e interpretação correlacionada de protocolos simulados. Não há cliente SOAP ou transmissão. |
+| Validação local | 70/70 testes aprovados na execução registrada | SDK 10.0.401/runtime 10.0.12, build Release sem avisos/erros e CLI schemas/demo aprovados. Nesta revisão foram conferidos TRX, seu hash e hashes dos XSDs/manifest; não houve nova execução da suíte. |
+| Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; regras por operação e anexo de benefícios DF permanecem pendentes. |
+| Publicação do código | Concluída | `main` local e remota em `d981b92` na inspeção. Nenhuma issue, PR ou execução de Actions encontrada; não existe workflow versionado. |
+| API e confiabilidade operacional | Somente propostas documentadas | Autenticação, autorização, identidade canônica, banco, isolamento, reserva, idempotência, trabalhadores e reconciliação ainda não têm implementação. |
+| Homologação e produção | Não realizadas | Nenhum certificado de contribuinte, credenciamento comprovado, autorização fiscal real, evento fiscal ou deploy. |
+
+O relatório da prova permanece histórico; evidências em `.validation/` e
+`TestResults/` ficam locais e ignoradas. Os comandos de reprodução estão no
+[README](../README.md). As conclusões acima foram confrontadas com o código
+inalterado da base e com uma segunda revisão de segurança.
+
+## Estados e ordem de trabalho
+
+- **Concluído:** aceite atendido no recorte indicado, com evidência identificada.
+- **Planejado:** trabalho ainda não implementado; dependências indicam quando pode começar.
+- **Bloqueado:** depende de decisão ou acesso indispensável que continua `TBD`.
+- **Em andamento:** usar somente durante execução comprovada; nenhum item de implementação está nesse estado nesta revisão.
+
+Os IDs são estáveis. A ordem abaixo é uma recomendação por dependência e risco,
+sem datas de entrega, responsáveis, estimativas ou prioridades de negócio
+acordadas. Os itens ainda não possuem issues; vincular números/URLs apenas
+quando houver criação autorizada e verificada, sem duplicar este escopo.
+
+### Etapa 0 — base entregue
+
+| ID | Entrega | Estado | Evidência de conclusão |
+| --- | --- | --- | --- |
+| EF-01 | Núcleo NFC-e offline | Concluído | Core/CLI, manifest, fixtures sintéticas e 70 testes conforme [VALIDATION.md](VALIDATION.md). Não equivale a emissor homologado. |
+| EF-02 | Publicação privada do código | Concluído | Commit `d981b92` publicado na `main`; schemas/manifest preservados byte a byte e caches/credenciais ignorados. |
+| EF-03 | Revisão do projeto e roadmap | Concluído | Este documento, briefing sincronizado e contratos de origem do retorno/fencing esclarecidos. Sem mudança no código fiscal. |
+
+### Etapa 1 — preparar a continuação
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo |
+| --- | --- | --- | --- | --- |
+| EF-04 | CI da prova offline e reprodução das dependências | Planejado | EF-01 | Workflow usa o SDK fixado, restaura, compila, executa os testes e CLI, publica evidência da execução e bloqueia falhas. Definir e validar política de lock do grafo NuGet, sem confundir versões diretas fixas com grafo transitivo imutável. Nenhum segredo fiscal ou transmissão no CI. |
+| EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Planejado | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. |
+| EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Bloqueado | Decisões de negócio/operacionais `TBD` | Registrar operações/regimes aceitos, dados tributários fornecidos pelo cliente, sistemas/emitentes piloto, permissões e propriedade/acesso para aliases do mesmo CNPJ, séries/numeração legada e correção após rejeição. Nenhum regime ou política pode ser derivado das fixtures. |
+| EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | Decidir autenticação, banco/transações, armazenamento de artefatos e segredos, execução dos trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e como validar cada componente antes de implementar a base operacional. |
+
+EF-04 e a pesquisa de EF-05 podem avançar em paralelo. O levantamento de EF-06
+também pode começar agora; o fechamento das regras aplicáveis depende dessas
+decisões. EF-07 usa o contrato do piloto. Esta atualização documenta o trabalho;
+não implementa o CI nem escolhe serviços, regimes ou custódia.
+
+### Etapa 2 — base operacional antes de I/O fiscal
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo |
+| --- | --- | --- | --- | --- |
+| EF-08 | Autenticação, autorização e identidade fiscal canônica | Planejado | EF-06, EF-07 | Identidade do cliente derivada do servidor, acesso por emitente e ambiente, aliases auditáveis e política para CNPJ compartilhado. Negar acesso cruzado a emissão, consulta, arquivos e credenciais, inclusive no trabalhador e nos caminhos de erro. |
+| EF-09 | Persistência de operações, revisões, artefatos e auditoria | Planejado | EF-07 | XML assinado, hash de bytes, digest fiscal, baseline, tentativa, retorno, protocolo e alertas duráveis e vinculados à operação/revisão. Não sobrescrever histórico. Demonstrar integridade, isolamento e restauração no banco/armazenamento escolhidos. |
+| EF-10 | Numeração transacional e idempotência | Planejado | EF-06, EF-08, EF-09 | Unicidade por identidade fiscal canônica/modelo/ambiente/série/número; reserva atômica sob concorrência. Definir canonicalização/versionamento de requestHash; mesma operação/conteúdo retorna a mesma revisão, conteúdo diferente gera conflito. Aliases não criam pools independentes. |
+| EF-11 | API de emissão, estado, consulta e recuperação de artefatos | Planejado | EF-05, EF-08, EF-09, EF-10 | Contrato versionado e validado; dados tributários preservados dentro do recorte suportado. Estados locais/fiscais e erros distintos, isolamento em todas as rotas, sem aceitar resultado/protocolo do cliente como prova de autorização. Nesta etapa usar transporte simulado. |
+| EF-12 | Trabalhadores, tentativas duráveis e reconciliação | Planejado | EF-05, EF-09, EF-10 | Intenção e XML imutável registrados antes do envio simulado; lease/fencing e transições auditáveis. Provar crash, timeout, resposta tardia, perda de lease, código desconhecido, duplicidade e consulta não localizada sem nova reserva ou reenvio indevido. |
+| EF-13 | Preparar credencial A1 real e emitente de homologação | Bloqueado | EF-06, EF-07; acesso seguro/uso real `TBD` | Custódia e acesso autorizado definidos, titularidade/vínculo do emitente e política ICP-Brasil/cadeia/revogação/validade comprovados; credenciamento e configuração de homologação verificados. Segredos fora de Git, chat, exemplos e logs. A prova matemática atual não atende sozinha esse aceite. |
+
+EF-08 e EF-09 podem ser implementados em paralelo depois de EF-07, compartilhando
+o contrato de identidade. EF-11 e EF-12 convergem sobre a mesma operação/revisão;
+seus testes iniciais usam respostas e transporte sintéticos. EF-13 é uma
+preparação operacional separada e não pode ser simulado como concluído.
+
+### Etapa 3 — primeiro fluxo NFC-e em homologação
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo |
+| --- | --- | --- | --- | --- |
+| EF-14 | Transporte fiscal autenticado em homologação | Planejado | EF-05, EF-11, EF-12, EF-13 | Confirmar autorizador/endpoints/WSDL e contrato SOAP/TLS do DF/65/ambiente 2 em fontes oficiais. Registrar tentativa antes do I/O, correlacionar resposta confiável, limitar timeouts/tamanhos e manter produção inacessível no recorte. Sem retry automático de emissão por falha de transporte. |
+| EF-15 | Homologação integrada de emissão, consulta e recuperação | Planejado | EF-04, EF-14 | Obter autorização fiscal real, persistir resposta/protocolo/XML e construir nfeProc correlacionado; provar consulta, rejeição, alertas quando aplicáveis e recuperação de falhas sem duplicidade. Validar também isolamento e concorrência no fluxo completo. Evidência local/CI e fiscal são registradas separadamente. |
+
+Uma lista de URLs, HTTP 200, resposta positiva simulada ou teste TCP não conclui
+EF-14/EF-15. Uso de empresa/certificado real requer as condições de EF-13 e
+escopo operacional definido; nenhuma transmissão é realizada por esta revisão.
+
+### Etapa 4 — completar o recorte NFC-e aprovado
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo |
+| --- | --- | --- | --- | --- |
+| EF-16 | DANFE NFC-e e apresentação do QR | Planejado | EF-05, EF-15 | Renderização conforme manual/NTs vigentes, vinculada ao documento e ao estado fiscal persistido. Provar leitura do QR e consistência de chave/ambiente; a string de QR já entregue não equivale a DANFE renderizado. |
+| EF-17 | Cancelamento e eventos necessários | Planejado | EF-05, EF-12, EF-15 | Recorte/regras/prazos definidos; XML assinado, idempotência do evento, protocolo e estado correlacionados, autorização por emitente e evidência fiscal em homologação. Não tratar erro de transporte como evento registrado. |
+| EF-18 | Inutilização de numeração | Planejado | EF-05, EF-10, EF-15 | Política aprovada para lacunas/legado, validação do intervalo, bloqueio concorrente, assinatura, resposta e auditoria duráveis; provas reais em homologação. Não reutilizar números ou inutilizar intervalos por heurística. |
+| EF-19 | Contingência NFC-e aplicável ao DF | Planejado | EF-05, EF-12, EF-15, EF-16 | Política normativa e operacional definida; emissão/QR/DANFE e posterior transmissão/reconciliação comprovados, com falhas de relógio, queda/retorno e duplicidade cobertas. A prova atual é sem transporte e não implementa tpEmis=9. |
+
+Cancelamento, inutilização e renderização podem ter desenvolvimento independente
+após suas dependências, mantendo as mesmas garantias de identidade e auditoria.
+Fechar limites finais do MVP em EF-06 antes de declarar esta etapa concluída.
+
+### Etapa 5 — operação e expansão
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo |
+| --- | --- | --- | --- | --- |
+| EF-20 | Preparar operação e eventual liberação de produção | Bloqueado | EF-15 e itens EF-16 a EF-19 exigidos pelo MVP; decisões/autoridade de produção `TBD` | Definir volumes/limites, disponibilidade, SLA/RPO/RTO, alertas, retenção e resposta a incidentes; provar carga, backup/restauração, recuperação e segregação de ambientes. Alvo, aceite tributário/operacional, credenciais e autoridade de liberação definidos antes de qualquer deploy/operação em produção. |
+| EF-21 | NF-e modelo 55 e ampliação de UFs/operações | Planejado, fora do recorte atual | EF-15; novo recorte aprovado | Matriz/contratos/testes próprios para modelo 55 e operações aprovadas. Não liberar 55 removendo apenas o bloqueio de modelo do núcleo; rever eventos, DANFE, transporte, regimes e novas NTs aplicáveis. Marco de início e demais UFs seguem `TBD`. |
+
+## Pontos que a revisão exige resolver
+
+1. **Consulta com alertas:** `ProtocolTests.AlertExtensionMissingInPinnedConsultationSchemaFailsClosed`
+   demonstra que o PL010d de consulta não aceita cMsg/xMsg em infProt, enquanto
+   envio/nfeProc do PL010f aceitam. EF-05 precisa de solução baseada em material
+   oficial e regressões antes de usar consulta para reconciliar autorizações com alertas.
+2. **Cobertura normativa:** reconciliar regras/benefícios DF e normas/tabelas RTC
+   com operações/regimes decididos. O anexo completo de benefícios DF ainda não
+   foi reconciliado; a tabela histórica de regras DF não comprova cobertura atual.
+   O [catálogo NF-e/SVRS](https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos),
+   reconferido em 04/10/2026, também lista NT 2026.009 v1.00 e NT 2026.010 v1.00
+   ainda não analisadas na matriz. Triar aplicabilidade sem inferir impacto de
+   título; a descrição da 2026.010 se refere ao DANFE modelo 55. O catálogo alerta
+   que cronogramas dos documentos de 01/10/2026 podem mudar. Não atribuir novas
+   vigências ou alterar a baseline nesta revisão.
+3. **A1 e origem da resposta:** `A1Signer.Verify` verifica assinatura local;
+   `NfceProtocol.Interpret` interpreta XML recebido do chamador. EF-13/EF-14 devem
+   provar credencial/emitente e origem pelo transporte confiável. A API futura
+   não pode autorizar uma operação com protocolo fornecido por sistema cliente.
+4. **Concorrência e recuperação:** fencing controla transições locais, mas não
+   cancela I/O já em voo na SEFAZ. EF-12 deve cobrir trabalhador antigo retomando,
+   resposta tardia e duplicidade, preservando revisão/XML e reconciliação. Um
+   217 isolado não permite presumir ausência definitiva nem reenviar.
+5. **Reprodução e evidência compartilhável:** ainda não há CI e o grafo NuGet
+   transitivo foi registrado apenas localmente. EF-04 deve produzir validação
+   reproduzível a partir do checkout publicado, sem depender de binários/caches
+   locais ou disponibilizar segredos.
+6. **Documentação sincronizada:** o JSON do briefing continha afirmações antigas
+   sobre ausência de código, Git e stack. Os campos afetados foram corrigidos
+   nesta revisão, mantendo o contrato de 15 campos e as decisões `TBD`.
+
+## Próximo incremento recomendado
+
+Começar por **EF-04**, que pode ser executado sem decisões tributárias ou
+credenciais reais, e pela pesquisa de **EF-05**. Resolver **EF-06** antes de
+especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
+API/persistência. Não iniciar transmissão antes de concluir suas dependências.
+
+Fontes de serviços e normas são a
+[relação oficial NFC-e/SVRS](https://dfe-portal.svrs.rs.gov.br/Nfce/Servicos) e a
+[matriz do projeto](TECHNICAL-SCOPE.md), com conferência adicional do catálogo
+NF-e nesta revisão. Acesso a catálogo não comprova ativação ou comunicação fiscal.
+
+## Manutenção e histórico
+
+Atualizar o estado por evidência, conservar IDs/dependências e registrar novos
+commits, issues e decisões quando existirem. Conclusão local, CI, homologação e
+produção são marcos distintos. Não converter recomendações/TBD em decisões sem
+fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
+
+| Data | Mudança verificada |
+| --- | --- |
+| 04/10/2026 | Prova offline concluída: build sem avisos/erros, 70 testes e CLI aprovados; SDK instalado pelo usuário. |
+| 04/10/2026 | Código publicado em repositório privado, `main`, commit `d981b92`. |
+| 04/10/2026 | Roadmap consolidado após revisão do projeto; briefing corrigido e requisitos de origem do retorno/fencing esclarecidos. Nenhum código fiscal, CI, banco ou transporte implementado nesta atualização. |

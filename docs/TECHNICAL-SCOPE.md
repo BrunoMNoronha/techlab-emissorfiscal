@@ -94,6 +94,11 @@ persistência e reconciliação durável terão seus próprios gates no incremen
 HTTP 200, mensagem positiva, protocolo de outra chave ou retorno sem digVal não
 substituem a correlação. Não há caminho de reenvio automático.
 
+Na integração futura, somente o transporte confiável pode fornecer retornos para
+transições fiscais, vinculados à tentativa durável. O sistema cliente não pode
+autorizar uma operação fornecendo XML/protocolo próprio. O aceite da API deve
+incluir um teste de injeção desse retorno sem mudança para estado autorizado.
+
 Três hashes têm finalidades separadas:
 
 | Valor | Finalidade | Representação |
@@ -147,13 +152,19 @@ desconhecido; outro trabalhador não pode inferir falha nem transmitir revisão 
 Reconciliar chave/protocolo/digest/ambiente antes de definir qualquer repetição.
 Política de repetição, consultas, intervalos e limites dependerá da matriz vigente.
 
+Fencing protege transições locais e impede que um trabalhador obsoleto altere o
+estado como se ainda fosse o dono. Não cancela I/O já em voo no autorizador nem
+garante sozinho exclusão de efeitos externos. Ao recuperar uma operação, manter
+o XML/revisão, registrar respostas tardias e reconciliar possível duplicidade,
+inclusive quando um trabalhador antigo retoma após perder o lease.
+
 | Prova obrigatória futura | Cenário e aceite mínimo |
 | --- | --- |
 | Isolamento entre empresas | Cliente A tenta emitir, consultar, baixar XML/protocolo ou usar credencial de B: negar em todos os caminhos, inclusive processamento assíncrono e erro. |
 | Aliases do mesmo CNPJ | Dois aliases/clientes autorizados resolvem a mesma identidade fiscal e não reservam/transmitem o mesmo número por pools distintos; acesso ao conteúdo continua condicionado à política TBD. |
 | Reserva concorrente | Emissões simultâneas disputam a mesma série/ambiente: exclusividade e atomicidade, sem reserva dupla ou perda de vínculo entre número e operação. |
 | Replay após mudança normativa | Repetir operação antiga retorna o mesmo snapshot/artefatos/versão normativa; não regenerar XML pela norma nova. Novo conteúdo na mesma operação gera conflito. |
-| Perda de lease durante I/O | Trabalhador antigo não confirma/transmite nova revisão depois de perder lease. Fencing evita duas execuções concorrentes; resposta tardia preservada para reconciliação. |
+| Perda de lease durante I/O | Trabalhador antigo não confirma nova transição local nem envia nova revisão depois de perder lease. Testar retomada do trabalhador, envio já em voo e resposta tardia/duplicidade; fencing local não cancela I/O externo, e a mesma revisão/XML permanece disponível para reconciliação. |
 | Crash após envio | Intenção/XML/tentativa sobrevivem ao crash. Recuperação inicia reconciliação; não reserva novo número nem altera o XML automaticamente. |
 | Resultado desconhecido | Timeout, resposta truncada, 217 isolado ou código novo mantêm incerteza auditável. Protocolo/chave/ambiente/digest incompatíveis nunca autorizam. |
 | Correção após rejeição | Rejeição definitiva permite proposta de nova revisão explícita, com hashes/tentativas anteriores preservados. Não sobrescrever original; política de número/reemissão precisa ser aprovada com base normativa. |
