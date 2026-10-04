@@ -56,7 +56,7 @@
       {"status": "DECISÃO PENDENTE", "texto": "TBD — prazo, orçamento, hospedagem e autorização de uso operacional de certificados e empresas reais.", "fonte": "Lacuna no levantamento"}
     ],
     "AMBIENTE": [
-      {"status": "CONFIRMADO", "texto": "C:/Development/Projects/techlab-emissorfiscal contém a prova offline .NET e está na branch main, com origin em https://github.com/BrunoMNoronha/techlab-emissorfiscal, repositório privado. Na revisão, main local/remota coincidiram em d981b92; não há issues, PRs, execuções de CI ou workflow versionado. docs/ROADMAP.md registra andamento e dependências.", "fonte": "Pedido de publicação, git status/log/remote, gh repo/issue/pr/run/API e revisão em 04/10/2026"},
+      {"status": "CONFIRMADO", "texto": "C:/Development/Projects/techlab-emissorfiscal contém a prova offline .NET e está na branch main, com origin em https://github.com/BrunoMNoronha/techlab-emissorfiscal, repositório privado. Código inicial em d981b92 e revisão do roadmap em ba17162; pendências EF-04 a EF-21 convertidas em 18 issues abertas (#1 a #18), verificadas e vinculadas em docs/ROADMAP.md. EF-21 é planejamento diferido fora do recorte atual. CI ainda não foi implementado.", "fonte": "Pedido de planejamento/criação, git status/log/remote, gh repo/issue e conferência de escopos/URLs em 04/10/2026"},
       {"status": "DECISÃO PENDENTE", "texto": "TBD — configuração de CI, ambientes e destinos de deploy. Publicação do código não define infraestrutura nem autoriza transmissão fiscal.", "fonte": "docs/PROJECT.md e recorte autorizado"}
     ],
     "TECNOLOGIA": [
