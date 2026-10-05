@@ -302,3 +302,9 @@ Execução atual: `pwsh -NoProfile -File scripts/verify.ps1`, exit 0, SDK 10.0.4
 [Resumo local e hashes](evidence/ef05/local-validation.json). TRX/logs integrais ignorados em `TestResults/ci/8b24a49dfb904d9fb93aad8b97d9e7e7`; reprodução usa os testes versionados. A execução tem base 4a475c4 mais o diff deste incremento, não o checkout limpo daquele commit. Primeira execução passou 83/83; após acrescentar a borda de 16 posições na consulta, repetiu-se o fluxo completo com 84/84. Inicialmente dotnet não estava no PATH da sessão; o executável instalado foi encontrado em C:/Program Files/dotnet e o ambiente foi configurado, sem instalar dependências novas ou alterar SDK/locks.
 
 Pesquisa histórica distinta: 40 testes selecionados e 150 casos estruturais lxml; o [resumo estrutural](evidence/ef05/structural-summary.json) declara explicitamente ausência de prova criptográfica. Primeira tentativa histórica de testhost anulada por timeout e download SVRS vazio não contam como aprovação. CI EF-04 com 70/70 permanece histórica; CI desta PR deve ser identificada separadamente. Nenhum resultado prova ativação fiscal.
+
+## EF-06 — proposta do piloto — 05/10/2026
+
+Incremento exclusivamente documental da issue #3, ainda aberta. [Contrato](PILOT-CONTRACT.md), [decisões](evidence/ef06/DECISIONS.md) e [revisão PO](evidence/ef06/PO-REVIEW.md) versionados; cenário não é teste executado. Briefing preserva quinze campos; links locais, JSON e diff conferidos. Código, fixtures, schemas, manifesto, SDK, locks, scripts e workflow preservados. Não repetida suíte local por documentação; 84/84 da entrega anterior permanece histórico. CI da PR atual será verificada e identificada na entrega Git.
+
+Acesso ao Ajuste 23/26 novamente falhou para PO e executor; [status](evidence/ef06/source-status.json) registra a limitação. Não substituir a consulta anterior por alegação de reconfirmação. Políticas/tributação reais e EF-07 permanecem pendentes, sem I/O fiscal ou deploy.

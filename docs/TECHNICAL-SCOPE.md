@@ -180,3 +180,7 @@ API, evento fiscal, DANFE, contingência operacional ou transporte nesta entrega
 ## Revisão EF-05 — 05/10/2026
 
 A [matriz EF-05](EF05-NORMATIVE-MATRIX.md) atualiza a triagem normativa anterior. Nove ZIPs examinados não trouxeram consulta oficial compatível com alertas. Baseline e comportamento preservados; issue #2 permanece aberta. O anexo DF foi localizado integralmente, mas sua reconciliação linha a linha e aplicação dependem da EF-06. Há divergências PDF/XSD sobre cMsg e entre N12-90 nacional/DF; aceitação estrutural não resolve semântica fiscal. Nenhuma ativação real foi comprovada.
+
+## Proposta de contrato do piloto — EF-06
+
+[PILOT-CONTRACT.md](PILOT-CONTRACT.md) detalha a proposta conceitual por origem e condição dos dados, recomendações de políticas e treze cenários futuros. Decisões humanas, escolhas sintéticas e recomendações do PO são separadas. Não é contrato fiscal pronto para implementação: campos/precisão, tributação por caso, políticas reais e condições de homologação permanecem TBD. Nenhuma mudança no núcleo, baseline, resolver ou interpretação foi feita.

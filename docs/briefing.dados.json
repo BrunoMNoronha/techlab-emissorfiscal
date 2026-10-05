@@ -5,6 +5,7 @@
       {"status": "RECOMENDAÇÃO", "texto": "TechLab+ Emissor Fiscal — nome provisório baseado na pasta de trabalho.", "fonte": "Diretório local verificado em 04/10/2026"}
     ],
     "TIPO_PROBLEMA_E_EVIDÊNCIAS": [
+      {"status": "CONFIRMADO", "texto": "Proposta conceitual EF-06 versionada com revisão do PO e treze cenários futuros. Não há payloads fiscais completos, políticas reais aprovadas ou homologação. Issue #3 permanece aberta.", "fonte": "docs/PILOT-CONTRACT.md e docs/evidence/ef06/PO-REVIEW.md, 05/10/2026"},
       {"status": "CONFIRMADO", "texto": "Levantamento EF-05 incorporado: onze XSDs conferidos e nove ZIPs examinados sem consulta compatível com alertas. Anexo DF completo localizado; reconciliação integral e aplicação por operação/regime pendentes da EF-06. Issue #2 aberta; baseline e comportamento preservados, sem homologação fiscal.", "fonte": "docs/EF05-NORMATIVE-MATRIX.md; levantamento de 05/10/2026"},
       {"status": "CONFIRMADO", "texto": "Desenvolver emissor próprio de NF-e e NFC-e com integração direta à SEFAZ, usando documentação oficial.", "fonte": "Pedido de Bruno neste chat, 04/10/2026"},
       {"status": "CONFIRMADO", "texto": "MOC 7.00/anexos, PDFs técnicos, cronogramas e schemas oficiais foram analisados para o primeiro recorte NFC-e offline. Onze XSDs tiveram hashes conferidos; seis entrypoints compilaram em .NET. Restore, build sem avisos/erros, 70 testes e CLI offline passaram com PFX sintético em memória. Não houve transmissão ou homologação fiscal; a matriz não representa cobertura tributária integral.", "fonte": "docs/TECHNICAL-SCOPE.md, docs/VALIDATION.md e revisão do código/evidências em 04/10/2026"}
@@ -14,6 +15,7 @@
       {"status": "DECISÃO PENDENTE", "texto": "TBD — volumes, latência, disponibilidade, custos e metas quantitativas.", "fonte": "Lacuna no levantamento"}
     ],
     "PÚBLICO_E_CANAIS": [
+      {"status": "CONFIRMADO", "texto": "Sistemas de vendas para usuários finais, incluindo mercadinhos e distribuidoras. Recorte informado da distribuidora: vendas para consumo próprio do adquirente.", "fonte": "Respostas diretas do usuário em 05/10/2026; docs/evidence/ef06/DECISIONS.md"},
       {"status": "CONFIRMADO", "texto": "API compartilhada entre empresas, começando pelo Distrito Federal.", "fonte": "Resposta de Bruno à pergunta de abrangência neste chat, 04/10/2026"},
       {"status": "DECISÃO PENDENTE", "texto": "TBD — sistemas clientes, empresas piloto, UFs atendidas e necessidade de painel administrativo.", "fonte": "Lacuna no levantamento"}
     ],
@@ -25,6 +27,7 @@
       {"status": "DECISÃO PENDENTE", "texto": "TBD — autenticação da API, administradores, delegação entre sistemas e empresas, permissões para emissão, eventos e acesso aos arquivos.", "fonte": "Lacuna no levantamento"}
     ],
     "ESCOPO": [
+      {"status": "CONFIRMADO", "texto": "Suporte planejado ao Simples Nacional e ao regime normal; homologação futura começa pelo regime da primeira empresa piloto. Empresa/regime inicial e casos fiscais permanecem TBD.", "fonte": "Concordância do usuário em 05/10/2026; docs/PILOT-CONTRACT.md"},
       {"status": "RECOMENDAÇÃO", "texto": "Sequência proposta: (1) fechar recorte e matriz normativa; (2) núcleo de XML/XSD/assinatura com dados fictícios; (3) emissão e consulta em homologação com persistência, isolamento, numeração e idempotência; (4) cancelamento, inutilização, DANFE/QR Code e contingência aplicáveis; (5) validar recuperação e preparar operação. Confiabilidade começa na etapa 2, sem adiamento até o fim.", "fonte": "Ordem de Bruno e proposta técnica do agente"},
       {"status": "CONFIRMADO", "texto": "Primeiro fluxo completo em homologação: NFC-e (modelo 65). NF-e (modelo 55) será desenvolvida depois. O sistema cliente fornece a tributação; certificado A1.", "fonte": "Respostas de Bruno às perguntas de modelo e tributação neste chat, 04/10/2026"},
       {"status": "DECISÃO PENDENTE", "texto": "TBD — operações e regimes tributários iniciais, limites finais do MVP e marco de início da NF-e.", "fonte": "Lacuna no levantamento"},
