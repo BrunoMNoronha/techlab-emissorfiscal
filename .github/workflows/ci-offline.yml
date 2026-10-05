@@ -1,0 +1,93 @@
+name: CI offline NFC-e
+
+on:
+  push:
+    branches: [main]
+    paths: &validation-paths
+      - 'src/**'
+      - 'tests/**'
+      - 'samples/**'
+      - 'schemas/**'
+      - 'scripts/**'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '**/*.targets'
+      - '**/packages.lock.json'
+      - 'EmissorFiscal.slnx'
+      - 'global.json'
+      - 'NuGet.Config'
+      - '.gitattributes'
+      - '.github/workflows/ci-offline.yml'
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    branches: [main]
+    paths: *validation-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: offline-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Prova offline / Windows / SDK fixado
+    runs-on: windows-2025
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false'
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Instalar SDK de global.json
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Restore bloqueado, build, testes e CLI
+        env:
+          NUGET_PACKAGES: ${{ runner.temp }}/ef04-nuget
+        run: ./scripts/verify.ps1
+      - name: Resumo da execução
+        if: always()
+        run: |
+          $taskSummaryFile = Get-ChildItem -LiteralPath TestResults/ci -Filter summary.json -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($taskSummaryFile) {
+            $taskSummary = Get-Content -LiteralPath $taskSummaryFile.FullName -Raw | ConvertFrom-Json
+            @(
+              '### Prova NFC-e exclusivamente offline'
+              "Estado: $($taskSummary.status); exit: $($taskSummary.exitCode)"
+              "Commit: $($taskSummary.commit)"
+              "SDK: $($taskSummary.sdk); runtime: $($taskSummary.runtime)"
+              "Runner: $($taskSummary.runner.image) / $($taskSummary.runner.imageVersion)"
+              "Testes: $($taskSummary.testCounters | ConvertTo-Json -Compress)"
+              "Erro: $($taskSummary.error)"
+              'Sem certificado de contribuinte, transmissão ou homologação fiscal.'
+            ) | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+          }
+      - name: Publicar evidências selecionadas
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: offline-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            TestResults/ci/*/summary.json
+            TestResults/ci/*/test-results.trx
+            TestResults/ci/*/cli-schemas.json
+            TestResults/ci/*/cli-demo.json
+            TestResults/ci/*/sdk.log
+            TestResults/ci/*/restore.log
+            TestResults/ci/*/build.log
+            TestResults/ci/*/test.log
+            TestResults/ci/*/schemas.log
+            TestResults/ci/*/demo.log
