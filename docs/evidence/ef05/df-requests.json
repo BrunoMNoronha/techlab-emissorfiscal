@@ -1,0 +1,50 @@
+[
+  {
+    "name": "df-portaria387",
+    "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+    "method": "POST (consulta publica)",
+    "body": {
+      "Ano": 2019,
+      "Numero": 387,
+      "CodigoTipo": "7",
+      "Parte": ".",
+      "Setor": null
+    },
+    "consultedAt": "2026-10-05T09:52:45.706226-03:00",
+    "status": 200,
+    "bytes": 101248,
+    "sha256": "dbce45f53da8c4bae899a508505e0e37cdbe55912637c993e1871012533d4613"
+  },
+  {
+    "name": "df-ad1-2026",
+    "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+    "method": "POST (consulta publica)",
+    "body": {
+      "Ano": 2026,
+      "Numero": 1,
+      "CodigoTipo": "734",
+      "Parte": ".",
+      "Setor": null
+    },
+    "consultedAt": "2026-10-05T09:52:45.708226-03:00",
+    "status": 200,
+    "bytes": 63009,
+    "sha256": "7f9c6a91d851ba2c0e9d32ad42d1f093bb9334a3bab00e532ee522cadf774d8e"
+  },
+  {
+    "name": "df-ad2-2025",
+    "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+    "method": "POST (consulta publica)",
+    "body": {
+      "Ano": 2025,
+      "Numero": 2,
+      "CodigoTipo": "734",
+      "Parte": ".",
+      "Setor": null
+    },
+    "consultedAt": "2026-10-05T09:52:45.709232-03:00",
+    "status": 200,
+    "bytes": 2111490,
+    "sha256": "7f72919b068944913baad970e3fb4c09a3c08a4cf5ee970949cef434dedbef59"
+  }
+]

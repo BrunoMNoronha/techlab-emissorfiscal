@@ -20,7 +20,7 @@ tributação. Operações e regimes aceitos continuam `TBD`.
 | XML, XSD e assinatura | Concluído no recorte offline | Parser seguro, 11 XSDs oficiais, seis entrypoints, chave/CNPJ numéricos e alfanuméricos, A1 sintético em memória e assinatura após serialização/envelope/nfeProc. [Código e execução](VALIDATION.md). |
 | QR e mensagens | Concluído no recorte offline | QR 3 online DF, envio síncrono unitário, consulta e interpretação correlacionada de protocolos simulados. Não há cliente SOAP ou transmissão. |
 | Validação local e CI | 70/70 testes aprovados em checkout limpo e Actions | SDK 10.0.401/runtime 10.0.12, build Release sem avisos/erros, CLI schemas/demo e hashes dos XSDs/manifest aprovados. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências de EF-04 em [VALIDATION.md](VALIDATION.md). |
-| Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; regras por operação e anexo de benefícios DF permanecem pendentes. |
+| Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; anexo DF localizado integralmente; reconciliação das linhas e aplicação por operação permanecem pendentes. Ver [EF-05](EF05-NORMATIVE-MATRIX.md). |
 | Publicação e planejamento | Código, roadmap e CI entregues; issues vinculadas | Código offline em `d981b92`, revisão original em `ba17162`, CI/locks em `a00361b` e [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem API, banco ou transporte fiscal. |
 | API e confiabilidade operacional | Somente propostas documentadas | Autenticação, autorização, identidade canônica, banco, isolamento, reserva, idempotência, trabalhadores e reconciliação ainda não têm implementação. |
 | Homologação e produção | Não realizadas | Nenhum certificado de contribuinte, credenciamento comprovado, autorização fiscal real, evento fiscal ou deploy. |
@@ -57,7 +57,7 @@ dependências e evidências ao atualizar ou concluir as issues.
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
 | --- | --- | --- | --- | --- | --- |
 | EF-04 | CI da prova offline e reprodução das dependências | Concluído | EF-01 | Windows 2025/SDK fixado, três locks e restore bloqueado; build, 70 testes e CLI aprovados no Actions, artefatos/hashes conferidos e falha controlada reprovada com diagnósticos publicados. [Evidência](VALIDATION.md#ef-04--ci-offline-e-locks-nuget--05102026). Sem segredo/transmissão fiscal. | [#1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1) |
-| EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Planejado | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. | [#2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2) |
+| EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Parcial — pesquisa incorporada; compatibilidade bloqueada | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. | [#2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2) |
 | EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Bloqueado | Decisões de negócio/operacionais `TBD` | Registrar operações/regimes aceitos, dados tributários fornecidos pelo cliente, sistemas/emitentes piloto, permissões e propriedade/acesso para aliases do mesmo CNPJ, séries/numeração legada e correção após rejeição. Nenhum regime ou política pode ser derivado das fixtures. | [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3) |
 | EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | Decidir autenticação, banco/transações, armazenamento de artefatos e segredos, execução dos trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e como validar cada componente antes de implementar a base operacional. | [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) |
 
@@ -124,7 +124,7 @@ Fechar limites finais do MVP em EF-06 antes de declarar esta etapa concluída.
    foi reconciliado; a tabela histórica de regras DF não comprova cobertura atual.
    O [catálogo NF-e/SVRS](https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos),
    reconferido em 04/10/2026, também lista NT 2026.009 v1.00 e NT 2026.010 v1.00
-   ainda não analisadas na matriz. Triar aplicabilidade sem inferir impacto de
+   triadas na [matriz EF-05](EF05-NORMATIVE-MATRIX.md) como modelo 55, fora do recorte. Não inferir impacto de
    título; a descrição da 2026.010 se refere ao DANFE modelo 55. O catálogo alerta
    que cronogramas dos documentos de 01/10/2026 podem mudar. Não atribuir novas
    vigências ou alterar a baseline nesta revisão.
@@ -167,7 +167,7 @@ modelo 55 nem outras UFs. A criação das issues não autoriza deploy ou produç
 
 ## Próximo incremento recomendado
 
-Após a conclusão de **EF-04**, prosseguir com a pesquisa de **EF-05**.
+A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Prosseguir com as decisões de **EF-06** e a reconciliação normativa dos casos escolhidos.
 Resolver **EF-06** antes de
 especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
 API/persistência. Não iniciar transmissão antes de concluir suas dependências.
@@ -191,3 +191,7 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 04/10/2026 | Roadmap consolidado após revisão do projeto; briefing corrigido e requisitos de origem do retorno/fencing esclarecidos. Nenhum código fiscal, CI, banco ou transporte implementado nesta atualização. |
 | 04/10/2026 | Pendências EF-04 a EF-21 convertidas em 18 issues verificadas (#1 a #18), com vínculos neste roadmap. EF-21 permanece diferido; EF-01 a EF-03 não foram reabertos. Sem implementação fiscal ou deploy. |
 | 05/10/2026 | EF-04 concluído: três locks NuGet, CI Windows 2025 com 70/70 testes, artefatos conferidos e cenários negativos comprovados. [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem mudança no núcleo fiscal/schemas, transmissão ou deploy. |
+
+### EF-05 — incremento documental e regressões
+
+Pesquisa de 05/10 incorporada à [matriz](EF05-NORMATIVE-MATRIX.md), com proveniência durável e limites da baseline. A issue #2 continua aberta: falta pacote oficial de consulta com alertas e fechamento das regras do piloto pela EF-06. As regressões preservam rejeição segura; não houve nova baseline nem homologação.

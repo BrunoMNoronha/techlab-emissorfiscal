@@ -105,3 +105,9 @@ Todo agente deve retornar:
 ## 6. Primeira resposta
 
 Entregue: resumo; fatos, suposições e bloqueios; decisões/pesquisas iniciais; plano ou backlog mínimo priorizado; e primeiro prompt executor. Não aguarde confirmação sem bloqueio real. Preserve o MVP e elimine documentação, revisões e etapas que não contribuam diretamente para a entrega.
+
+### EF-05 — revisão de 05/10/2026
+
+Levantamento EF-05 incorporado em docs/EF05-NORMATIVE-MATRIX.md e docs/evidence/ef05: onze XSDs conferidos, nove ZIPs examinados sem consulta compatível com alertas. Anexo DF completo localizado; reconciliação integral e aplicação por operação/regime pendentes da EF-06. Issue #2 aberta; baseline e comportamento preservados, sem homologação fiscal.
+
+Publicação normativa, cronograma anunciado e ativação comprovada são distintos. Datas gerais não substituem datas por regra. Regimes, operações, benefícios e autoridade do piloto continuam TBD.
