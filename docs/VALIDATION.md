@@ -1,5 +1,8 @@
 # Relatório do incremento NFC-e offline
 
+O relatório de 04/10/2026 abaixo é histórico. A validação de CI/locks EF-04 está
+registrada ao final deste documento, sem substituir a prova original.
+
 Data da execução: **04/10/2026**. Diretório: `C:/Development/Projects/techlab-emissorfiscal`.
 
 ## Status e resultado
@@ -205,3 +208,87 @@ O incremento seguinte depende da revisão das lacunas normativas e das decisões
 de negócio/custódia. Exigirá identidade canônica,
 isolamento, idempotência, reserva transacional, XML imutável e reconciliação
 durável antes de qualquer I/O fiscal em homologação.
+
+## EF-04 — CI offline e locks NuGet — 05/10/2026
+
+**Concluído no recorte de CI offline.** Validação local, execução real positiva
+e reprovação controlada de Actions tiveram resultados e artefatos conferidos.
+Implementação em `a00361b6d7a4363431708d8e17a5a172b3192c26`, documentação de
+reprodução em `409735bf7c4115f9cecf8e4a78bee86a56304674`,
+[PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19).
+
+### Implementação e decisões
+
+- Workflow `ci-offline.yml`: PRs/pushes para `main` e execução manual;
+  `windows-2025`, pwsh, SDK exato de `global.json`, timeout de 15 minutos,
+  `contents: read`, credenciais Git não persistidas e sem cache anterior.
+- Ações oficiais revisadas no GitHub e fixadas por SHA: checkout v7.0.1
+  (`3d3c42e5aac5ba805825da76410c181273ba90b1`), setup-dotnet v6.0.0
+  (`a98b56852c35b8e3190ac28c8c2271da59106c68`) e upload-artifact v7.0.1
+  (`043fb46d1a93c77aae656e7c1c64a875d1fc6a0a`).
+- Locks dos três projetos preservam o grafo observado anteriormente: Core/CLI
+  com dois pacotes cada; testes com 15. Dependências de projeto são registradas
+  separadamente. Versões diretas não foram alteradas.
+- `RestorePackagesWithLockFile`/`RestoreLockedMode` por padrão; o script exige
+  todos os locks e usa `--locked-mode`. Auditoria NuGet e avisos como erros
+  preservados. Atualização explícita do grafo documentada no README.
+- Script compartilhado produz diretório único por execução, captura logs sem
+  mascarar códigos nativos e exige TRX/CLIs/artefatos completos para sucesso.
+  O CI publica somente a lista selecionada, inclusive diagnósticos de falha,
+  com retenção de 30 dias. Não são publicados caches ou `.validation/`.
+
+### Validação local em checkout limpo
+
+Clone novo em `tmp/ef04-validation/clean`, sem bin/obj/resultados prévios e com
+cache NuGet/CLI home novos. Executado com
+`pwsh -NoProfile -File scripts/verify.ps1` e SDK 10.0.401/runtime 10.0.12.
+Restore bloqueado, build Release (zero avisos/erros), **70/70 testes** sem
+ignorados e CLI schemas/demo passaram com exit 0.
+
+Evidência local:
+`tmp/ef04-validation/clean/TestResults/ci/180f68d6e2d0413aaa642b48f3007175/summary.json`.
+TRX, nove artefatos com hashes, 11 hashes XSD e três hashes de lock conferidos.
+Manifest SHA-256:
+`9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c`.
+Baseline `nfe-4.00-offline-2026-10-04`. Actionlint 1.7.12 e parser PowerShell
+aprovados; binário actionlint oficial teve checksum conferido antes do uso.
+
+### Falhas controladas locais
+
+Cada cenário usou outro clone descartável. Nenhuma mutação entrou na entrega.
+
+| Cenário | Mutação temporária | Resultado observado |
+| --- | --- | --- |
+| Restore | Referência Cryptography.Xml 10.0.11 mantendo lock de 10.0.12 | NU1004; exit 1; última etapa restore; sem build/testes/CLI. |
+| Build | Arquivo C# com `#error EF04_CONTROLLED_BUILD_FAILURE` | CS1029; exit 1; última etapa build; sem testes/CLI. |
+| Testes | Caso existente tenta obter XmlException para XML válido | Uma falha real de xUnit; exit 1; última etapa test; TRX preservado; sem CLI. |
+| Schema | Uma quebra de linha acrescentada ao nfe_v4.00.xsd | SHA-256 divergente; exit 1 durante test; TRX preservado; sem CLI. |
+
+Resumos/códigos em `.validation/ef04-negative-results.json`; consoles e clones
+isolados em `tmp/ef04-validation/negative-*`. As etapas seguintes não foram
+executadas e o summary marcou `failed` com o mesmo código nativo.
+
+### Execuções reais de Actions
+
+- [PR — execução 37303850088](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/37303850088):
+  **success**, head `409735bf7c4115f9cecf8e4a78bee86a56304674`, checkout de merge
+  `cf5e083f3ce7886ea50238f519a8c62712ad5f4c`. SDK 10.0.401/runtime 10.0.12,
+  pwsh 7.6.6, imagem `win25-vs2026`/`20260925.250.1` (Windows 2025/X64).
+  Restore/build/testes/CLIs exit 0; zero avisos/erros; 70/70 sem ignorados.
+  [Artefato 11342851662](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/37303850088/artifacts/11342851662):
+  dez arquivos selecionados, incluindo summary e nove evidências com hashes
+  recalculados após download; TRX/CLIs, 11 schemas e três locks conferidos.
+- [Prova negativa — execução 37303880971](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/37303880971):
+  commit `5a4d9e8c8f8d5e3cf265f198546054c59d71a31f` na branch descartável
+  `codex/ef-04-prova-falha`, com divergência de lock deliberada: **failure**,
+  restore NU1004/exit 1; sem build/testes/CLIs. Etapas de resumo e publicação
+  concluíram com sucesso; summary, sdk.log e restore.log foram baixados e
+  conferidos. A branch remota descartável foi removida, sem merge.
+
+O checkout padrão de PR testa o commit de merge temporário do GitHub;
+`summary.commit` identifica esse checkout, enquanto o head da PR é registrado
+separadamente. Push na main identifica diretamente seu commit.
+
+Nenhum certificado de contribuinte, segredo, alteração fiscal, transmissão,
+homologação ou deploy. O CI valida o recorte técnico offline; decisões do piloto,
+infraestrutura, credenciais reais e cobertura normativa seguem seus próprios aceites.

@@ -1,11 +1,11 @@
 # Roadmap — TechLab+ Emissor Fiscal
 
-Atualizado em **04/10/2026**, após revisão do código, testes, documentação,
+Atualizado em **05/10/2026**, após revisão do código, testes, documentação,
 evidências locais e estado do GitHub. Base do código: commit
 `d981b927907737515cfb5c2e59b94c84da4cde40`, branch `main`, no
 [repositório privado](https://github.com/BrunoMNoronha/techlab-emissorfiscal).
-As pendências EF-04 a EF-21 estão vinculadas a **18 issues abertas e verificadas**;
-EF-01 a EF-03 permanecem concluídos e não foram convertidos em novas issues.
+EF-04 a EF-21 estão vinculados a **18 issues verificadas**. EF-04 está concluído
+com CI real e locks NuGet; EF-01 a EF-03 permanecem concluídos e não foram reabertos.
 
 O primeiro incremento está concluído como **prova técnica offline de NFC-e
 65/DF/ambiente 2/emissão normal 1 em .NET 10**. O emissor operacional ainda não
@@ -19,9 +19,9 @@ tributação. Operações e regimes aceitos continuam `TBD`.
 | --- | --- | --- |
 | XML, XSD e assinatura | Concluído no recorte offline | Parser seguro, 11 XSDs oficiais, seis entrypoints, chave/CNPJ numéricos e alfanuméricos, A1 sintético em memória e assinatura após serialização/envelope/nfeProc. [Código e execução](VALIDATION.md). |
 | QR e mensagens | Concluído no recorte offline | QR 3 online DF, envio síncrono unitário, consulta e interpretação correlacionada de protocolos simulados. Não há cliente SOAP ou transmissão. |
-| Validação local | 70/70 testes aprovados na execução registrada | SDK 10.0.401/runtime 10.0.12, build Release sem avisos/erros e CLI schemas/demo aprovados. Nesta revisão foram conferidos TRX, seu hash e hashes dos XSDs/manifest; não houve nova execução da suíte. |
+| Validação local e CI | 70/70 testes aprovados em checkout limpo e Actions | SDK 10.0.401/runtime 10.0.12, build Release sem avisos/erros, CLI schemas/demo e hashes dos XSDs/manifest aprovados. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências de EF-04 em [VALIDATION.md](VALIDATION.md). |
 | Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; regras por operação e anexo de benefícios DF permanecem pendentes. |
-| Publicação e planejamento | Código e roadmap publicados; issues criadas | Código offline em `d981b92`, revisão do roadmap em `ba17162` e 18 issues abertas vinculadas abaixo. Não há implementação de CI/workflow, API ou transporte nesta atualização. |
+| Publicação e planejamento | Código, roadmap e CI entregues; issues vinculadas | Código offline em `d981b92`, revisão original em `ba17162`, CI/locks em `a00361b` e [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem API, banco ou transporte fiscal. |
 | API e confiabilidade operacional | Somente propostas documentadas | Autenticação, autorização, identidade canônica, banco, isolamento, reserva, idempotência, trabalhadores e reconciliação ainda não têm implementação. |
 | Homologação e produção | Não realizadas | Nenhum certificado de contribuinte, credenciamento comprovado, autorização fiscal real, evento fiscal ou deploy. |
 
@@ -56,15 +56,15 @@ dependências e evidências ao atualizar ou concluir as issues.
 
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
 | --- | --- | --- | --- | --- | --- |
-| EF-04 | CI da prova offline e reprodução das dependências | Planejado | EF-01 | Workflow usa o SDK fixado, restaura, compila, executa os testes e CLI, publica evidência da execução e bloqueia falhas. Definir e validar política de lock do grafo NuGet, sem confundir versões diretas fixas com grafo transitivo imutável. Nenhum segredo fiscal ou transmissão no CI. | [#1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1) |
+| EF-04 | CI da prova offline e reprodução das dependências | Concluído | EF-01 | Windows 2025/SDK fixado, três locks e restore bloqueado; build, 70 testes e CLI aprovados no Actions, artefatos/hashes conferidos e falha controlada reprovada com diagnósticos publicados. [Evidência](VALIDATION.md#ef-04--ci-offline-e-locks-nuget--05102026). Sem segredo/transmissão fiscal. | [#1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1) |
 | EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Planejado | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. | [#2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2) |
 | EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Bloqueado | Decisões de negócio/operacionais `TBD` | Registrar operações/regimes aceitos, dados tributários fornecidos pelo cliente, sistemas/emitentes piloto, permissões e propriedade/acesso para aliases do mesmo CNPJ, séries/numeração legada e correção após rejeição. Nenhum regime ou política pode ser derivado das fixtures. | [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3) |
 | EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | Decidir autenticação, banco/transações, armazenamento de artefatos e segredos, execução dos trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e como validar cada componente antes de implementar a base operacional. | [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) |
 
-EF-04 e a pesquisa de EF-05 podem avançar em paralelo. O levantamento de EF-06
-também pode começar agora; o fechamento das regras aplicáveis depende dessas
-decisões. EF-07 usa o contrato do piloto. Esta atualização documenta o trabalho;
-não implementa o CI nem escolhe serviços, regimes ou custódia.
+EF-04 está concluído. A pesquisa de EF-05 e o levantamento de EF-06
+podem avançar agora; o fechamento das regras aplicáveis depende dessas
+decisões. EF-07 usa o contrato do piloto. A conclusão do CI não escolhe serviços,
+regimes ou custódia para a operação fiscal.
 
 ### Etapa 2 — base operacional antes de I/O fiscal
 
@@ -136,10 +136,10 @@ Fechar limites finais do MVP em EF-06 antes de declarar esta etapa concluída.
    cancela I/O já em voo na SEFAZ. EF-12 deve cobrir trabalhador antigo retomando,
    resposta tardia e duplicidade, preservando revisão/XML e reconciliação. Um
    217 isolado não permite presumir ausência definitiva nem reenviar.
-5. **Reprodução e evidência compartilhável:** ainda não há CI e o grafo NuGet
-   transitivo foi registrado apenas localmente. EF-04 deve produzir validação
-   reproduzível a partir do checkout publicado, sem depender de binários/caches
-   locais ou disponibilizar segredos.
+5. **Reprodução e evidência compartilhável — resolvido em EF-04:** locks NuGet
+   versionados, restore bloqueado e CI Windows 2025 comprovado em execução real,
+   com artefatos positivos e diagnósticos de falha. Checkout/cache novos foram
+   validados; evidências e limites em [VALIDATION.md](VALIDATION.md).
 6. **Documentação sincronizada:** o JSON do briefing continha afirmações antigas
    sobre ausência de código, Git e stack. Os campos afetados foram corrigidos
    nesta revisão, mantendo o contrato de 15 campos e as decisões `TBD`.
@@ -149,10 +149,11 @@ Fechar limites finais do MVP em EF-06 antes de declarar esta etapa concluída.
 As 18 issues foram criadas com problema/evidência, resultado, escopo e exclusões,
 dependências, critérios de aceite e validações. Corpos e links foram lidos após
 a criação; não foram definidos responsáveis, milestones ou prazos. Não houve
-implementação do backlog nem transmissão fiscal.
+implementação do backlog naquela criação. EF-04 foi implementado posteriormente,
+conforme evidências de 05/10/2026; nenhuma transmissão fiscal foi realizada.
 
-Começar por [EF-04 — #1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1)
-e pela pesquisa de [EF-05 — #2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2).
+EF-04 — #1 está concluído. Prosseguir com a pesquisa de
+[EF-05 — #2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2).
 O fechamento das regras do piloto depende das decisões de
 [EF-06 — #3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3); a arquitetura de
 [EF-07 — #4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) usa esse contrato.
@@ -166,8 +167,8 @@ modelo 55 nem outras UFs. A criação das issues não autoriza deploy ou produç
 
 ## Próximo incremento recomendado
 
-Começar por **EF-04**, que pode ser executado sem decisões tributárias ou
-credenciais reais, e pela pesquisa de **EF-05**. Resolver **EF-06** antes de
+Após a conclusão de **EF-04**, prosseguir com a pesquisa de **EF-05**.
+Resolver **EF-06** antes de
 especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
 API/persistência. Não iniciar transmissão antes de concluir suas dependências.
 
@@ -189,3 +190,4 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 04/10/2026 | Código publicado em repositório privado, `main`, commit `d981b92`. |
 | 04/10/2026 | Roadmap consolidado após revisão do projeto; briefing corrigido e requisitos de origem do retorno/fencing esclarecidos. Nenhum código fiscal, CI, banco ou transporte implementado nesta atualização. |
 | 04/10/2026 | Pendências EF-04 a EF-21 convertidas em 18 issues verificadas (#1 a #18), com vínculos neste roadmap. EF-21 permanece diferido; EF-01 a EF-03 não foram reabertos. Sem implementação fiscal ou deploy. |
+| 05/10/2026 | EF-04 concluído: três locks NuGet, CI Windows 2025 com 70/70 testes, artefatos conferidos e cenários negativos comprovados. [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem mudança no núcleo fiscal/schemas, transmissão ou deploy. |

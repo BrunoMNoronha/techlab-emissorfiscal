@@ -5,11 +5,14 @@ homologação (`tpAmb=2`), emissão normal (`tpEmis=1`)**. O núcleo lê XML de 
 segura, valida schemas oficiais fixados, prepara assinatura A1/PKCS#12 em memória,
 QR Code 3 online, mensagens de envio/consulta e correlação de protocolos.
 
-**Estado em 04/10/2026: prova local concluída.** Após a instalação do SDK pelo
+**Estado em 05/10/2026: prova local e CI offline concluídos.** Na prova original,
+após a instalação do SDK pelo
 usuário, restore, build Release, **70 testes** e CLI `schemas`/`demo` passaram.
 O build terminou com zero avisos/erros. Os seis entrypoints compilaram em .NET,
 e a assinatura/PKCS#12 sintética foi verificada após serialização, envelope e
-nfeProc. Evidências e limites estão em `docs/VALIDATION.md`.
+nfeProc. A reprodução em checkout limpo e no Actions também aprovou os 70 testes,
+com restore bloqueado e locks NuGet versionados. Evidências e limites estão em
+`docs/VALIDATION.md`.
 
 O [roadmap](docs/ROADMAP.md) registra as entregas, dependências, decisões pendentes
 e critérios para evoluir da prova local à homologação e operação.
