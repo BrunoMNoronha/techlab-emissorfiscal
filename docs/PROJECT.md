@@ -111,3 +111,9 @@ Entregue: resumo; fatos, suposições e bloqueios; decisões/pesquisas iniciais;
 Levantamento EF-05 incorporado em docs/EF05-NORMATIVE-MATRIX.md e docs/evidence/ef05: onze XSDs conferidos, nove ZIPs examinados sem consulta compatível com alertas. Anexo DF completo localizado; reconciliação integral e aplicação por operação/regime pendentes da EF-06. Issue #2 aberta; baseline e comportamento preservados, sem homologação fiscal.
 
 Publicação normativa, cronograma anunciado e ativação comprovada são distintos. Datas gerais não substituem datas por regra. Regimes, operações, benefícios e autoridade do piloto continuam TBD.
+
+### EF-06 — proposta documentada em 05/10/2026
+
+[Contrato do piloto](PILOT-CONTRACT.md) consolida decisões humanas: sistemas de vendas para usuários finais, mercadinhos/distribuidoras, vendas da distribuidora para consumo próprio, suporte planejado a Simples e regime normal e homologação futura começando pelo regime do primeiro piloto. Retirada primeiro e entrega depois é recomendação do PO, não operação real confirmada. Rafael é agente de produto com análise/pesquisa fundamentadas; não contador ou autoridade fiscal.
+
+Treze cenários conceituais sintéticos, com origem cliente/servidor, presença/recebimento distintos e TBDs explícitos. EF-06 permanece parcial: payloads tributários, políticas de acesso/numeração/correção, emitente e autoridades reais ainda pendentes. EF-07 não foi iniciada; EF-05 mantém limitação de consulta. Nenhuma transmissão ou autorização operacional decorre da simulação.
