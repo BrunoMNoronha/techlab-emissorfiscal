@@ -1,0 +1,206 @@
+{
+  "kind": "DOTNET_OFFLINE_VALIDATION",
+  "startedAtUtc": "2026-10-05T13:24:46.5121717Z",
+  "finishedAtUtc": "2026-10-05T13:25:02.91271Z",
+  "status": "passed",
+  "exitCode": 0,
+  "commit": "4a475c4edc96b7b262b5087145b3bdfd99b3dd89",
+  "runUrl": null,
+  "runner": {
+    "name": null,
+    "image": null,
+    "imageVersion": null,
+    "os": "Microsoft Windows 10.0.26300",
+    "architecture": "X64",
+    "powershell": "7.6.5"
+  },
+  "sdk": "10.0.401",
+  "runtime": "10.0.12",
+  "steps": [
+    {
+      "name": "sdk",
+      "arguments": [
+        "--version"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "restore",
+      "arguments": [
+        "restore",
+        "EmissorFiscal.slnx",
+        "--locked-mode"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "build",
+      "arguments": [
+        "build",
+        "EmissorFiscal.slnx",
+        "-c",
+        "Release",
+        "--no-restore"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "test",
+      "arguments": [
+        "test",
+        "EmissorFiscal.slnx",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=test-results.trx",
+        "--results-directory",
+        "C:\\Development\\Projects\\techlab-emissorfiscal\\TestResults\\ci\\8b24a49dfb904d9fb93aad8b97d9e7e7"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "schemas",
+      "arguments": [
+        "run",
+        "--project",
+        "src/EmissorFiscal.Cli",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--",
+        "schemas"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "demo",
+      "arguments": [
+        "run",
+        "--project",
+        "src/EmissorFiscal.Cli",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-restore",
+        "--",
+        "demo"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "testCounters": {
+    "total": 84,
+    "executed": 84,
+    "passed": 84,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "baseline": "nfe-4.00-offline-2026-10-04",
+  "manifestSha256": "9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c",
+  "schemaHashes": [
+    {
+      "path": "files/DFeTiposBasicos_v1.00.xsd",
+      "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09"
+    },
+    {
+      "path": "files/consSitNFe_v4.00.xsd",
+      "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1"
+    },
+    {
+      "path": "files/enviNFe_v4.00.xsd",
+      "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef"
+    },
+    {
+      "path": "files/leiauteConsSitNFe_v4.00.xsd",
+      "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618"
+    },
+    {
+      "path": "files/leiauteNFe_v4.00.xsd",
+      "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542"
+    },
+    {
+      "path": "files/nfe_v4.00.xsd",
+      "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df"
+    },
+    {
+      "path": "files/procNFe_v4.00.xsd",
+      "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0"
+    },
+    {
+      "path": "files/retConsSitNFe_v4.00.xsd",
+      "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5"
+    },
+    {
+      "path": "files/retEnviNFe_v4.00.xsd",
+      "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299"
+    },
+    {
+      "path": "files/tiposBasico_v4.00.xsd",
+      "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047"
+    },
+    {
+      "path": "files/xmldsig-core-schema_v1.01.xsd",
+      "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac"
+    }
+  ],
+  "lockHashes": [
+    {
+      "path": "src\\EmissorFiscal.Core\\packages.lock.json",
+      "sha256": "0c6b12b14aec65f97a2c63a9edb719c687473ef148164832e0350ca867291483"
+    },
+    {
+      "path": "src\\EmissorFiscal.Cli\\packages.lock.json",
+      "sha256": "2d1fd2ed9e6c6efc906f251e2abdf4f1f77de854b8dd379fcb1a48552fb34299"
+    },
+    {
+      "path": "tests\\EmissorFiscal.Core.Tests\\packages.lock.json",
+      "sha256": "48367b35b91450dcde67cc03eb1d68142fc038a5dfd1375af571c3479f6940dd"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "sdk.log",
+      "sha256": "3db6bca4b50618b2e0d2d55d23b3d0541fe039ab6f731df0e9c47317b400ce52"
+    },
+    {
+      "name": "restore.log",
+      "sha256": "5e19bb104f42ed353eea282196d0c4325f200da10f26c11c1abab304f6d26e3e"
+    },
+    {
+      "name": "build.log",
+      "sha256": "91fd89d2a4b697843e9d9eb68fa13ddc6f4bfe11ba35b04c8272791d1c6b3e21"
+    },
+    {
+      "name": "test.log",
+      "sha256": "f9f3ba77d4fdade6d6280ecebcd9f8e8b816150ab801630dbec3d31a3601c0c5"
+    },
+    {
+      "name": "schemas.log",
+      "sha256": "dfd396e733a0424df00c7851a51d9f2912b1e92a02e44e3d8c626c342f59d0cd"
+    },
+    {
+      "name": "demo.log",
+      "sha256": "c0cd7c53bee587dde6830b2bfbe3a34e5efaf0ee331425eb4f190f0223e71f1a"
+    },
+    {
+      "name": "test-results.trx",
+      "sha256": "e81276591bcaf49aa71fb400f2c8c6257e82b2d90aa913ba2f80556ac8a09e2a"
+    },
+    {
+      "name": "cli-schemas.json",
+      "sha256": "dfd396e733a0424df00c7851a51d9f2912b1e92a02e44e3d8c626c342f59d0cd"
+    },
+    {
+      "name": "cli-demo.json",
+      "sha256": "c0cd7c53bee587dde6830b2bfbe3a34e5efaf0ee331425eb4f190f0223e71f1a"
+    }
+  ],
+  "error": null,
+  "fiscalIo": false,
+  "taxpayerCertificate": false,
+  "fiscalHomologationObtained": false,
+  "checkoutScope": "Base commit mais diff EF-05 ainda nao commitado; 84 casos, incluindo 14 novos. Nao atribuir esta prova ao checkout limpo da base."
+}

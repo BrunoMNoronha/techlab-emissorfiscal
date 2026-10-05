@@ -1,0 +1,871 @@
+[
+  {
+    "archive": "PL010c.zip",
+    "sha256": "aceb8df3ba5235aea4dcac2502a68ef00c6cd34f1d26cb3f6eebae9d675cd0fc",
+    "entries": [
+      {
+        "entry": "PL_010c_NT2022_002v1.30/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010c_NT2022_002v1.30/leiauteNFe_v4.00.xsd",
+        "sha256": "7d8af488538fe78809088f9c494cb7521ae856982210fd13a25496ccf429c8c1",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010c_NT2022_002v1.30/nfe_v4.00.xsd",
+        "sha256": "66a117aaa78687fdb1355fc32a380ec859f3a98e850d7c4de5a07935eb1a6030",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010c_NT2022_002v1.30/tiposBasico_v4.00.xsd",
+        "sha256": "63d393d69fb63568e39277d9794348fbe107e1c15d2dbce32fb63b6e41472c6d",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010c_NT2022_002v1.30/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL010d-v101.zip",
+    "sha256": "cc50170b276c23bdab88650e1c68a46fdc707c8e810664452bba974cf744e7db",
+    "entries": [
+      {
+        "entry": "CadConsultaCadastro_NT2026.004.zip",
+        "sha256": "a4ee797cbe26e0e02402e06cfac4e7b2611e9d64fa003998b69bee3326d080f4",
+        "nested": true
+      },
+      {
+        "entry": "CadConsultaCadastro_NT2026.004.zip!/CadConsultaCadastro/consCad_v2.00.xsd",
+        "sha256": "8e5cfa3386c1e61999fc290ad0c3cf166258125447c53a342bea5036524b0fc0",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "CadConsultaCadastro_NT2026.004.zip!/CadConsultaCadastro/leiauteConsultaCadastro_v2.00.xsd",
+        "sha256": "85e613e63109398d79561bd2d7c372c62fdd033bde537c2c74cd2abaed9b5d9d",
+        "dependencies": [
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "CadConsultaCadastro_NT2026.004.zip!/CadConsultaCadastro/retConsCad_v2.00.xsd",
+        "sha256": "2662459d90461de342e9aeee5b9b9505d25f698e773e1d5c3a0207d7eb2fc9e2",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "CadConsultaCadastro_NT2026.004.zip!/CadConsultaCadastro/tiposBasico_v1.03.xsd",
+        "sha256": "0822f1b36b535dc090df244409cd9d8b86628950236e79f5b716ec2b1a208c1a",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_Evento.zip",
+        "sha256": "7995ad7865cf3710655ee5e3162ff10bd9725358e3f67523256667e9cca6cb1a",
+        "nested": true
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/envEvento_v1.00.xsd",
+        "sha256": "e4d61ba81582b5f1f9a2a4b135d33f4c1ec1c8f9138a2343a9abfffa02bb2777",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/leiauteEvento_v1.00.xsd",
+        "sha256": "9a48df8603f685653dfde27dbda72e0f47b5d3c13be0090952f1e82f8d2bc476",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/procEventoNFe_v1.00.xsd",
+        "sha256": "4263ee5d12e7a731efab126310aba4edb25612e5986a1c5dde0c87e6c6173798",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/retEnvEvento_v1.00.xsd",
+        "sha256": "5eb93a244c5b26c983c08f725f8eafaa1923664a992181b9d78f60cc8523fa72",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/tiposBasico_v1.03.xsd",
+        "sha256": "eccea0733717db3108c79f8efc7cc7ffeeba8b6c46a5948410ff012c1636b0ba",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/tiposBasico_v4.00.xsd",
+        "sha256": "e73476a037832fa1b8aea8323de5385d8a6ac4e73f98ac5d0805735a77ec36c2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_Evento.zip!/PL_Evento/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip",
+        "sha256": "c295706924ccba6044b53bca044c6069787db9a1b3bb8aa376266ef4fe4500d2",
+        "nested": true
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/consSitNFe_v4.00.xsd",
+        "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/leiauteConsSitNFe_v4.00.xsd",
+        "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+        "dependencies": [
+          "tiposBasico_v4.00.xsd",
+          "xmldsig-core-schema_v1.01.xsd"
+        ],
+        "sameAsBaseline": true,
+        "protocolAlerts": 0
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/leiauteInutNFe_v4.00.xsd",
+        "sha256": "e6aa8f817d445cd7796f5bf448ee462598cc00393608ffa038f3a7539de4b184",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/leiauteNFe_v4.00.xsd",
+        "sha256": "a919de14e4285f6d97b5e122960ed85ac444709b01df645509b8b720d6260ff2",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/procInutNFe_v4.00.xsd",
+        "sha256": "c71ce9ed656e22161923d77af47839421fa41c63703a064655880fed76e20334",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/retConsReciNFe_v4.00.xsd",
+        "sha256": "5cc8219feac16f43a21e168ec4cbf8d0dcf8dade5dccf3f07a42f538519129e9",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/retConsSitNFe_v4.00.xsd",
+        "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/tiposBasico_v4.00.xsd",
+        "sha256": "e73476a037832fa1b8aea8323de5385d8a6ac4e73f98ac5d0805735a77ec36c2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_NT2026.004.zip!/PL_010d_NT2026.004/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL010d-v102.zip",
+    "sha256": "13c51a8e3a98ed5a63b64a2312bc6d057f98dd07de6d3c346f8e07352f1bbc12",
+    "entries": [
+      {
+        "entry": "PL_010d_v1.02/CadConsultaCadastro/consCad_v2.00.xsd",
+        "sha256": "8e5cfa3386c1e61999fc290ad0c3cf166258125447c53a342bea5036524b0fc0",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/CadConsultaCadastro/leiauteConsultaCadastro_v2.00.xsd",
+        "sha256": "85e613e63109398d79561bd2d7c372c62fdd033bde537c2c74cd2abaed9b5d9d",
+        "dependencies": [
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/CadConsultaCadastro/retConsCad_v2.00.xsd",
+        "sha256": "2662459d90461de342e9aeee5b9b9505d25f698e773e1d5c3a0207d7eb2fc9e2",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/CadConsultaCadastro/tiposBasico_v1.03.xsd",
+        "sha256": "0822f1b36b535dc090df244409cd9d8b86628950236e79f5b716ec2b1a208c1a",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/envEvento_v1.00.xsd",
+        "sha256": "e4d61ba81582b5f1f9a2a4b135d33f4c1ec1c8f9138a2343a9abfffa02bb2777",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/leiauteEvento_v1.00.xsd",
+        "sha256": "9a48df8603f685653dfde27dbda72e0f47b5d3c13be0090952f1e82f8d2bc476",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/procEventoNFe_v1.00.xsd",
+        "sha256": "4263ee5d12e7a731efab126310aba4edb25612e5986a1c5dde0c87e6c6173798",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/retEnvEvento_v1.00.xsd",
+        "sha256": "5eb93a244c5b26c983c08f725f8eafaa1923664a992181b9d78f60cc8523fa72",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/tiposBasico_v1.03.xsd",
+        "sha256": "d89d4fe1136f89abc7878b440d91ac0e770fbc128dd35b483284c961d6c3fd5d",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/tiposBasico_v4.00.xsd",
+        "sha256": "e73476a037832fa1b8aea8323de5385d8a6ac4e73f98ac5d0805735a77ec36c2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_v1.02/Evento/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/consSitNFe_v4.00.xsd",
+        "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/leiauteConsSitNFe_v4.00.xsd",
+        "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+        "dependencies": [
+          "tiposBasico_v4.00.xsd",
+          "xmldsig-core-schema_v1.01.xsd"
+        ],
+        "sameAsBaseline": true,
+        "protocolAlerts": 0
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/leiauteInutNFe_v4.00.xsd",
+        "sha256": "e6aa8f817d445cd7796f5bf448ee462598cc00393608ffa038f3a7539de4b184",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/leiauteNFe_v4.00.xsd",
+        "sha256": "b635b21328dbdc486321d344a006e42ff9f783094bfebf3c5ba4df19f67e6d45",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/procInutNFe_v4.00.xsd",
+        "sha256": "c71ce9ed656e22161923d77af47839421fa41c63703a064655880fed76e20334",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/retConsReciNFe_v4.00.xsd",
+        "sha256": "5cc8219feac16f43a21e168ec4cbf8d0dcf8dade5dccf3f07a42f538519129e9",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/retConsSitNFe_v4.00.xsd",
+        "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.02/NFe/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL010e-v101.zip",
+    "sha256": "8d4d6c102cc458fb945c287542cf6f7077f159fdbfab4511954b8c0b94dedca5",
+    "entries": [
+      {
+        "entry": "PL_010e_v1.01/NFe/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "7fe1dbd89a1dd80826c5134c2406b7eb5df4fa7a9177c5aa6e72319caba7c6d2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010e_v1.01/NFe/leiauteNFe_v4.00.xsd",
+        "sha256": "9604009928f3819087e8b33b52d9da9d5b4d929f2d2c5a7db8a01d98bb972a72",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010e_v1.01/NFe/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010e_v1.01/NFe/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010e_v1.01/NFe/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL010e-v102.zip",
+    "sha256": "d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1",
+    "entries": [
+      {
+        "entry": "PL_010e_v1.02/NFe/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "7fe1dbd89a1dd80826c5134c2406b7eb5df4fa7a9177c5aa6e72319caba7c6d2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010e_v1.02/NFe/leiauteNFe_v4.00.xsd",
+        "sha256": "598c71780cbc6b54f170464bd6d5538c2d01a99d987a1666b662d4e166b84bf7",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010e_v1.02/NFe/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010e_v1.02/NFe/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010e_v1.02/NFe/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+    "sha256": "8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62",
+    "entries": [
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/consReciNFe_v4.00.xsd",
+        "sha256": "cff8456db0a6fe1195543d731ed9563b0664df2d6135ea77115dcd3069506b5a",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/consSitNFe_v4.00.xsd",
+        "sha256": "ec103f360d2193f56a18630ec2b9676a1d09d1dbf2d98123f8c42ad0497e3db5",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/consStatServ_v4.00.xsd",
+        "sha256": "1712598b391a46e24fb399b79c3e8049349bd00c892ec30249daf21aad0fc324",
+        "dependencies": [
+          "leiauteConsStatServ_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/enviNFe_v4.00.xsd",
+        "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/inutNFe_v4.00.xsd",
+        "sha256": "bdb5b01bc77885756f4660bb14f120ae5f8853f962deb50fbf42c96df65b8f29",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteConsSitNFe_v4.00.xsd",
+        "sha256": "5d8826f29ff1b0f2fd3c1ccda808fdc2ebac73f6d4abf716cb9049eb5169c535",
+        "dependencies": [
+          "tiposBasico_v4.00.xsd",
+          "xmldsig-core-schema_v1.01.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 0
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteConsStatServ_v4.00.xsd",
+        "sha256": "a02de771f9cd26b8440dc39f661d43aae8e71205052d0041510984b4143e4070",
+        "dependencies": [
+          "tiposBasico_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteInutNFe_v4.00.xsd",
+        "sha256": "0cbd4a8cf24c0a38a1d26d75cef499fd323273e8b914824c6c462e69be6c271c",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteNFe_v4.00.xsd",
+        "sha256": "a2a39a43bbd01184baa03849bad5328da9cde746ec247ba334daf3dae2b5f435",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/nfe_v4.00.xsd",
+        "sha256": "0ac9d4c146b6db779f4b6a531045899b919d42e1bb87eb96d6f692bb14b8b646",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/procInutNFe_v4.00.xsd",
+        "sha256": "fe95c091dab0f35cc56734ffb870d753d35770501dc360956283cad52deb8239",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/procNFe_v4.00.xsd",
+        "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retConsReciNFe_v4.00.xsd",
+        "sha256": "90c5381a6468726cf63e3c8bf0593cbe8dcbf121d5c3a160dc987add3d88be47",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retConsSitNFe_v4.00.xsd",
+        "sha256": "b1f23b66a55356ecf1207a833ec4d57093a54d7a58f8d6d237db0694ccb4393d",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retConsStatServ_v4.00.xsd",
+        "sha256": "157eb4e4019f584a3473a52c1fb8ca9edcfef4b9767199bb9f169796a9934b33",
+        "dependencies": [
+          "leiauteConsStatServ_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retEnviNFe_v4.00.xsd",
+        "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retInutNFe_v4.00.xsd",
+        "sha256": "f088a06df63d8b4e24a726b73ec3328cdb54a575a75351fbf4a9476934c9dafd",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/tiposBasico_v4.00.xsd",
+        "sha256": "1ab4a4ebb9580a7efb45c9d545a9d3b7316cc965213345f667c86a5c7e56e33f",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL_010b_NT2025_002_v1.30.zip",
+    "sha256": "2deaa8d430d0acb47deae06b9b6d1202dbb436baf3d2d3aa834a534a3d6fa1b8",
+    "entries": [
+      {
+        "entry": "PL_010b_NT2025_002_v1.30/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010b_NT2025_002_v1.30/leiauteNFe_v4.00.xsd",
+        "sha256": "160abaa6c7c18e37b8f77a8b4bc1b24ec7ec0654ad27267ad5856d14bc6fb135",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010b_NT2025_002_v1.30/nfe_v4.00.xsd",
+        "sha256": "66a117aaa78687fdb1355fc32a380ec859f3a98e850d7c4de5a07935eb1a6030",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010b_NT2025_002_v1.30/tiposBasico_v4.00.xsd",
+        "sha256": "63d393d69fb63568e39277d9794348fbe107e1c15d2dbce32fb63b6e41472c6d",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010b_NT2025_002_v1.30/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL_010d_v1.03.zip",
+    "sha256": "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+    "entries": [
+      {
+        "entry": "PL_010d_v1.03/CadConsultaCadastro/consCad_v2.00.xsd",
+        "sha256": "8e5cfa3386c1e61999fc290ad0c3cf166258125447c53a342bea5036524b0fc0",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/CadConsultaCadastro/leiauteConsultaCadastro_v2.00.xsd",
+        "sha256": "85e613e63109398d79561bd2d7c372c62fdd033bde537c2c74cd2abaed9b5d9d",
+        "dependencies": [
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/CadConsultaCadastro/retConsCad_v2.00.xsd",
+        "sha256": "2662459d90461de342e9aeee5b9b9505d25f698e773e1d5c3a0207d7eb2fc9e2",
+        "dependencies": [
+          "leiauteConsultaCadastro_v2.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/CadConsultaCadastro/tiposBasico_v1.03.xsd",
+        "sha256": "0822f1b36b535dc090df244409cd9d8b86628950236e79f5b716ec2b1a208c1a",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/envEvento_v1.00.xsd",
+        "sha256": "e4d61ba81582b5f1f9a2a4b135d33f4c1ec1c8f9138a2343a9abfffa02bb2777",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/leiauteEvento_v1.00.xsd",
+        "sha256": "9a48df8603f685653dfde27dbda72e0f47b5d3c13be0090952f1e82f8d2bc476",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v1.03.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/procEventoNFe_v1.00.xsd",
+        "sha256": "4263ee5d12e7a731efab126310aba4edb25612e5986a1c5dde0c87e6c6173798",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/retEnvEvento_v1.00.xsd",
+        "sha256": "5eb93a244c5b26c983c08f725f8eafaa1923664a992181b9d78f60cc8523fa72",
+        "dependencies": [
+          "leiauteEvento_v1.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/tiposBasico_v1.03.xsd",
+        "sha256": "d89d4fe1136f89abc7878b440d91ac0e770fbc128dd35b483284c961d6c3fd5d",
+        "dependencies": []
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/tiposBasico_v4.00.xsd",
+        "sha256": "e73476a037832fa1b8aea8323de5385d8a6ac4e73f98ac5d0805735a77ec36c2",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_v1.03/Evento/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/consSitNFe_v4.00.xsd",
+        "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "c1c1f700de03da50c82f3fbf23db7e98929b5d1ee1bdedb4d546e33efa498ee6",
+        "dependencies": [],
+        "sameAsBaseline": false
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/leiauteConsSitNFe_v4.00.xsd",
+        "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+        "dependencies": [
+          "tiposBasico_v4.00.xsd",
+          "xmldsig-core-schema_v1.01.xsd"
+        ],
+        "sameAsBaseline": true,
+        "protocolAlerts": 0
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/leiauteInutNFe_v4.00.xsd",
+        "sha256": "e6aa8f817d445cd7796f5bf448ee462598cc00393608ffa038f3a7539de4b184",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/leiauteNFe_v4.00.xsd",
+        "sha256": "69df93e582507d50db581d871655f6fbdc8ae51957cce2292c8f672b13d336f1",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": false,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/procInutNFe_v4.00.xsd",
+        "sha256": "c71ce9ed656e22161923d77af47839421fa41c63703a064655880fed76e20334",
+        "dependencies": [
+          "leiauteInutNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/retConsReciNFe_v4.00.xsd",
+        "sha256": "5cc8219feac16f43a21e168ec4cbf8d0dcf8dade5dccf3f07a42f538519129e9",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ]
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/retConsSitNFe_v4.00.xsd",
+        "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5",
+        "dependencies": [
+          "leiauteConsSitNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010d_v1.03/NFe/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  },
+  {
+    "archive": "PL_010f_v1.04.zip",
+    "sha256": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998",
+    "entries": [
+      {
+        "entry": "PL_010f_v1.04/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010f_v1.04/leiauteNFe_v4.00.xsd",
+        "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542",
+        "dependencies": [
+          "xmldsig-core-schema_v1.01.xsd",
+          "tiposBasico_v4.00.xsd",
+          "DFeTiposBasicos_v1.00.xsd"
+        ],
+        "sameAsBaseline": true,
+        "protocolAlerts": 1
+      },
+      {
+        "entry": "PL_010f_v1.04/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+        "dependencies": [
+          "leiauteNFe_v4.00.xsd"
+        ],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010f_v1.04/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+        "dependencies": [],
+        "sameAsBaseline": true
+      },
+      {
+        "entry": "PL_010f_v1.04/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+        "dependencies": [],
+        "sameAsBaseline": true
+      }
+    ]
+  }
+]

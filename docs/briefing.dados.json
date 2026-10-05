@@ -5,6 +5,7 @@
       {"status": "RECOMENDAÇÃO", "texto": "TechLab+ Emissor Fiscal — nome provisório baseado na pasta de trabalho.", "fonte": "Diretório local verificado em 04/10/2026"}
     ],
     "TIPO_PROBLEMA_E_EVIDÊNCIAS": [
+      {"status": "CONFIRMADO", "texto": "Levantamento EF-05 incorporado: onze XSDs conferidos e nove ZIPs examinados sem consulta compatível com alertas. Anexo DF completo localizado; reconciliação integral e aplicação por operação/regime pendentes da EF-06. Issue #2 aberta; baseline e comportamento preservados, sem homologação fiscal.", "fonte": "docs/EF05-NORMATIVE-MATRIX.md; levantamento de 05/10/2026"},
       {"status": "CONFIRMADO", "texto": "Desenvolver emissor próprio de NF-e e NFC-e com integração direta à SEFAZ, usando documentação oficial.", "fonte": "Pedido de Bruno neste chat, 04/10/2026"},
       {"status": "CONFIRMADO", "texto": "MOC 7.00/anexos, PDFs técnicos, cronogramas e schemas oficiais foram analisados para o primeiro recorte NFC-e offline. Onze XSDs tiveram hashes conferidos; seis entrypoints compilaram em .NET. Restore, build sem avisos/erros, 70 testes e CLI offline passaram com PFX sintético em memória. Não houve transmissão ou homologação fiscal; a matriz não representa cobertura tributária integral.", "fonte": "docs/TECHNICAL-SCOPE.md, docs/VALIDATION.md e revisão do código/evidências em 04/10/2026"}
     ],

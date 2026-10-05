@@ -132,6 +132,87 @@ public sealed class ProtocolTests(OfflineProof proof) : IClassFixture<OfflinePro
         Assert.False(NfceProtocol.Interpret(proof.Signed, SafeXml.Serialize(document), proof.Validator).IsAuthorized);
     }
 
+    [Theory]
+    [InlineData(false, "153260000000001", true)]
+    [InlineData(true, "153260000000001", true)]
+    [InlineData(true, "1532600000000001", false)]
+    [InlineData(false, "153260000000000001", false)]
+    [InlineData(true, "153260000000000001", false)]
+    public void ProtocolLengthBoundaryPreservesCorrelation(bool consultation, string number, bool accepted)
+    {
+        var response = Mutate(OfflineFixtures.Response(proof.Signed, consultation: consultation), document =>
+            ((XmlElement)document.GetElementsByTagName("nProt", SafeXml.NfeNamespace)[0]!).InnerText = number);
+        var result = NfceProtocol.Interpret(proof.Signed, response, proof.Validator);
+        Assert.Equal(accepted, result.IsAuthorized);
+        if (accepted)
+        {
+            Assert.Equal(number, result.ProtocolNumber);
+            var processed = NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator);
+            Assert.Equal(number, NfceProtocol.Interpret(proof.Signed, processed, proof.Validator).ProtocolNumber);
+            Assert.Equal(A1Signer.Verify(proof.Signed).DigestBase64, A1Signer.Verify(processed).DigestBase64);
+        }
+        else
+        {
+            Assert.Equal(FiscalState.InvalidResponse, result.State);
+            Assert.Throws<InvalidDataException>(() => NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator));
+        }
+    }
+
+    [Theory]
+    [InlineData(false, 0, true)]
+    [InlineData(false, 1, true)]
+    [InlineData(false, 5, true)]
+    [InlineData(false, 6, false)]
+    [InlineData(true, 1, false)]
+    [InlineData(true, 5, false)]
+    [InlineData(true, 6, false)]
+    public void AlertCardinalityPreservesBaselineBoundary(bool consultation, int count, bool accepted)
+    {
+        // Combinações sintéticas verificam estrutura/comportamento; não são respostas oficiais.
+        var response = Mutate(OfflineFixtures.Response(proof.Signed, "120", consultation: consultation), document =>
+        {
+            var info = (XmlElement)document.GetElementsByTagName("infProt", SafeXml.NfeNamespace)[0]!;
+            for (var index = 1; index <= count; index++)
+            {
+                foreach (var pair in new[] { ("cMsg", index.ToString()), ("xMsg", $"ALERTA SINTETICO {index}") })
+                {
+                    var element = document.CreateElement(pair.Item1, SafeXml.NfeNamespace);
+                    element.InnerText = pair.Item2;
+                    info.AppendChild(element);
+                }
+            }
+        });
+        var result = NfceProtocol.Interpret(proof.Signed, response, proof.Validator);
+        Assert.Equal(accepted, result.IsAuthorized);
+        if (accepted)
+        {
+            Assert.Equal(FiscalState.AuthorizedWithAlert, result.State);
+            Assert.Equal(Enumerable.Range(1, count).Select(index => new FiscalMessage(index.ToString(), $"ALERTA SINTETICO {index}")), result.Messages);
+            var processed = NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator);
+            Assert.Equal(result.Messages, NfceProtocol.Interpret(proof.Signed, processed, proof.Validator).Messages);
+            Assert.Equal(A1Signer.Verify(proof.Signed).DigestBase64, A1Signer.Verify(processed).DigestBase64);
+        }
+        else
+        {
+            Assert.Equal(FiscalState.InvalidResponse, result.State);
+            Assert.Throws<InvalidDataException>(() => NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator));
+        }
+    }
+
+    [Theory]
+    [InlineData("cMsg")]
+    [InlineData("xMsg")]
+    public void IncompleteAlertPairCannotAuthorize(string missing)
+    {
+        var response = Mutate(OfflineFixtures.Response(proof.Signed, "120", alerts: true), document =>
+        {
+            var element = document.GetElementsByTagName(missing, SafeXml.NfeNamespace)[0]!;
+            element.ParentNode!.RemoveChild(element);
+        });
+        Assert.Equal(FiscalState.InvalidResponse, NfceProtocol.Interpret(proof.Signed, response, proof.Validator).State);
+        Assert.Throws<InvalidDataException>(() => NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator));
+    }
+
     private static string Mutate(string xml, Action<XmlDocument> edit)
     {
         var document = SafeXml.Load(xml);

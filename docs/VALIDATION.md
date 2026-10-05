@@ -292,3 +292,13 @@ separadamente. Push na main identifica diretamente seu commit.
 Nenhum certificado de contribuinte, segredo, alteração fiscal, transmissão,
 homologação ou deploy. O CI valida o recorte técnico offline; decisões do piloto,
 infraestrutura, credenciais reais e cobertura normativa seguem seus próprios aceites.
+
+## EF-05 — documentação e regressões — 05/10/2026
+
+Incremento da issue #2, ainda aberta. [Matriz normativa](EF05-NORMATIVE-MATRIX.md) e [proveniência](evidence/ef05/FONTES.md) incorporadas. Nove pacotes examinados sem consulta oficial compatível com alertas; nenhuma nova baseline foi integrada. Acesso integral ao anexo DF comprovado no levantamento; transcrição/reconciliação das 270 linhas e aplicação ao piloto continuam pendentes da EF-06.
+
+Execução atual: `pwsh -NoProfile -File scripts/verify.ps1`, exit 0, SDK 10.0.401/runtime 10.0.12, restore `--locked-mode`, NuGetAudit/all preservado, build Release zero avisos/erros, **84/84 testes**, zero ignorados, seis entrypoints e CLI demo aprovados. Quatorze casos novos cobrem protocolo 15/16/18 conforme lacunas anteriores, limites 0/1/5/6 mensagens, ordem/preservação no processado e pares incompletos. Casos de 17 posições já existiam. PFX sintético em memória; nenhuma transmissão ou homologação.
+
+[Resumo local e hashes](evidence/ef05/local-validation.json). TRX/logs integrais ignorados em `TestResults/ci/8b24a49dfb904d9fb93aad8b97d9e7e7`; reprodução usa os testes versionados. A execução tem base 4a475c4 mais o diff deste incremento, não o checkout limpo daquele commit. Primeira execução passou 83/83; após acrescentar a borda de 16 posições na consulta, repetiu-se o fluxo completo com 84/84. Inicialmente dotnet não estava no PATH da sessão; o executável instalado foi encontrado em C:/Program Files/dotnet e o ambiente foi configurado, sem instalar dependências novas ou alterar SDK/locks.
+
+Pesquisa histórica distinta: 40 testes selecionados e 150 casos estruturais lxml; o [resumo estrutural](evidence/ef05/structural-summary.json) declara explicitamente ausência de prova criptográfica. Primeira tentativa histórica de testhost anulada por timeout e download SVRS vazio não contam como aprovação. CI EF-04 com 70/70 permanece histórica; CI desta PR deve ser identificada separadamente. Nenhum resultado prova ativação fiscal.

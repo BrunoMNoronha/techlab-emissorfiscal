@@ -1,0 +1,42 @@
+{
+  "nfe": [
+    "DFeTiposBasicos_v1.00.xsd",
+    "leiauteNFe_v4.00.xsd",
+    "nfe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ],
+  "enviNFe": [
+    "DFeTiposBasicos_v1.00.xsd",
+    "enviNFe_v4.00.xsd",
+    "leiauteNFe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ],
+  "retEnviNFe": [
+    "DFeTiposBasicos_v1.00.xsd",
+    "leiauteNFe_v4.00.xsd",
+    "retEnviNFe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ],
+  "consSitNFe": [
+    "consSitNFe_v4.00.xsd",
+    "leiauteConsSitNFe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ],
+  "retConsSitNFe": [
+    "leiauteConsSitNFe_v4.00.xsd",
+    "retConsSitNFe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ],
+  "procNFe": [
+    "DFeTiposBasicos_v1.00.xsd",
+    "leiauteNFe_v4.00.xsd",
+    "procNFe_v4.00.xsd",
+    "tiposBasico_v4.00.xsd",
+    "xmldsig-core-schema_v1.01.xsd"
+  ]
+}
