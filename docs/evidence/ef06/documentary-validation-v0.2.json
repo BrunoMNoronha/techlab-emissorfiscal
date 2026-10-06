@@ -1,0 +1,57 @@
+{
+  "kind": "EF06_V02_DOCUMENTARY_VALIDATION",
+  "status": "passed",
+  "briefingFields": 15,
+  "briefingRecords": 55,
+  "projectSections": 6,
+  "scenarioRows": 13,
+  "humanDecisionRows": 16,
+  "markdownFilesChecked": 9,
+  "localLinksChecked": 85,
+  "missingLinks": 0,
+  "sourceRecords": 6,
+  "schemaHashesVerified": 11,
+  "manifestSha256": "9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c",
+  "dependencyCycle": false,
+  "historicalSourcePreserved": true,
+  "diffCheck": "passed",
+  "dotnetTestsExecuted": false,
+  "fiscalHomologationPerformed": false,
+  "clientDate": "2026-10-05",
+  "clientTimezone": "America/Sao_Paulo",
+  "recordedAtUtc": "2026-10-06 01:32:41 UTC",
+  "codeBase": "952c74c5adfd67f79f7cb746caefb4bb60b95888",
+  "checkout": "codex/integracao-simulada-duravel",
+  "validationScope": "Preparacao documental; workspace ja continha alteracoes locais de integracao exclusivamente simulada.",
+  "nonDocsPreservation": {
+    "checked": 71,
+    "changed": []
+  },
+  "publicApiChanged": false,
+  "credentialsAccessed": false,
+  "databaseChanged": false,
+  "codeChanged": false,
+  "fiscalTransmissionsPerformed": 0,
+  "issue3Status": "parcial; aberta; empresa/autoridades/serie/casos fiscais indispensaveis pendentes",
+  "independentReview": {
+    "kind": "agent_documentary_review",
+    "finding": "P2 ciclo de registro documental EF06 e arquitetura EF07",
+    "status": "resolved_and_rechecked",
+    "resolution": "Selecao sob guarda do emitente em registro privado ja autorizado; custodia operacional separada EF07.",
+    "remainingMaterialFindings": 0,
+    "tributaryApproval": false
+  },
+  "methods": [
+    "Python stdin: validacao JSON/quinze campos/status/texto/fonte e seis secoes PROJECT",
+    "Python stdin: existencia de links Markdown em nove documentos, linhas C01-C13 e H01-H16",
+    "Python stdin: grafo EF04-EF21 sem ciclos, XML parseavel e onze hashes contra manifest",
+    "Git diff --check; Git diff docs/evidence/ef06/source-status.json vazio",
+    "PowerShell Get-FileHash SHA256 de todos os 71 arquivos nao ignorados existentes fora de docs; comparacao inicio/fim"
+  ],
+  "limits": [
+    "Hashes de fonte identificam respostas publicas, sem prova de ativacao ou cadastro.",
+    "Validacao documental e integridade nao sao compilacao XSD .NET, novos testes ou prova fiscal.",
+    "Nenhuma tentativa historica de fonte foi reclassificada; pesquisa0.2 separada.",
+    "Nenhum commit/push/PR/merge/deploy executado por esta preparacao."
+  ]
+}

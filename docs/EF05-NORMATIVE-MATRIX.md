@@ -58,7 +58,7 @@ Catálogo [Nacional](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?ti
 | PL010e v1.02 | 10/07/2026 | 5 | Não inclui consulta | `d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1` |
 | PL010f v1.04 | 31/08/2026 | 5 | Autorização com mensagens; não inclui consulta | `b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998` |
 
-O inventário de **cada entrada original**, SHA-256 por XSD/ZIP interno, dependências e igualdade byte a byte com o arquivo homônimo da baseline está em `zip-inventory.json`. URLs exatas, horários, status, tamanho, tipo de conteúdo e redirecionamentos estão em `source-index.json` e no [índice legível de fontes](FONTES.md). Nomes curtos de downloads históricos são aliases locais; as entradas originais do ZIP não foram renomeadas nem reserializadas.
+O inventário de **cada entrada original**, SHA-256 por XSD/ZIP interno, dependências e igualdade byte a byte com o arquivo homônimo da baseline está em `zip-inventory.json`. URLs exatas, horários, status, tamanho, tipo de conteúdo e redirecionamentos estão em `source-index.json` e no [índice legível de fontes](evidence/ef05/FONTES.md). Nomes curtos de downloads históricos são aliases locais; as entradas originais do ZIP não foram renomeadas nem reserializadas.
 
 Precedência da composição atual: **PL009n < PL010d v1.03 / NFe < PL010f v1.04**. Não aplicar indiscriminadamente as subárvores `Evento` ou `CadConsultaCadastro` do PL010d; há nomes de tipos/arquivos comuns. Os ZIPs PL010b/c/e/f têm só cinco arquivos de leiaute/tipos e não formam sozinhos o conjunto de seis serviços.
 
@@ -124,4 +124,4 @@ Foi obtido o **DODF nº 182, 30/09/2026, íntegra**, 231 páginas, SHA-256 `5751
 
 ## Decisões do piloto — EF-06
 
-Continuam TBD operações/regimes, casos tributários, permissões, emitentes piloto, séries/numeração legada, custódia/uso de A1 e autoridade para homologação. Fixtures não definem essas decisões. Uma futura migração exige pacote oficial, proveniência e seis conjuntos compilados, preservando bytes/baseline anteriores; replay e persistência continuam futuros.
+O [contrato EF-06/0.2](PILOT-CONTRACT.md) confirma presencial/retirada/consumo próprio, regime conforme empresa escolhida, série exclusiva validada, operações próprias por cliente e operador central delegado. Empresa/CRT/grupos, autoridades/delegações, série/histórico e casos tributários comprovados ainda são `TBD` na [ficha](PILOT-REGISTRATION.md). [Pesquisa 0.2](evidence/ef06/FONTES-v0.2.md) atualiza as fontes jurídicas sem resolver condições específicas DF, consulta com alertas ou ativação técnica. Fixtures não definem enquadramento. Migração exige pacote oficial/proveniência/seis conjuntos compilados, preservando bytes/baseline anteriores; transporte/replay fiscais reais permanecem futuros.

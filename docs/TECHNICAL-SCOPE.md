@@ -1,5 +1,7 @@
 # Incremento local NFC-e - escopo técnico e contrato futuro
 
+**Preparação fiscal documental 0.2, 05/10/2026:** [contrato](PILOT-CONTRACT.md), [dicionário](PILOT-DATA-DICTIONARY.md) e [ficha](PILOT-REGISTRATION.md) atualizam decisões de recorte/acesso/série para o piloto real. Empresa/CRT, autoridades, série/histórico e casos tributários comprovados seguem pendentes. Sem novo DTO/transporte/validação fiscal implementados; distinguir este contrato do simulador v1. As recomendações históricas abaixo são subordinadas às decisões vigentes 0.2.
+
 Referência de pesquisa: **04/10/2026, America/Sao_Paulo**. Prova offline executada
 com SDK .NET 10.0.401/runtime 10.0.12: restore, build, 70 testes e CLI passaram.
 Esta prova não implementa regras tributárias completas nem determina
@@ -161,13 +163,13 @@ inclusive quando um trabalhador antigo retoma após perder o lease.
 | Prova obrigatória futura | Cenário e aceite mínimo |
 | --- | --- |
 | Isolamento entre empresas | Cliente A tenta emitir, consultar, baixar XML/protocolo ou usar credencial de B: negar em todos os caminhos, inclusive processamento assíncrono e erro. |
-| Aliases do mesmo CNPJ | Dois aliases/clientes autorizados resolvem a mesma identidade fiscal e não reservam/transmitem o mesmo número por pools distintos; acesso ao conteúdo continua condicionado à política TBD. |
+| Aliases do mesmo CNPJ | Dois aliases/clientes autorizados usam identidade/pool únicos; conforme EF-06/0.2, cada cliente vê suas próprias operações, sem compartilhamento automático de conteúdo. Delegação/concessões reais ainda precisam de evidência. |
 | Reserva concorrente | Emissões simultâneas disputam a mesma série/ambiente: exclusividade e atomicidade, sem reserva dupla ou perda de vínculo entre número e operação. |
 | Replay após mudança normativa | Repetir operação antiga retorna o mesmo snapshot/artefatos/versão normativa; não regenerar XML pela norma nova. Novo conteúdo na mesma operação gera conflito. |
 | Perda de lease durante I/O | Trabalhador antigo não confirma nova transição local nem envia nova revisão depois de perder lease. Testar retomada do trabalhador, envio já em voo e resposta tardia/duplicidade; fencing local não cancela I/O externo, e a mesma revisão/XML permanece disponível para reconciliação. |
 | Crash após envio | Intenção/XML/tentativa sobrevivem ao crash. Recuperação inicia reconciliação; não reserva novo número nem altera o XML automaticamente. |
 | Resultado desconhecido | Timeout, resposta truncada, 217 isolado ou código novo mantêm incerteza auditável. Protocolo/chave/ambiente/digest incompatíveis nunca autorizam. |
-| Correção após rejeição | Rejeição definitiva permite proposta de nova revisão explícita, com hashes/tentativas anteriores preservados. Não sobrescrever original; política de número/reemissão precisa ser aprovada com base normativa. |
+| Correção após rejeição | Conforme EF-06/0.2, indisponível no primeiro piloto: preservar rejeição/hashes/tentativas e recusar correção/reutilização. Revisão explícita permanece evolução futura com política de número fundamentada; não sobrescrever original. |
 
 ## Decisões/TBDs preservados
 
@@ -181,6 +183,6 @@ API, evento fiscal, DANFE, contingência operacional ou transporte nesta entrega
 
 A [matriz EF-05](EF05-NORMATIVE-MATRIX.md) atualiza a triagem normativa anterior. Nove ZIPs examinados não trouxeram consulta oficial compatível com alertas. Baseline e comportamento preservados; issue #2 permanece aberta. O anexo DF foi localizado integralmente, mas sua reconciliação linha a linha e aplicação dependem da EF-06. Há divergências PDF/XSD sobre cMsg e entre N12-90 nacional/DF; aceitação estrutural não resolve semântica fiscal. Nenhuma ativação real foi comprovada.
 
-## Proposta de contrato do piloto — EF-06
+## Contrato documental do piloto — EF-06/0.2
 
-[PILOT-CONTRACT.md](PILOT-CONTRACT.md) detalha a proposta conceitual por origem e condição dos dados, recomendações de políticas e treze cenários futuros. Decisões humanas, escolhas sintéticas e recomendações do PO são separadas. Não é contrato fiscal pronto para implementação: campos/precisão, tributação por caso, políticas reais e condições de homologação permanecem TBD. Nenhuma mudança no núcleo, baseline, resolver ou interpretação foi feita.
+[PILOT-CONTRACT.md](PILOT-CONTRACT.md) registra as decisões humanas vigentes: presencial/retirada/consumo próprio, regime conforme empresa comprovada, série exclusiva validada, conteúdo próprio por cliente e operador central delegado. Correção/eventos/contingência adiados; emissão/consulta/XML/protocolo/DANFE/QR no marco futuro. [Dicionário](PILOT-DATA-DICTIONARY.md) deriva precisão/cardinalidade dos XSDs sem copiar limites da fixture; equações/tolerâncias/regras precisam de fonte e caso aprovado. [Ficha](PILOT-REGISTRATION.md) exige fatos/autoridades/série/casos reais. Pesquisa 0.2 e tentativa histórica coexistem. EF-06 parcial; nenhuma mudança no núcleo, baseline, resolver ou interpretação.
