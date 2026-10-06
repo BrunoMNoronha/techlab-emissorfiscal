@@ -308,3 +308,39 @@ Pesquisa histórica distinta: 40 testes selecionados e 150 casos estruturais lxm
 Incremento exclusivamente documental da issue #3, ainda aberta. [Contrato](PILOT-CONTRACT.md), [decisões](evidence/ef06/DECISIONS.md) e [revisão PO](evidence/ef06/PO-REVIEW.md) versionados; cenário não é teste executado. Briefing preserva quinze campos; links locais, JSON e diff conferidos. Código, fixtures, schemas, manifesto, SDK, locks, scripts e workflow preservados. Não repetida suíte local por documentação; 84/84 da entrega anterior permanece histórico. CI da PR atual será verificada e identificada na entrega Git.
 
 Acesso ao Ajuste 23/26 novamente falhou para PO e executor; [status](evidence/ef06/source-status.json) registra a limitação. Não substituir a consulta anterior por alegação de reconfirmação. Políticas/tributação reais e EF-07 permanecem pendentes, sem I/O fiscal ou deploy.
+
+## EF-06 — preparação documental 0.2 — 05/10/2026
+
+**Concluído o recorte de preparação documental autorizado; issue #3 permanece parcial e aberta.** Esta seção registra a preparação inicial no workspace misto, anterior à extração para entrega Git; suas contagens e ausência de publicação são históricas. Contrato `nfce-df-homologacao/0.2`, [ficha](PILOT-REGISTRATION.md), [dicionário](PILOT-DATA-DICTIONARY.md) e decisões H08–H16 incorporados. Empresa/CRT/sistema, pessoas/delegação, série/histórico e casos tributários comprovados ainda são `TBD`; nenhum foi substituído por dados do simulador.
+
+Fonte do recorte: escolhas humanas no planejamento e pedido posterior de implementar o plano completo. Primeiro piloto presencial/retirada/consumo próprio, regime conforme empresa comprovada, série exclusiva validada e conteúdo próprio por cliente. Operador central delegado administra concessões. Emissão/consulta/XML/protocolo **e DANFE/QR EF-16** no aceite futuro; correção/eventos/contingência/entrega/remoto adiados.
+
+### Conferências realizadas
+
+| Verificação documental | Resultado observado |
+| --- | --- |
+| Python fornecido pelo runtime Codex: JSON/estrutura do briefing | Modelo v2, quinze campos, 55 registros com status/texto/fonte; seis seções principais de PROJECT preservadas |
+| Links locais em nove documentos relevantes | 85 referências existentes, sem links de arquivo ausentes; corrigido link relativo preexistente para FONTES na matriz EF-05 |
+| Cenários/decisões | Treze linhas C01–C13, dezesseis decisões humanas H01–H16; futuro/adiado/regressão offline distintos de execução fiscal |
+| Grafo do roadmap | EF-04–EF-21 sem ciclo; EF-16 mantém dependência EF-05/15, e piloto completo exige EF-15 + EF-16 |
+| Manifest/XSD | Onze hashes SHA-256 conferidos com manifest, XML parseável; hash do manifest preservado: `9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c` |
+| Preservação fora de docs | SHA-256 dos 71 arquivos rastreados/não ignorados existentes fora de `docs/` iguais ao início da tarefa, incluindo alterações locais da simulação |
+| Histórico de fonte | `source-status.json` sem alteração; nova pesquisa em arquivos separados |
+| Diff | `git diff --check` aprovado |
+| Revisão independente | Ciclo entre ficha EF-06 e meio seguro EF-07 encontrado e corrigido: seleção usa registro privado já autorizado sob guarda do emitente; custódia operacional permanece EF-07. Revisor reconferiu e declarou P2 resolvido, sem outro achado material |
+
+Primeira conferência de links apontou uma referência relativa já quebrada em EF05-NORMATIVE-MATRIX; foi corrigida antes da validação final. Evidência estruturada da preparação: [documentary-validation-v0.2.json](evidence/ef06/documentary-validation-v0.2.json). São checks de documentação/integridade, não execução dos cenários fiscais.
+
+### Pesquisa e limites
+
+[Seis fontes primárias](evidence/ef06/FONTES-v0.2.md) reconferidas nesta rodada, com métodos, horário UTC, bytes/hashes e excertos no [registro 0.2](evidence/ef06/source-review-v0.2.json). Houve acesso bem-sucedido ao Ajuste 23/26; a falha histórica anterior continua preservada. Condições específicas do DF, revisão dos casos, obrigações RTC/NTs e ativação técnica continuam delimitadas; MOC 2020 não é prova de todas as regras atuais.
+
+Nenhum código de API/DTO/banco/transporte, fixture, schema, manifest, SDK, lock, script ou workflow foi alterado por esta preparação. Checkout de origem `codex/integracao-simulada-duravel`, HEAD `952c74c`, já continha implementação simulada local; ela não foi entregue nem validada como parte desta preparação. Não repetida suíte .NET por alteração exclusivamente documental. 84/84 da EF-05 e CI anteriores são históricos, sem nova alegação de teste/CI/homologação. Sem certificado real, transmissão, deploy ou publicação Git na preparação inicial.
+
+## EF-06 — entrega documental isolada 0.2 — 05/10/2026
+
+Extração em `codex/ef-06-piloto-real-docs`, a partir de `952c74c5adfd67f79f7cb746caefb4bb60b95888`, para entrega Git somente de documentação. Removidas da cópia de entrega as referências a arquivos locais da API simulada e seus cinco registros de briefing. O trabalho original e o registro histórico de preparação permanecem preservados. A nova [evidência da extração](evidence/ef06/delivery-validation-v0.2.json) registra a conferência final do briefing, links, cenários, decisões, dependências, fontes e XSDs, com comparação de integridade do checkout de origem.
+
+Briefing final mantém quinze campos e cinquenta registros, PROJECT seis seções, C01–C13 treze cenários e H01–H16 dezesseis decisões. Revisão independente do contrato, dicionário e ficha não encontrou achado material; é revisão documental de agente, sem aprovação tributária. A matriz dos cinco aceites em [PILOT-CONTRACT](PILOT-CONTRACT.md) distingue documentação preparada de fatos indispensáveis pendentes.
+
+Nenhum teste .NET novo foi executado localmente para esta extração. O CI da entrega Git será identificado por execução e commit na PR, separado de contagens históricas e das conferências documentais. A issue #3 permanece parcial/aberta; nenhuma empresa, autoridade, série ou caso fiscal foi preenchido por inferência. Sem transmissão, credencial real ou homologação fiscal.

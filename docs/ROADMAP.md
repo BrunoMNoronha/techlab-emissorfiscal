@@ -1,7 +1,15 @@
 # Roadmap — TechLab+ Emissor Fiscal
 
-Atualizado em **05/10/2026**, após revisão do código, testes, documentação,
-evidências locais e estado do GitHub. Base do código: commit
+## Preparação do piloto real — contrato documental 0.2
+
+Plano de preparação aprovado em 05/10/2026. [Contrato](PILOT-CONTRACT.md), [ficha obrigatória](PILOT-REGISTRATION.md) e [dicionário](PILOT-DATA-DICTIONARY.md) definem presencial/retirada/consumo próprio, regime conforme empresa comprovada, série exclusiva validada, operações próprias por cliente e operador central com delegação do emitente. Empresa, pessoas/autoridades, série/histórico e casos tributários ainda são `TBD`; EF-06/#3 permanece parcial e EF-07 condicionada.
+
+O primeiro piloto completo exige **EF-15 + EF-16**: emissão/consulta/XML/protocolo e DANFE/QR. A dependência EF-16 → EF-15 permanece, sem criar ciclo. Correção, eventos EF-17/18, contingência EF-19 e entrega/remoto ficam indisponíveis inicialmente, como evolução posterior. Não há transmissão ou mudança de API/banco/transporte nesta preparação; o contrato fiscal documental tem identificação própria, distinta dos exemplos sintéticos.
+
+Preparação inicial em `codex/integracao-simulada-duravel`, base `952c74c`; extração somente documental na branch `codex/ef-06-piloto-real-docs`, a partir dessa base. Alterações locais de integração simulada foram preservadas no checkout original. O núcleo dessa base possui 84 testes da revisão EF-05; referências a 70 testes e à base inicial abaixo são históricas.
+
+**Histórico da base offline, conferido em 05/10/2026:** revisão do código, testes,
+documentação, evidências locais e estado do GitHub. Base inicial do código: commit
 `d981b927907737515cfb5c2e59b94c84da4cde40`, branch `main`, no
 [repositório privado](https://github.com/BrunoMNoronha/techlab-emissorfiscal).
 EF-04 a EF-21 estão vinculados a **18 issues verificadas**. EF-04 está concluído
@@ -11,7 +19,8 @@ O primeiro incremento está concluído como **prova técnica offline de NFC-e
 65/DF/ambiente 2/emissão normal 1 em .NET 10**. O emissor operacional ainda não
 está implementado. O primeiro fluxo fiscal previsto é NFC-e em homologação;
 NF-e modelo 55 vem depois, com recorte próprio. O sistema cliente fornece a
-tributação. Operações e regimes aceitos continuam `TBD`.
+tributação. Recorte presencial/retirada/consumo próprio definido em 0.2; empresa,
+CRT efetivo, regras/grupos e casos tributários aprovados continuam `TBD`.
 
 ## Base verificada
 
@@ -58,7 +67,7 @@ dependências e evidências ao atualizar ou concluir as issues.
 | --- | --- | --- | --- | --- | --- |
 | EF-04 | CI da prova offline e reprodução das dependências | Concluído | EF-01 | Windows 2025/SDK fixado, três locks e restore bloqueado; build, 70 testes e CLI aprovados no Actions, artefatos/hashes conferidos e falha controlada reprovada com diagnósticos publicados. [Evidência](VALIDATION.md#ef-04--ci-offline-e-locks-nuget--05102026). Sem segredo/transmissão fiscal. | [#1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1) |
 | EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Parcial — pesquisa incorporada; compatibilidade bloqueada | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. | [#2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2) |
-| EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Parcial — proposta documentada; decisões/payloads e condições reais pendentes | Decisões de negócio/operacionais `TBD` | Registrar operações/regimes aceitos, dados tributários fornecidos pelo cliente, sistemas/emitentes piloto, permissões e propriedade/acesso para aliases do mesmo CNPJ, séries/numeração legada e correção após rejeição. Ver [proposta do piloto](PILOT-CONTRACT.md). Ambos regimes planejados e consumo próprio confirmados; políticas/payloads e condições reais permanecem pendentes. Fixtures não definem enquadramento. | [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3) |
+| EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Parcial — contrato documental 0.2; fatos/casos reais pendentes | Ficha, autoridades, cadastro/série/casos comprovados | [Contrato 0.2](PILOT-CONTRACT.md), [ficha](PILOT-REGISTRATION.md) e [dicionário](PILOT-DATA-DICTIONARY.md): presencial/retirada/consumo próprio, regime da empresa escolhida, série exclusiva validada, conteúdo próprio por cliente e operador central delegado. Preencher fatos/tributação/autoridades indispensáveis; publicar 0.2 não encerra. Correção/eventos/contingência adiados; DANFE/QR no aceite futuro. | [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3) |
 | EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | Decidir autenticação, banco/transações, armazenamento de artefatos e segredos, execução dos trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e como validar cada componente antes de implementar a base operacional. | [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) |
 
 EF-04 está concluído. A pesquisa de EF-05 e o levantamento de EF-06
@@ -70,7 +79,7 @@ regimes ou custódia para a operação fiscal.
 
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
 | --- | --- | --- | --- | --- | --- |
-| EF-08 | Autenticação, autorização e identidade fiscal canônica | Planejado | EF-06, EF-07 | Identidade do cliente derivada do servidor, acesso por emitente e ambiente, aliases auditáveis e política para CNPJ compartilhado. Negar acesso cruzado a emissão, consulta, arquivos e credenciais, inclusive no trabalhador e nos caminhos de erro. | [#5](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/5) |
+| EF-08 | Autenticação, autorização e identidade fiscal canônica | Planejado | EF-06, EF-07 | Identidade do cliente do servidor; concessão por ação/emitente/ambiente via operador central delegado e operações próprias por cliente. Aliases compartilham identidade/pool sem ampliar conteúdo. Negar acesso cruzado em consulta/arquivos/credenciais, worker e erros; revalidar revogação. | [#5](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/5) |
 | EF-09 | Persistência de operações, revisões, artefatos e auditoria | Planejado | EF-07 | XML assinado, hash de bytes, digest fiscal, baseline, tentativa, retorno, protocolo e alertas duráveis e vinculados à operação/revisão. Não sobrescrever histórico. Demonstrar integridade, isolamento e restauração no banco/armazenamento escolhidos. | [#6](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/6) |
 | EF-10 | Numeração transacional e idempotência | Planejado | EF-06, EF-08, EF-09 | Unicidade por identidade fiscal canônica/modelo/ambiente/série/número; reserva atômica sob concorrência. Definir canonicalização/versionamento de requestHash; mesma operação/conteúdo retorna a mesma revisão, conteúdo diferente gera conflito. Aliases não criam pools independentes. | [#7](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/7) |
 | EF-11 | API de emissão, estado, consulta e recuperação de artefatos | Planejado | EF-05, EF-08, EF-09, EF-10 | Contrato versionado e validado; dados tributários preservados dentro do recorte suportado. Estados locais/fiscais e erros distintos, isolamento em todas as rotas, sem aceitar resultado/protocolo do cliente como prova de autorização. Nesta etapa usar transporte simulado. | [#8](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/8) |
@@ -93,6 +102,11 @@ Uma lista de URLs, HTTP 200, resposta positiva simulada ou teste TCP não conclu
 EF-14/EF-15. Uso de empresa/certificado real requer as condições de EF-13 e
 escopo operacional definido; nenhuma transmissão é realizada por esta revisão.
 
+EF-15 comprova o fluxo fiscal integrado; o aceite do primeiro piloto escolhido
+em EF-06 também exige DANFE/QR da EF-16. XML/protocolo isolados não encerram esse
+marco. O adiamento de eventos/contingência é do piloto em homologação e não
+dispensa revisão dessas obrigações antes de eventual operação em produção.
+
 ### Etapa 4 — completar o recorte NFC-e aprovado
 
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
@@ -104,7 +118,10 @@ escopo operacional definido; nenhuma transmissão é realizada por esta revisão
 
 Cancelamento, inutilização e renderização podem ter desenvolvimento independente
 após suas dependências, mantendo as mesmas garantias de identidade e auditoria.
-Fechar limites finais do MVP em EF-06 antes de declarar esta etapa concluída.
+Limites do primeiro piloto foram definidos na EF-06/0.2: EF-16 obrigatório para
+esse marco; EF-17–19 e correção posteriores. As condições reais da ficha e os
+casos fiscais ainda precisam ser resolvidos; não declarar etapa concluída por
+este recorte documental.
 
 ### Etapa 5 — operação e expansão
 
@@ -167,7 +184,7 @@ modelo 55 nem outras UFs. A criação das issues não autoriza deploy ou produç
 
 ## Próximo incremento recomendado
 
-A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Prosseguir com as decisões de **EF-06** e a reconciliação normativa dos casos escolhidos.
+A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
 especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
 API/persistência. Não iniciar transmissão antes de concluir suas dependências.
@@ -196,6 +213,10 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 
 Pesquisa de 05/10 incorporada à [matriz](EF05-NORMATIVE-MATRIX.md), com proveniência durável e limites da baseline. A issue #2 continua aberta: falta pacote oficial de consulta com alertas e fechamento das regras do piloto pela EF-06. As regressões preservam rejeição segura; não houve nova baseline nem homologação.
 
-### EF-06 — incremento documental de 05/10/2026
+### EF-06 — histórico da proposta 0.1 em 05/10/2026
 
 [Contrato conceitual](PILOT-CONTRACT.md), decisões e revisão do PO incorporados. Treze cenários futuros, sem execução ou payload fiscal completo. EF-06 parcial; EF-07 depende das decisões e políticas pendentes. EF-05 mantém bloqueio de consulta com alertas. Issues #2/#3 abertas; sem API, banco, transporte ou homologação.
+
+### EF-06 — preparação documental 0.2 em 05/10/2026
+
+Decisões humanas H08–H16 incorporadas, ficha obrigatória e dicionário fiscal preparados; cenários C01–C13 revisados com estados previsto/adiado/regressão offline existente. [Pesquisa 0.2](evidence/ef06/FONTES-v0.2.md) preserva tentativas históricas e condições DF/ativação pendentes. A preparação não identifica empresa/autoridades nem valida casos reais; issue #3 permanece parcial/aberta. Provas e limites desta entrega em [VALIDATION](VALIDATION.md). Extração somente documental a partir de 952c74c, sem implementação fiscal ou transmissão; alterações locais da integração simulada preservadas no checkout original.

@@ -1,0 +1,346 @@
+{
+  "schemaVersion": "1",
+  "reviewVersion": "0.2",
+  "clientDate": "2026-10-05",
+  "clientTimezone": "America/Sao_Paulo",
+  "reviewStartedAtUtc": "2026-10-06T01:22:27Z",
+  "reviewCompletedAtUtc": "2026-10-06T01:24:34Z",
+  "purpose": "Reconfirmação dirigida de fontes primárias públicas para o contrato EF-06 v0.2; não constitui homologação fiscal.",
+  "scope": {
+    "initialOperationalSlice": "Venda presencial com retirada; regime efetivo e série do emitente dependem de validação real.",
+    "taxOrigin": "Dados tributários fornecidos pelo sistema cliente, por decisão do produto; nenhum enquadramento real escolhido nesta pesquisa.",
+    "otherVariants": "Operações não presenciais, entrega, correção, eventos e contingência não são habilitados por esta evidência.",
+    "transmissionsPerformed": 0,
+    "restrictedAreasAccessed": false,
+    "authorizerActivationVerified": false,
+    "credentialsAccessed": false
+  },
+  "sources": [
+    {
+      "id": "sinief19",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2016/AJ_019_16",
+      "method": "GET",
+      "startedAtUtc": "2026-10-06T01:23:06.6309455+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:07.1762215+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2016/AJ_019_16",
+      "bytes": 124433,
+      "sha256": "f65d680d1b570a98ef22b14994fb94b1622b7d9471b4f7c48609c5974c2f56ca",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "excerptVerified": true,
+      "publicExcerpt": "não implica a convalidação das informações tributárias contidas na NFC-e",
+      "contentChecks": {
+        "nonPresentialRecipientRule": true,
+        "identificationThreshold10000": true,
+        "nfceProhibitionThreshold200000": true,
+        "stateMayReduceThresholds": true,
+        "authorizationDoesNotValidateTaxInformation": true
+      },
+      "contentLocation": {
+        "primary": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2016/AJ_019_16",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "Ajuste SINIEF 19/16 consolidado",
+      "sections": [
+        "cláusula quarta, VII(a–c), §§4º–5º e §8º",
+        "cláusula quinta, §3º, I"
+      ],
+      "dates": {
+        "originalPublication": "2016-12-15",
+        "nonPresentialAddressAmendment": "Ajuste SINIEF 9/26",
+        "nonPresentialAddressEffects": "2026-08-03"
+      },
+      "summary": [
+        "Identificação obrigatória nas hipóteses normativas, com endereço nas operações não presenciais.",
+        "Limites nacionais de R$ 10 mil para identificação e R$ 200 mil para obrigatoriedade do modelo 55 são sujeitos à redução estadual.",
+        "CRT deve ser informado; autorização formal não convalida informações tributárias."
+      ],
+      "limitations": [
+        "Consulta dirigida não demonstrou ausência de redução dos limites em toda a legislação do DF.",
+        "Regra jurídica sobre endereço não prova aceitação técnica de todos os valores de indPres no modelo 65."
+      ]
+    },
+    {
+      "id": "sinief12",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ012_26",
+      "method": "GET",
+      "startedAtUtc": "2026-10-06T01:23:04.0685805+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:05.6191408+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ012_26",
+      "bytes": 56106,
+      "sha256": "b34a212c956b5dc2208b972c727394d4bd24a8a6dd977fb2cc75226dd3995cb6",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "excerptVerified": true,
+      "publicExcerpt": "fica revogado",
+      "contentChecks": {
+        "referencesRevokedSinief11_25": true,
+        "revocationTextPresent": true,
+        "publicationDate09April2026": true,
+        "entryIntoForceOnPublication": true
+      },
+      "contentLocation": {
+        "primary": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ012_26",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "Ajuste SINIEF 12/26",
+      "sections": [
+        "cláusulas primeira e segunda"
+      ],
+      "dates": {
+        "publication": "2026-04-09",
+        "entryIntoForce": "2026-04-09"
+      },
+      "summary": [
+        "Revoga o Ajuste 11/25; não usar sua exclusão geral por identificação CNPJ como restrição vigente."
+      ],
+      "limitations": [
+        "Revogação não torna qualquer operação com destinatário pessoa jurídica elegível para NFC-e."
+      ]
+    },
+    {
+      "id": "sinief23",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ023_26",
+      "method": "GET",
+      "startedAtUtc": "2026-10-06T01:23:04.7757186+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:05.8413350+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ023_26",
+      "bytes": 57195,
+      "sha256": "6c22d42b610f79403ba620831b57f3bfed70ca18895381ac7dac9b9421ed9636",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "excerptVerified": true,
+      "publicExcerpt": "Legislação estadual pode estabelecer limites e condições",
+      "contentChecks": {
+        "retailOperations": true,
+        "mandatoryNF55Text": true,
+        "creditCondition": true,
+        "effects05October2026": true,
+        "stateLimitsAndConditions": true
+      },
+      "contentLocation": {
+        "primary": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ023_26",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "Ajuste SINIEF 23/26",
+      "sections": [
+        "cláusula primeira, §§2º–3º",
+        "cláusula segunda"
+      ],
+      "dates": {
+        "publication": "2026-07-09",
+        "entryIntoForce": "2026-07-09",
+        "effects": "2026-10-05"
+      },
+      "summary": [
+        "Operações varejistas que permitam crédito de ICMS pelo adquirente exigem modelo 55.",
+        "A emissão da NF-e é condição do aproveitamento; legislação estadual pode estabelecer limites e condições."
+      ],
+      "limitations": [
+        "Condições específicas do DF não foram confirmadas neste recorte.",
+        "Não inferir direito a crédito pela finalidade consumo próprio, identificação CNPJ ou condição cadastral isolada.",
+        "Efeito legal não comprova implantação técnica no autorizador."
+      ]
+    },
+    {
+      "id": "df387",
+      "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "method": "POST",
+      "requestPayload": {
+        "Setor": null,
+        "Parte": ".",
+        "Ano": 2019,
+        "Numero": 387,
+        "CodigoTipo": "7"
+      },
+      "startedAtUtc": "2026-10-06T01:23:28.1997468+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:30.6250514+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "bytes": 101248,
+      "sha256": "dbce45f53da8c4bae899a508505e0e37cdbe55912637c993e1871012533d4613",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "excerptVerified": true,
+      "publicExcerpt": "impresso ou disponível para apresentação mediante equipamento eletrônico",
+      "contentChecks": {
+        "danfeDelivery": true,
+        "amendment998_2025": true,
+        "retailFinalConsumer": true,
+        "nfceNotSubstituteMandatory55": true,
+        "priorAccreditation": true
+      },
+      "contentLocation": {
+        "primary": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "Portaria DF 387/2019, texto consolidado do serviço público da Receita DF",
+      "sections": [
+        "art. 1º, caput e §2º, I",
+        "arts. 2º–3º",
+        "art. 5º, §§1º–2º",
+        "art. 11"
+      ],
+      "dates": {
+        "originalPublication": "2019-12-23",
+        "entryIntoForce": "2019-12-23",
+        "selectedAmendment": "Portaria DF 998/2025",
+        "selectedAmendmentPublication": "2025-12-16"
+      },
+      "summary": [
+        "Recorte estadual de venda varejista ao consumidor final; modelo 65 não substitui modelo 55 obrigatório.",
+        "Credenciamento e regularidade cadastral dependem do emitente real.",
+        "Entrega exige DANFE em trânsito, impresso ou apresentável em equipamento eletrônico; substituição da impressão exige concordância e condições do §1º."
+      ],
+      "limitations": [
+        "Texto compilado também exibe redações antigas; conclusões usam as redações indicadas pelos dispositivos e alterações.",
+        "Ausência de redução de limite neste texto não prova ausência de outra norma estadual.",
+        "Não houve acesso a área restrita ou consulta ao cadastro do emitente."
+      ]
+    },
+    {
+      "id": "crt",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70",
+      "method": "GET",
+      "startedAtUtc": "2026-10-06T01:23:06.1346686+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:07.2347324+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70",
+      "bytes": 452001,
+      "sha256": "7eeb4e45976812c2951d190c158b6d2da77c282e115376f620e2a74c5527d190",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "excerptVerified": true,
+      "publicExcerpt": "O Código de Regime Tributário - CRT identifica o regime de tributação",
+      "contentChecks": {
+        "crt1Simple": true,
+        "crt2ExcessSublimit": true,
+        "crt3Normal": true,
+        "crt4Mei": true
+      },
+      "contentLocation": {
+        "primary": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "Convênio s/nº de 15/12/1970 consolidado",
+      "sections": [
+        "art. 5º-A",
+        "Anexos III e III-A"
+      ],
+      "dates": {
+        "originalPublication": "1971-02-18",
+        "anexoIIIAddedBy": "Ajuste SINIEF 11/19",
+        "anexoIIIEffects": "2019-07-09"
+      },
+      "summary": [
+        "CRT 1, 2, 3 e 4 representam situações tributárias distintas; o código deve refletir o enquadramento efetivo."
+      ],
+      "limitations": [
+        "Planejar Simples e normal não identifica o CRT real nem aprova MEI ou excesso de sublimite.",
+        "Códigos de situação tributária e benefícios por operação não foram escolhidos."
+      ]
+    },
+    {
+      "id": "moc7anexoI",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+      "method": "GET",
+      "startedAtUtc": "2026-10-06T01:23:41.6080066+00:00",
+      "retrievedAtUtc": "2026-10-06T01:23:42.5033783+00:00",
+      "status": "successful",
+      "httpStatus": 200,
+      "finalUrl": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+      "bytes": 4106196,
+      "sha256": "5eb4cf2010b10b0b62f78197c4eb64025f24535d4c6e61158bc7806dd008f55d",
+      "hashRepresentation": "response body bytes after HTTP decompression",
+      "contentLocation": {
+        "primary": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+        "localSelectedEvidence": "source-review-v0.2.json",
+        "fullResponseSaved": false
+      },
+      "title": "MOC 7.0, Anexo I — Leiaute e regras de validação",
+      "sections": [
+        "p. 10: B25a/indFinal e B25b/indPres",
+        "p. 13: C21/CRT",
+        "p. 77: B25a-10 e B25b-20",
+        "p. 83: E05-20",
+        "p. 124: X03-20"
+      ],
+      "dates": {
+        "coverRevision": "7.00, novembro de 2020",
+        "internalControlRevision": "7.03, outubro de 2020"
+      },
+      "summary": [
+        "Leiaute distingue consumidor final, presença e CRT.",
+        "Referência consultada contém restrição B25b-20 para modelo 65, endereço e transportador no caso de entrega."
+      ],
+      "limitations": [
+        "Documento de 2020 deve ser cruzado com NTs e schemas posteriores; não representa sozinho todas as regras atuais.",
+        "IndPres 1/4 da regra histórica não prova implantação atual nem autoriza liberar remota com retirada ou entrega.",
+        "Nenhum pacote ou baseline foi promovido."
+      ],
+      "contentReview": {
+        "method": "web PDF extraction and targeted field/rule search",
+        "pages": 153,
+        "completed": true
+      },
+      "publicExcerpt": "Indicador de presença do comprador no estabelecimento comercial no momento da operação",
+      "excerptVerified": true
+    }
+  ],
+  "accessHistory": {
+    "preservedHistoricalRecord": {
+      "path": "docs/evidence/ef06/source-status.json",
+      "sha256": "2aa43a07ee77a4684db5f459171de2e96cd4e9b7312a87472b5e967baa0dfb7e",
+      "historicalStatus": "failed",
+      "source": "SINIEF 23/26",
+      "unchanged": true,
+      "explanation": "A falha da rodada anterior permanece histórica. O GET bem-sucedido desta revisão é registro novo e não reescreve a tentativa."
+    },
+    "publicDfRequestReference": {
+      "path": "docs/evidence/ef05/df-requests.json",
+      "sha256": "3f83c393738e6577902bf07e30c8bd915c0fa172a2dafb6aec01bba20345a5b3",
+      "requestName": "df-portaria387",
+      "mutation": false
+    },
+    "earlierAttemptsInThisTask": [
+      {
+        "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ023_26",
+        "method": "web open direto",
+        "status": "failed",
+        "exactTimestampUtc": null,
+        "outcome": "Internal Error; acesso posterior pelo menu CONFAZ e GET desta revisão foram bem-sucedidos."
+      },
+      {
+        "url": "https://www.sinj.df.gov.br/sinj/Norma/3efbac69483f4b74b65ffd53ba901b0a/Portaria_387_20_12_2019.html",
+        "method": "web open/find e GET PowerShell",
+        "status": "failed",
+        "exactTimestampUtc": null,
+        "outcome": "Timeout em reconferências. Conteúdo reconfirmado por POST público ao serviço Receita DF.",
+        "timestampLimitation": "Horários exatos não foram registrados nas tentativas anteriores; não foram estimados."
+      }
+    ]
+  },
+  "evidencePolicy": {
+    "hashMeaning": "SHA-256 de bytes do corpo obtido por Invoke-WebRequest, após descompressão HTTP; não é prova de vigência ou implantação.",
+    "retainedContents": "Somente excertos públicos curtos, metadados e sínteses dirigidas; corpos completos não foram persistidos nesta revisão.",
+    "excerptLimit": "No máximo 25 palavras verbatim por fonte neste registro.",
+    "sourceAuthority": "Fontes CONFAZ e Receita DF; nenhum conteúdo de blog usado como fundamento.",
+    "replication": "Usar URL/método/payload registrados; comparar bytes/hash apenas quando a resposta dinâmica permanecer idêntica."
+  },
+  "unresolved": [
+    "Reduções estaduais dos limites nacionais não foram confirmadas em toda a legislação do DF.",
+    "Condições estaduais para procedimento de crédito do SINIEF 23/26 não foram confirmadas.",
+    "Compatibilidade atual de indPres/entrega com NTs posteriores e schemas requer revisão antes de ampliar o recorte.",
+    "CRT efetivo, situação cadastral, elegibilidade da operação, crédito e dados tributários reais dependem de fatos e validação fiscal do emitente.",
+    "Série exclusiva depende de admissibilidade e inventário real de numeração; nenhum número de série foi atribuído pela pesquisa.",
+    "Publicação, vigência/efeitos legais e implantação técnica por ambiente são registros distintos."
+  ]
+}

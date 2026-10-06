@@ -13,4 +13,26 @@ Data: 05/10/2026. Fonte das decisões: respostas do usuário neste chat. Fontes 
 | H07 | 05/10: “para consumo proprio” | Finalidade da compra; não determina CPF/CNPJ/contribuinte/crédito/presença/entrega |
 | R01 | 05/10: usuário pede agente para responder retirada/entrega; PO recomenda ambos, retirada primeiro | Recomendação para simulação, não operação real confirmada |
 
-PILOTO-A/B são parâmetros para explorar regimes, não empresas. Permissões, aliases, pool e correção são propostas a validar. Payloads/tributação não escolhidos. Rascunho inicial invalidado não integra a versão vigente. Responsáveis, emitente/CRT, séries/legado e condições reais permanecem TBD; revisão do PO não encerra #3.
+**Estado histórico da versão 0.1:** PILOTO-A/B são parâmetros para explorar regimes, não empresas. As políticas então propostas não representavam aprovação humana real. O rascunho inicial invalidado não integra a versão vigente; a revisão do PO não encerra #3.
+
+## Decisões humanas da preparação 0.2 — 05/10/2026
+
+Fonte: escolhas diretas do usuário no planejamento deste chat e pedido posterior “PLEASE IMPLEMENT THIS PLAN”, com o plano completo reproduzido. A aprovação é de produto/preparação documental; não declara fatos cadastrais, autoridade tributária ou liberação de transporte.
+
+| ID | Resposta / autorização direta | Alcance / limite |
+| --- | --- | --- |
+| H08 | Escolheu “#3 — Contrato do piloto” e “Piloto real em homologação” | Preparar condições de piloto real; implementação/transmissão nas etapas dependentes |
+| H09 | Escolheu “Definir antes do piloto” para empresa/regime conhecido/responsável tributário | Empresa e autoridades ainda não identificadas; ficha obrigatória e bloqueios sem nomes inventados |
+| H10 | Escolheu “Presencial com retirada” | Primeiro piloto presencial/retirada/consumo próprio; entrega/remoto posteriores. Substitui R01 como alcance inicial aprovado |
+| H11 | Escolheu “Série exclusiva” | Buscar série admissível após histórico/coordenação; não presume série/número inicial livres |
+| H12 | Escolheu “Cada um vê as próprias” | Conteúdo isolado por sistema cliente, mesmo emitente autorizado; aliases compartilham identidade/pool sem ampliar visibilidade |
+| H13 | Escolheu “Adiar correção” | Preservar rejeição/histórico; correção/reutilização de número indisponíveis até política fiscal futura |
+| H14 | Escolheu “Emissão, consulta e DANFE” | XML/protocolo e QR no aceite; cancelamento/inutilização/contingência posteriores; DANFE futuro depende EF-16 |
+| H15 | Escolheu “Operador central do serviço” | Concede/revoga por autorização documentada do emitente, ação/ambiente; pessoa/legitimidade/delegação ainda TBD |
+| H16 | Escolheu “Regime da empresa escolhida” e autorizou implementar o plano documental | CRT comprovado define primeiro caso; Simples/normal planejados separadamente. Contrato 0.2 não altera API/DTO/banco/transporte; #3 permanece parcial |
+
+Decisões de política de acesso/série/adiamentos acima estão aprovadas para o desenho. Cadastro real, empresa/CRT, pessoas/delegações, série/histórico, payloads/regras tributárias e condições de uso de A1 continuam `TBD`, com impactos na [ficha](../../PILOT-REGISTRATION.md). A simulação v1 não preenche esses fatos. Não transformar a aprovação deste plano em autorização de homologação/transmissão ou produção.
+
+## Decisão técnica de preparação
+
+T01 — A seleção EF-06 utiliza registro privado já autorizado, sob guarda do emitente e com acesso aprovado aos revisores; a ficha registra meio/guarda/referência sem conteúdo privado. Isso evita depender da arquitetura EF-07 para reunir os fatos que a precedem. Não escolhe/provisiona armazenamento operacional nem custódia A1; essas decisões continuam na EF-07. Fonte: revisão documental do contrato 0.2 em 05/10/2026, dentro do plano autorizado.
