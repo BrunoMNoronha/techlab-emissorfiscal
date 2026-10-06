@@ -30,6 +30,7 @@ $taskSummary = [ordered]@{
     manifestSha256 = $null
     schemaHashes = @()
     lockHashes = @()
+    modelPreparations = @()
     artifacts = @()
     error = $null
     fiscalIo = $false
@@ -120,6 +121,31 @@ try {
         $taskHash = (Get-FileHash -LiteralPath (Join-Path 'schemas/nfe/4.00' $taskFile.path) -Algorithm SHA256).Hash.ToLowerInvariant()
         if ($taskHash -ne $taskFile.sha256) { throw "Hash de schema incompatível: $($taskFile.name)" }
         $taskSummary.schemaHashes += [ordered]@{ path = $taskFile.path; sha256 = $taskHash }
+    }
+    foreach ($taskRegime in @('crt1', 'crt3')) {
+        $taskPreparationDir = Join-Path $taskEvidence "preparation-$taskRegime"
+        Invoke-ValidationStep "prepare-$taskRegime" @('run', '--project', 'src/EmissorFiscal.Cli', '-c', 'Release', '--no-build', '--no-restore', '--', 'prepare', "samples/preparation/sale-$taskRegime.json", "samples/preparation/emitter-$taskRegime.json", 'samples/preparation/test-context.json', $taskPreparationDir)
+        $taskPreparation = Get-Content -LiteralPath (Join-Path $taskPreparationDir 'summary.json') -Raw | ConvertFrom-Json
+        if ($taskPreparation.kind -ne 'NFCE_INPUT_MODEL_PREPARATION' -or
+            $taskPreparation.modelVersion -ne 'nfce-preparation/0.1' -or
+            $taskPreparation.baseline -ne $taskSummary.baseline -or
+            $taskPreparation.manifestSha256 -ne $taskSummary.manifestSha256 -or
+            $taskPreparation.environment -ne '2' -or $taskPreparation.model -ne '65' -or
+            $taskPreparation.uf -ne '53' -or $taskPreparation.emissionType -ne '1' -or
+            $taskPreparation.signatureInSubmissionVerified -ne $true -or
+            $taskPreparation.fiscalIo -ne $false -or $taskPreparation.taxpayerCertificate -ne $false -or
+            $taskPreparation.fiscalHomologationObtained -ne $false -or
+            @($taskPreparation.artifacts).Count -ne 4) { throw "Preparação $taskRegime incompatível com a prova offline." }
+        foreach ($taskModelArtifact in $taskPreparation.artifacts) {
+            $taskModelPath = Join-Path $taskPreparationDir $taskModelArtifact.name
+            $taskModelHash = (Get-FileHash -LiteralPath $taskModelPath -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($taskModelHash -ne $taskModelArtifact.sha256) { throw "Hash de artefato incompatível: $taskRegime/$($taskModelArtifact.name)" }
+            $taskSummary.artifacts += [ordered]@{ name = "preparation-$taskRegime/$($taskModelArtifact.name)"; sha256 = $taskModelHash }
+        }
+        $taskSummary.modelPreparations += [ordered]@{ regime = $taskRegime; key = $taskPreparation.key; signatureInSubmissionVerified = $taskPreparation.signatureInSubmissionVerified; fiscalIo = $taskPreparation.fiscalIo }
+        foreach ($taskModelLog in @("prepare-$taskRegime.log", "preparation-$taskRegime/summary.json")) {
+            $taskSummary.artifacts += [ordered]@{ name = $taskModelLog; sha256 = (Get-FileHash -LiteralPath (Join-Path $taskEvidence $taskModelLog) -Algorithm SHA256).Hash.ToLowerInvariant() }
+        }
     }
     foreach ($taskArtifact in @('sdk.log', 'restore.log', 'build.log', 'test.log', 'schemas.log', 'demo.log', 'test-results.trx', 'cli-schemas.json', 'cli-demo.json')) {
         $taskPath = Join-Path $taskEvidence $taskArtifact

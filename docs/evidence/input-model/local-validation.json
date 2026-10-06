@@ -1,0 +1,362 @@
+{
+  "kind": "NFCE_INPUT_MODEL_LOCAL_VALIDATION",
+  "recordedAtUtc": "2026-10-06T02:05:32.758507+00:00",
+  "baseCommit": "ac4836fe65eea6fbab23cf5d54268e72a1230c46",
+  "checkout": "codex/nfce-modelo-dados-testes",
+  "command": "pwsh -NoProfile -File scripts/verify.ps1",
+  "summaryPath": "TestResults/ci/e6b28d4771904a2db9058f2cc776872d/summary.json",
+  "summary": {
+    "kind": "DOTNET_OFFLINE_VALIDATION",
+    "startedAtUtc": "2026-10-06T02:03:48.1374781Z",
+    "finishedAtUtc": "2026-10-06T02:04:08.2190229Z",
+    "status": "passed",
+    "exitCode": 0,
+    "commit": "ac4836fe65eea6fbab23cf5d54268e72a1230c46",
+    "runUrl": null,
+    "runner": {
+      "name": null,
+      "image": null,
+      "imageVersion": null,
+      "os": "Microsoft Windows 10.0.26300",
+      "architecture": "X64",
+      "powershell": "7.6.5"
+    },
+    "sdk": "10.0.401",
+    "runtime": "10.0.12",
+    "steps": [
+      {
+        "name": "sdk",
+        "arguments": [
+          "--version"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "restore",
+        "arguments": [
+          "restore",
+          "EmissorFiscal.slnx",
+          "--locked-mode"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "build",
+        "arguments": [
+          "build",
+          "EmissorFiscal.slnx",
+          "-c",
+          "Release",
+          "--no-restore"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "test",
+        "arguments": [
+          "test",
+          "EmissorFiscal.slnx",
+          "-c",
+          "Release",
+          "--no-build",
+          "--no-restore",
+          "--logger",
+          "trx;LogFileName=test-results.trx",
+          "--results-directory",
+          "C:\\Users\\bruno\\.codex\\worktrees\\ef06-piloto-real-docs\\techlab-emissorfiscal\\TestResults\\ci\\e6b28d4771904a2db9058f2cc776872d"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "schemas",
+        "arguments": [
+          "run",
+          "--project",
+          "src/EmissorFiscal.Cli",
+          "-c",
+          "Release",
+          "--no-build",
+          "--no-restore",
+          "--",
+          "schemas"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "demo",
+        "arguments": [
+          "run",
+          "--project",
+          "src/EmissorFiscal.Cli",
+          "-c",
+          "Release",
+          "--no-build",
+          "--no-restore",
+          "--",
+          "demo"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "prepare-crt1",
+        "arguments": [
+          "run",
+          "--project",
+          "src/EmissorFiscal.Cli",
+          "-c",
+          "Release",
+          "--no-build",
+          "--no-restore",
+          "--",
+          "prepare",
+          "samples/preparation/sale-crt1.json",
+          "samples/preparation/emitter-crt1.json",
+          "samples/preparation/test-context.json",
+          "C:\\Users\\bruno\\.codex\\worktrees\\ef06-piloto-real-docs\\techlab-emissorfiscal\\TestResults\\ci\\e6b28d4771904a2db9058f2cc776872d\\preparation-crt1"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "prepare-crt3",
+        "arguments": [
+          "run",
+          "--project",
+          "src/EmissorFiscal.Cli",
+          "-c",
+          "Release",
+          "--no-build",
+          "--no-restore",
+          "--",
+          "prepare",
+          "samples/preparation/sale-crt3.json",
+          "samples/preparation/emitter-crt3.json",
+          "samples/preparation/test-context.json",
+          "C:\\Users\\bruno\\.codex\\worktrees\\ef06-piloto-real-docs\\techlab-emissorfiscal\\TestResults\\ci\\e6b28d4771904a2db9058f2cc776872d\\preparation-crt3"
+        ],
+        "exitCode": 0
+      }
+    ],
+    "testCounters": {
+      "total": 134,
+      "executed": 134,
+      "passed": 134,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    "baseline": "nfe-4.00-offline-2026-10-04",
+    "manifestSha256": "9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c",
+    "schemaHashes": [
+      {
+        "path": "files/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09"
+      },
+      {
+        "path": "files/consSitNFe_v4.00.xsd",
+        "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1"
+      },
+      {
+        "path": "files/enviNFe_v4.00.xsd",
+        "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef"
+      },
+      {
+        "path": "files/leiauteConsSitNFe_v4.00.xsd",
+        "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618"
+      },
+      {
+        "path": "files/leiauteNFe_v4.00.xsd",
+        "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542"
+      },
+      {
+        "path": "files/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df"
+      },
+      {
+        "path": "files/procNFe_v4.00.xsd",
+        "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0"
+      },
+      {
+        "path": "files/retConsSitNFe_v4.00.xsd",
+        "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5"
+      },
+      {
+        "path": "files/retEnviNFe_v4.00.xsd",
+        "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299"
+      },
+      {
+        "path": "files/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047"
+      },
+      {
+        "path": "files/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac"
+      }
+    ],
+    "lockHashes": [
+      {
+        "path": "src\\EmissorFiscal.Core\\packages.lock.json",
+        "sha256": "0c6b12b14aec65f97a2c63a9edb719c687473ef148164832e0350ca867291483"
+      },
+      {
+        "path": "src\\EmissorFiscal.Cli\\packages.lock.json",
+        "sha256": "2d1fd2ed9e6c6efc906f251e2abdf4f1f77de854b8dd379fcb1a48552fb34299"
+      },
+      {
+        "path": "tests\\EmissorFiscal.Core.Tests\\packages.lock.json",
+        "sha256": "48367b35b91450dcde67cc03eb1d68142fc038a5dfd1375af571c3479f6940dd"
+      }
+    ],
+    "modelPreparations": [
+      {
+        "regime": "crt1",
+        "key": "53261093847261000122650170000001231876543214",
+        "signatureInSubmissionVerified": true,
+        "fiscalIo": false
+      },
+      {
+        "regime": "crt3",
+        "key": "53261087654321000198650180000001231876543217",
+        "signatureInSubmissionVerified": true,
+        "fiscalIo": false
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "preparation-crt1/unsigned.xml",
+        "sha256": "66f78efe6109d196d02378685a1056672546a5471b5225d68b4c07aebc70f36c"
+      },
+      {
+        "name": "preparation-crt1/signed.xml",
+        "sha256": "4f12ecaa44e695a7d88da7161dea377621eda662422f2477a40e18763e057e7d"
+      },
+      {
+        "name": "preparation-crt1/submission.xml",
+        "sha256": "1d020dadc65b4f76f1b5762dade54236ecc10b35a4abbdb494fde46c72f185a3"
+      },
+      {
+        "name": "preparation-crt1/consultation.xml",
+        "sha256": "61134d79a45d69beec803e1ccd4c06234efe98884809ab43c8c99b9a90d98872"
+      },
+      {
+        "name": "prepare-crt1.log",
+        "sha256": "c117766b36f60f786361c79a099668382ea5d8e12db131d52fa6721814c0c387"
+      },
+      {
+        "name": "preparation-crt1/summary.json",
+        "sha256": "74e09e1d5dfeec213f608b2167b26eef9fe40e998e5f6b8eb1187baaf7a847f4"
+      },
+      {
+        "name": "preparation-crt3/unsigned.xml",
+        "sha256": "afa4194d76cc2fbbde6d113eaf865907a57f44d4ad273261c975e95a726bc899"
+      },
+      {
+        "name": "preparation-crt3/signed.xml",
+        "sha256": "710ac744035d633104db00c790ebcad483bce64c18561d9c3838130ffa24f7c8"
+      },
+      {
+        "name": "preparation-crt3/submission.xml",
+        "sha256": "d335bf1e2310024b55eb0d279cce2dc08ce58c0701d45a9cf282c4932432a782"
+      },
+      {
+        "name": "preparation-crt3/consultation.xml",
+        "sha256": "c4d968328446cafc56adfefb7f2b6c4f8446d142a729023459fe54e1805d1e96"
+      },
+      {
+        "name": "prepare-crt3.log",
+        "sha256": "6f4cb724aa326cf6e6019a297bc8eff6ecb280bb9d470fbd2405d2487a18edb5"
+      },
+      {
+        "name": "preparation-crt3/summary.json",
+        "sha256": "48d9d6388392568a6dc71d2ff92fe387eb3d470f9d3ea75ce12cc39fc8ee04d8"
+      },
+      {
+        "name": "sdk.log",
+        "sha256": "3db6bca4b50618b2e0d2d55d23b3d0541fe039ab6f731df0e9c47317b400ce52"
+      },
+      {
+        "name": "restore.log",
+        "sha256": "5e19bb104f42ed353eea282196d0c4325f200da10f26c11c1abab304f6d26e3e"
+      },
+      {
+        "name": "build.log",
+        "sha256": "8346b4112b2fa11db1af8e5ee3f7bc7c30d1d2ed44c371e0a09c1ec58e1fe356"
+      },
+      {
+        "name": "test.log",
+        "sha256": "d4b51475fa016bd23059dd88692d7fa06644de712dfaa4a09c11757084def784"
+      },
+      {
+        "name": "schemas.log",
+        "sha256": "dfd396e733a0424df00c7851a51d9f2912b1e92a02e44e3d8c626c342f59d0cd"
+      },
+      {
+        "name": "demo.log",
+        "sha256": "e968214fac1c92eb62ba0ccc8c497d5aecae2f96e278ea20b1b7b6045c1e7d59"
+      },
+      {
+        "name": "test-results.trx",
+        "sha256": "4102000317c7395f59a2caf6456637f264efee680a4c84bdda292bd767fb64c7"
+      },
+      {
+        "name": "cli-schemas.json",
+        "sha256": "dfd396e733a0424df00c7851a51d9f2912b1e92a02e44e3d8c626c342f59d0cd"
+      },
+      {
+        "name": "cli-demo.json",
+        "sha256": "e968214fac1c92eb62ba0ccc8c497d5aecae2f96e278ea20b1b7b6045c1e7d59"
+      }
+    ],
+    "error": null,
+    "fiscalIo": false,
+    "taxpayerCertificate": false,
+    "fiscalHomologationObtained": false
+  },
+  "negativeCli": {
+    "recordedAtUtc": "2026-10-06T02:04:40.961549+00:00",
+    "cases": [
+      {
+        "name": "existing-output",
+        "exitCode": 1,
+        "filesPreserved": true,
+        "error": "Prova offline falhou: IOException: Escolha um diretório novo; os artefatos existentes não são sobrescritos."
+      },
+      {
+        "name": "unknown-field",
+        "exitCode": 1,
+        "outputNotCreated": true,
+        "error": "Prova offline falhou: InvalidDataException: JSON inválido para nfce-preparation/0.1: The JSON property 'unexpectedFiscalField' could not be mapped to any .NET member contained in type 'EmissorFiscal.Core.Preparation.PreparationSale'."
+      }
+    ],
+    "fiscalIo": false
+  },
+  "documentaryChecks": {
+    "briefingFields": 15,
+    "briefingRecords": 51,
+    "projectSections": 6,
+    "localLinksChecked": 97,
+    "schemaFilesVerified": 11,
+    "schemasManifestSdkLocksAndOriginalFixturesUnchanged": true
+  },
+  "sampleSha256": {
+    "emitter-crt1.json": "a697d8e4c87ad189982ae1fc91ce76482f6fa348fade05ab28dfa08cdac35480",
+    "emitter-crt3.json": "2593ac023db66cb0ca6ed66caeb862eddae613d51b65cabcf0a3827a68cd3f59",
+    "sale-crt1.json": "24d2c71dc2671f26ba2df4dfb63166f2e509eb53145cd80df9cf9a55e0314b34",
+    "sale-crt3.json": "c4cb30b2fc6cddcb0dbd8587d15cbf018bf157f2a9250d0790673f6c4e9112a5",
+    "test-context.json": "ed2a5af93058e24dfb4d5766ed565c6f7fe4392f3e905b28c97826c6963e0260"
+  },
+  "independentReview": "Literais de homologação, sequência de itens e whitespace externo corrigidos; core/modelo/CLI/CI revisados, sem achados materiais pendentes. Revisão técnica de agentes, sem aprovação tributária.",
+  "preservedOriginalWorkspace": {
+    "trackedOrUnignoredFiles": 96,
+    "sameInventoryAndHashes": true
+  },
+  "fiscalIo": false,
+  "taxpayerCertificate": false,
+  "fiscalHomologationObtained": false,
+  "issue3": "partial/open",
+  "limits": [
+    "Sem validação tributária de caso real",
+    "Sem equações fiscais universais ou cálculo automático",
+    "Sem transporte, API, persistência operacional, A1 real ou DANFE",
+    "Leiaute posterior NT2026.008 não integrado ao XSD fixado",
+    "Consulta com alertas EF05 ainda limitada"
+  ]
+}

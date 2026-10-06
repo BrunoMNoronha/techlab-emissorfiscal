@@ -17,6 +17,12 @@ com restore bloqueado e locks NuGet versionados. Evidências e limites estão em
 O [roadmap](docs/ROADMAP.md) registra as entregas, dependências, decisões pendentes
 e critérios para evoluir da prova local à homologação e operação.
 
+O [modelo de entrada NFC-e](docs/NFCE-INPUT-MODEL.md) acrescenta preparação a partir
+de três JSONs: venda, perfil fiscal do emitente e contexto sintético de numeração.
+Os exemplos de CRT 1 e CRT 3 geram XML novo com os dados recebidos, sem clonar o
+XML da fixture ou calcular tributos. O caso normal inclui grupos IBS/CBS.
+As hipóteses tributárias dos exemplos exigem validação antes do uso com empresa real.
+
 Nenhuma transmissão fiscal foi feita. Não houve homologação fiscal nem liberação
 para operação. Fixtures, certificado sintético e retornos simulados não têm
 validade fiscal. Operações, regimes, permissões e custódia real continuam `TBD`.
@@ -39,7 +45,16 @@ dotnet build EmissorFiscal.slnx -c Release --no-restore
 dotnet test EmissorFiscal.slnx -c Release --no-build --no-restore --logger trx --results-directory TestResults
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- schemas
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- demo
+dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json .validation/preparation-crt1
+dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt3.json samples/preparation/emitter-crt3.json samples/preparation/test-context.json .validation/preparation-crt3
 ```
+
+`prepare` exige um diretório de saída novo. Produz XML sem assinatura, XML assinado
+com certificado sintético, envelope de envio, consulta e resumo com hashes.
+Valida os XMLs no XSD e verifica a assinatura no envelope antes de gravar.
+Não transmite, não produz protocolo e não renderiza DANFE. O script de verificação
+também executa os dois exemplos; as evidências publicadas no CI contêm apenas dados
+sintéticos públicos, sem certificado privado.
 
 Ou executar `pwsh -NoProfile -File ./scripts/verify.ps1`, que verifica o SDK e faz
 essas etapas em ordem, interrompendo no primeiro erro e preservando o código de

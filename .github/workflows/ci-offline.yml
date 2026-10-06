@@ -59,7 +59,7 @@ jobs:
       - name: Resumo da execução
         if: always()
         run: |
-          $taskSummaryFile = Get-ChildItem -LiteralPath TestResults/ci -Filter summary.json -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+          $taskSummaryFile = Get-ChildItem -Path TestResults/ci/*/summary.json -ErrorAction SilentlyContinue | Select-Object -First 1
           if ($taskSummaryFile) {
             $taskSummary = Get-Content -LiteralPath $taskSummaryFile.FullName -Raw | ConvertFrom-Json
             @(
@@ -69,6 +69,7 @@ jobs:
               "SDK: $($taskSummary.sdk); runtime: $($taskSummary.runtime)"
               "Runner: $($taskSummary.runner.image) / $($taskSummary.runner.imageVersion)"
               "Testes: $($taskSummary.testCounters | ConvertTo-Json -Compress)"
+              "Modelos preparados: $($taskSummary.modelPreparations | ConvertTo-Json -Compress)"
               "Erro: $($taskSummary.error)"
               'Sem certificado de contribuinte, transmissão ou homologação fiscal.'
             ) | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
@@ -91,3 +92,6 @@ jobs:
             TestResults/ci/*/test.log
             TestResults/ci/*/schemas.log
             TestResults/ci/*/demo.log
+            TestResults/ci/*/prepare-*.log
+            TestResults/ci/*/preparation-*/summary.json
+            TestResults/ci/*/preparation-*/*.xml
