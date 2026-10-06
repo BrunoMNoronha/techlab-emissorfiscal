@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "clientReviewDate": "2026-10-05",
+  "clientTimezone": "America/Sao_Paulo",
+  "scope": "Dados NFC-e 65/DF, emissão normal presencial/retirada, exemplos estritamente offline em homologação. Pesquisa pública, sem credenciais, emissão ou consulta de contribuinte real.",
+  "retrievalNotes": "Timestamps UTC reais da sessão. SHA-256 calculado sobre bytes da resposta HTTP. Acesso e publicação não comprovam implantação de regra na SVRS/DF. GETs da revisão EF06 desta mesma sessão foram reutilizados com seus horários originais. Falhas históricas EF05/EF06 não foram alteradas.",
+  "sources": [
+    {
+      "id": "moc7-anexo-i",
+      "title": "MOC 7.00 — Anexo I, leiaute e regras de validação",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:23:42.5033783+00:00",
+      "httpStatus": 200,
+      "bytes": 4106196,
+      "sha256": "5eb4cf2010b10b0b62f78197c4eb64025f24535d4c6e61158bc7806dd008f55d",
+      "publication": "Base 7.00, novembro/2020; complementar com NTs posteriores.",
+      "locators": [
+        "E04-20",
+        "I04-10",
+        "E16a-10",
+        "Grupo C",
+        "Grupo E",
+        "Grupo YA"
+      ],
+      "excerpts": [
+        "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+        "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
+      ],
+      "quotedWords": 21,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "nt2025-002-v1-52",
+      "title": "NT 2025.002 RTC v1.52 — IBS, CBS e IS",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2025.002_v1.52_RTC_NF-e_IBS_CBS_IS.pdf",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:52:38.2452889+00:00",
+      "httpStatus": 200,
+      "bytes": 2102849,
+      "sha256": "54ed893327040a20a4a3c0562d342953542a1dc98e55d73dbe607d6c13d3d416",
+      "locators": [
+        "p. 6: cronograma",
+        "p. 40: UB12-10",
+        "p. 43: UB16-10, UB18-10",
+        "p. 45: UB37-10",
+        "p. 47: UB56-10",
+        "p. 68: VB01-10",
+        "p. 69-71: W34-20, totalização e W60"
+      ],
+      "visualInspection": [
+        "p. 40: observações de produção em 03/08/2026 e CRT1/2/4 em 04/01/2027 estão riscadas; observação vigente indica implementação futura para produção.",
+        "p. 68: exceção de 2025/2026 e observação de implementação futura conferidas visualmente."
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "cff-cclasstrib",
+      "title": "SVRS — Classificação Tributária IBS/CBS",
+      "url": "https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:56:27.1503219+00:00",
+      "httpStatus": 200,
+      "bytes": 4171609,
+      "sha256": "3480a6fc823bd398cf1ca2c814fa5bb9894d4c613fa9706b5232dbd9c3f2faf6",
+      "locators": [
+        "HTML: var dadosOriginais, CST 000, ClassificacoesTributarias CodClassTrib 000001"
+      ],
+      "selectedPublicData": {
+        "Cst": "000",
+        "CodClassTrib": "000001",
+        "NomeClassTrib": "Situações tributadas integralmente pelo IBS e CBS.",
+        "IndExigeTrib": true,
+        "IndNfce": true,
+        "IndTribRegular": false,
+        "IndPermiteCredPres": false,
+        "IndEstornoCred": false,
+        "IndMonoVal": false,
+        "IndMonoRetem": false,
+        "IndMonoRet": false,
+        "IndMonoDif": false,
+        "PercRedIbs": 0,
+        "PercRedCbs": 0,
+        "DthPublicacao": "2026-06-22T00:00:00",
+        "DthIniVig": "2025-05-05T00:00:00",
+        "DthFimVig": null,
+        "TexUrlLegislacao": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm#art4"
+      },
+      "excerpts": [
+        "Situações tributadas integralmente pelo IBS e CBS."
+      ],
+      "quotedWords": 7,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "nt2026-007-v1-10",
+      "title": "NT 2026.007 v1.10 — emissão sem IE e validações LCC",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT2026.007_v1.10%20-%20Emiss%C3%A3o%20NF-e%20sem%20IE%20e%20RV%20LCC.pdf",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:52:37.6843417+00:00",
+      "httpStatus": 200,
+      "bytes": 775351,
+      "sha256": "4a9d9de64504f4091c55e3e8a2d499116d4bac1a2009a874a7b9ce26d9fe8b10",
+      "locators": [
+        "Cronograma v1.10",
+        "C17-42",
+        "12C02-10",
+        "12C02-20",
+        "12C21-20",
+        "Consulta ao CCC/LCC"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "pagamentos-2026-03-04",
+      "title": "SVRS — Tabela de meios de pagamento, 04/03/2026",
+      "url": "https://dfe-portal.svrs.rs.gov.br/DFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=12&nomeArquivo=Tabela_de_meios_de_pagamento%20-%2004032026.xlsx",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:58:02.9465175+00:00",
+      "httpStatus": 200,
+      "bytes": 20825,
+      "sha256": "f85d4a6d50390f824921703d166d3f2f4ec637b7244fa922248ef14e782d8a2d",
+      "locators": [
+        "Planilha de códigos tPag e início de vigência"
+      ],
+      "selectedPublicData": {
+        "cashCode": "01",
+        "pixDynamicCode": "17",
+        "pixStaticCode": "20",
+        "pixAutomaticCode": "23",
+        "pixAutomaticEffectiveFrom": "2026-05-04"
+      },
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "it2024-002-v1-11",
+      "title": "IT 2024.002 v1.11 — atualização dos meios de pagamento",
+      "url": "https://dfe-portal.svrs.rs.gov.br/DFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=16&nomeArquivo=IT2024.002v1.11%20-%20Atualiza%20Tabela%20Meios%20de%20Pagamento%20-%2004032026.pdf",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:52:40.3810873+00:00",
+      "httpStatus": 200,
+      "bytes": 388419,
+      "sha256": "19953feb5695e728cf15a91be144b7115b3079a31be5ba0fa6eb46af58db1172",
+      "locators": [
+        "Tabela vinculada de meios de pagamento"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "nt2026-008-v1-00",
+      "title": "NT 2026.008 v1.00 — valor líquido do produto",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.008_v1.00_RTC_ValorLiquidoProduto.pdf",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:52:39.3309605+00:00",
+      "httpStatus": 200,
+      "bytes": 461635,
+      "sha256": "bc56e76ae5f3354f7ae636d87908840c5c685284f0f8f32bb29579f8124e44cd",
+      "locators": [
+        "Cronograma",
+        "I11c-10",
+        "NB01-10",
+        "NB01-30"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "sinief-crt-anexo-iii",
+      "title": "Convênio SINIEF s/nº de 1970 — Anexo III, CRT",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:23:07.2347324+00:00",
+      "httpStatus": 200,
+      "bytes": 452001,
+      "sha256": "7eeb4e45976812c2951d190c158b6d2da77c282e115376f620e2a74c5527d190",
+      "locators": [
+        "Anexo III"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "sinief19-2016",
+      "title": "Ajuste SINIEF 19/16 — NFC-e consolidado",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2016/AJ_019_16",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:23:07.1762215+00:00",
+      "httpStatus": 200,
+      "bytes": 124433,
+      "sha256": "f65d680d1b570a98ef22b14994fb94b1622b7d9471b4f7c48609c5974c2f56ca",
+      "locators": [
+        "Cláusula quarta, VII, §§ 4º, 5º e 8º",
+        "Cláusula quinta, § 3º, I"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "sinief12-2026",
+      "title": "Ajuste SINIEF 12/26 — revogação do Ajuste 11/25",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ012_26",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:23:05.6191408+00:00",
+      "httpStatus": 200,
+      "bytes": 56106,
+      "sha256": "b34a212c956b5dc2208b972c727394d4bd24a8a6dd977fb2cc75226dd3995cb6",
+      "locators": [
+        "Cláusulas primeira e segunda"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "sinief23-2026",
+      "title": "Ajuste SINIEF 23/26 — operações varejistas com crédito de ICMS",
+      "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2026/AJ023_26",
+      "method": "GET",
+      "retrievedAtUtc": "2026-10-06T01:23:05.8413350+00:00",
+      "httpStatus": 200,
+      "bytes": 57195,
+      "sha256": "6c22d42b610f79403ba620831b57f3bfed70ca18895381ac7dac9b9421ed9636",
+      "locators": [
+        "Cláusulas primeira, segunda e terceira"
+      ],
+      "effectFrom": "2026-10-05",
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    },
+    {
+      "id": "df-portaria387-2019",
+      "title": "DF — Portaria 387/2019, texto público compilado",
+      "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "referenceUrl": "https://www.sinj.df.gov.br/sinj/Norma/3efbac69483f4b74b65ffd53ba901b0a/Portaria_387_20_12_2019.html",
+      "method": "POST",
+      "readOnlyPublicSearch": true,
+      "requestBody": {
+        "Ano": 2019,
+        "Numero": 387,
+        "CodigoTipo": "7",
+        "Parte": ".",
+        "Setor": null
+      },
+      "retrievedAtUtc": "2026-10-06T01:23:30.6250514+00:00",
+      "httpStatus": 200,
+      "bytes": 101248,
+      "sha256": "dbce45f53da8c4bae899a508505e0e37cdbe55912637c993e1871012533d4613",
+      "locators": [
+        "Art. 1º, redação atual e § 2º",
+        "Arts. 2º-3º",
+        "Art. 5º, redação atual"
+      ],
+      "excerpts": [],
+      "quotedWords": 0,
+      "status": "successful",
+      "capture": "Metadados e recortes selecionados; conteúdo integral não persistido por este levantamento."
+    }
+  ],
+  "localBaseline": {
+    "status": "local_inspected",
+    "baselineId": "nfe-4.00-offline-2026-10-04",
+    "manifest": "schemas/nfe/4.00/manifest.json",
+    "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D",
+    "archiveHashFromExistingManifest": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998",
+    "networkRetrievalPerformedInThisReview": false,
+    "files": [
+      {
+        "path": "schemas/nfe/4.00/files/DFeTiposBasicos_v1.00.xsd",
+        "inspectedAtUtc": "2026-10-06T01:58:02.7984026+00:00",
+        "bytes": 72672,
+        "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09"
+      },
+      {
+        "path": "schemas/nfe/4.00/files/leiauteNFe_v4.00.xsd",
+        "inspectedAtUtc": "2026-10-06T01:58:02.9040105+00:00",
+        "bytes": 352538,
+        "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542"
+      },
+      {
+        "path": "schemas/nfe/4.00/files/tiposBasico_v4.00.xsd",
+        "inspectedAtUtc": "2026-10-06T01:58:02.9090361+00:00",
+        "bytes": 22532,
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047"
+      }
+    ]
+  },
+  "limitations": [
+    "O navegador de pesquisa falhou em PDFs SVRS/NFe; o GET público pela ferramenta de shell obteve PDFs válidos e hashes coincidentes com o material local lido.",
+    "O SINJ teve timeout; utilizou-se pesquisa pública somente de leitura da Receita DF, sem acesso restrito.",
+    "LC214/2025 no Planalto excedeu o limite de conteúdo do navegador. Não se atribuiu a esta falha uma leitura integral; taxas são sustentadas pela NT oficial e tabela CFF.",
+    "NT2026.008 contém campos posteriores ao PL010f fixado. Publicação nova exige revisão de leiaute; XSD antigo não prova cobertura dessas mudanças.",
+    "Nenhuma empresa, cadastro, operação, NCM, CFOP, CST, CSOSN, benefício, série ou alíquota ICMS/PIS/COFINS real foi aprovado."
+  ]
+}

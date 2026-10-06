@@ -1,0 +1,165 @@
+{
+  "version": "nfce-preparation/0.1",
+  "reference": "SYN-SALE-CRT3-001",
+  "emitterProfileId": "synthetic-crt3-profile",
+  "issuedAt": "2026-10-05T14:15:16-03:00",
+  "operation": {
+    "natOp": "VENDA SINTETICA PRESENCIAL",
+    "tpNF": "1",
+    "idDest": "1",
+    "finNFe": "1",
+    "indFinal": "1",
+    "indPres": "1",
+    "modFrete": "9"
+  },
+  "recipient": {
+    "documentType": "CNPJ",
+    "document": "33445566000186",
+    "name": "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+    "indIEDest": "9",
+    "creditIntent": "unknown",
+    "address": {
+      "street": "RUA SINTETICA DO DESTINATARIO",
+      "number": "300",
+      "complement": "LABORATORIO OFFLINE",
+      "district": "SETOR DE TESTE",
+      "municipalityCode": "5300108",
+      "municipalityName": "BRASILIA",
+      "uf": "DF",
+      "postalCode": "70040999",
+      "countryCode": "1058",
+      "countryName": "BRASIL",
+      "phone": "61999999999"
+    },
+    "email": "destinatario@example.invalid"
+  },
+  "items": [
+    {
+      "nItem": "1",
+      "cProd": "SYN-RTC-01",
+      "cEAN": "SEM GTIN",
+      "xProd": "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+      "NCM": "39269090",
+      "CFOP": "5102",
+      "uCom": "CX",
+      "qCom": "2.0000",
+      "vUnCom": "50.0000000000",
+      "vProd": "100.00",
+      "cEANTrib": "SEM GTIN",
+      "uTrib": "UN",
+      "qTrib": "4.0000",
+      "vUnTrib": "25.0000000000",
+      "indTot": "1",
+      "taxes": {
+        "ICMS": {
+          "group": "ICMS00",
+          "orig": "0",
+          "CST": "00",
+          "modBC": "3",
+          "vBC": "100.00",
+          "pICMS": "18.0000",
+          "vICMS": "18.00"
+        },
+        "PIS": {
+          "group": "PISAliq",
+          "CST": "01",
+          "vBC": "82.00",
+          "pPIS": "1.6500",
+          "vPIS": "1.35"
+        },
+        "COFINS": {
+          "group": "COFINSAliq",
+          "CST": "01",
+          "vBC": "82.00",
+          "pCOFINS": "7.6000",
+          "vCOFINS": "6.23"
+        },
+        "IBSCBS": {
+          "CST": "000",
+          "cClassTrib": "000001",
+          "gIBSCBS": {
+            "vBC": "74.42",
+            "gIBSUF": {
+              "pIBSUF": "0.1000",
+              "vIBSUF": "0.07"
+            },
+            "gIBSMun": {
+              "pIBSMun": "0.0000",
+              "vIBSMun": "0.00"
+            },
+            "vIBS": "0.07",
+            "gCBS": {
+              "pCBS": "0.9000",
+              "vCBS": "0.67"
+            }
+          }
+        }
+      },
+      "additionalInfo": "NCM CFOP ORIGEM ICMS PIS COFINS CST E CCLASSTRIB SAO HIPOTESES DE TESTE",
+      "vItem": "100.00"
+    }
+  ],
+  "totals": {
+    "ICMSTot": {
+      "vBC": "100.00",
+      "vICMS": "18.00",
+      "vICMSDeson": "0.00",
+      "vFCP": "0.00",
+      "vBCST": "0.00",
+      "vST": "0.00",
+      "vFCPST": "0.00",
+      "vFCPSTRet": "0.00",
+      "vProd": "100.00",
+      "vFrete": "0.00",
+      "vSeg": "0.00",
+      "vDesc": "0.00",
+      "vII": "0.00",
+      "vIPI": "0.00",
+      "vIPIDevol": "0.00",
+      "vPIS": "1.35",
+      "vCOFINS": "6.23",
+      "vOutro": "0.00",
+      "vNF": "100.00"
+    },
+    "IBSCBSTot": {
+      "vBCIBSCBS": "74.42",
+      "gIBS": {
+        "gIBSUF": {
+          "vDif": "0.00",
+          "vDevTrib": "0.00",
+          "vIBSUF": "0.07"
+        },
+        "gIBSMun": {
+          "vDif": "0.00",
+          "vDevTrib": "0.00",
+          "vIBSMun": "0.00"
+        },
+        "vIBS": "0.07",
+        "vCredPres": "0.00",
+        "vCredPresCondSus": "0.00"
+      },
+      "gCBS": {
+        "vDif": "0.00",
+        "vDevTrib": "0.00",
+        "vCBS": "0.67",
+        "vCredPres": "0.00",
+        "vCredPresCondSus": "0.00"
+      }
+    },
+    "vNFTot": "100.00"
+  },
+  "payments": [
+    {
+      "indPag": "0",
+      "tPag": "01",
+      "vPag": "50.00"
+    },
+    {
+      "indPag": "0",
+      "tPag": "01",
+      "vPag": "55.00"
+    }
+  ],
+  "change": "5.00",
+  "additionalInfo": "DADOS SINTETICOS. HIPOTESES DE TESTE CRT3 RTC2026. NAO COMPROVAM ENQUADRAMENTO OU HOMOLOGACAO FISCAL."
+}

@@ -36,3 +36,7 @@ Decisões de política de acesso/série/adiamentos acima estão aprovadas para o
 ## Decisão técnica de preparação
 
 T01 — A seleção EF-06 utiliza registro privado já autorizado, sob guarda do emitente e com acesso aprovado aos revisores; a ficha registra meio/guarda/referência sem conteúdo privado. Isso evita depender da arquitetura EF-07 para reunir os fatos que a precedem. Não escolhe/provisiona armazenamento operacional nem custódia A1; essas decisões continuam na EF-07. Fonte: revisão documental do contrato 0.2 em 05/10/2026, dentro do plano autorizado.
+
+## Novo incremento — modelo técnico e dados de teste
+
+H17 — Após reafirmar que o objetivo é emitir notas fiscais, o usuário pediu levantamento dos dados necessários, pesquisa e estruturação do modelo com dados de teste. Autoriza o modelo executável local `nfce-preparation/0.1`, exemplos completos e prova JSON → XML/assinatura/XSD, em incremento posterior à entrega documental 0.2. A empresa ainda não foi indicada: exemplos identificados como sintéticos não preenchem a ficha nem substituem cadastro, responsável tributário ou A1 reais. Fontes, capacidade e limites em [NFCE-INPUT-MODEL.md](../../NFCE-INPUT-MODEL.md). Nenhuma autorização de transmissão ou produção é inferida desse pedido.

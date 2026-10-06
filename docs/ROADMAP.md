@@ -184,6 +184,8 @@ modelo 55 nem outras UFs. A criação das issues não autoriza deploy ou produç
 
 ## Próximo incremento recomendado
 
+O pedido posterior de levantamento/modelo foi implementado como [preparação de entrada](NFCE-INPUT-MODEL.md), `nfce-preparation/0.1`: venda/perfil/contexto, exemplos CRT 1/3 e XML novo com assinatura sintética/XSD. É base técnica offline; não conclui EF-06, EF-11 ou o piloto, nem altera o contrato executável da API simulada. Usar os exemplos para preparar casos reais, sem promover seus códigos/alíquotas a padrões fiscais. A seleção da empresa pode ocorrer em paralelo ao trabalho técnico autorizado.
+
 A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
 especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
@@ -220,3 +222,7 @@ Pesquisa de 05/10 incorporada à [matriz](EF05-NORMATIVE-MATRIX.md), com proveni
 ### EF-06 — preparação documental 0.2 em 05/10/2026
 
 Decisões humanas H08–H16 incorporadas, ficha obrigatória e dicionário fiscal preparados; cenários C01–C13 revisados com estados previsto/adiado/regressão offline existente. [Pesquisa 0.2](evidence/ef06/FONTES-v0.2.md) preserva tentativas históricas e condições DF/ativação pendentes. A preparação não identifica empresa/autoridades nem valida casos reais; issue #3 permanece parcial/aberta. Provas e limites desta entrega em [VALIDATION](VALIDATION.md). Extração somente documental a partir de 952c74c, sem implementação fiscal ou transmissão; alterações locais da integração simulada preservadas no checkout original.
+
+### Modelo de entrada — pedido posterior em 05/10/2026
+
+[Levantamento oficial](evidence/input-model/FONTES.md) e modelo separado da simulação, com grupos tributários explícitos e exemplos sintéticos de dois regimes. Parser estrito e preparação XML, QR, assinatura sintética, envio/consulta locais; testes e CI registrados separadamente em [VALIDATION](VALIDATION.md). Empresa/CRT/autoridades/série/casos reais continuam pendentes e os aceites DANFE/QR, A1 real, transporte e homologação permanecem nas respectivas issues.

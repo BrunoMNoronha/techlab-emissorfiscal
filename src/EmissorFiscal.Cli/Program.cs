@@ -4,12 +4,16 @@ using EmissorFiscal.Core.Protocols;
 using EmissorFiscal.Core.Signature;
 using EmissorFiscal.Core.Wire;
 using EmissorFiscal.Samples;
+using EmissorFiscal.Cli;
 
 try
 {
+    if (args.Length == 5 && args[0] == "prepare")
+        return PreparationCommand.Run(args[1], args[2], args[3], args[4]);
     if (args.Length != 1 || args[0] is not ("demo" or "schemas"))
     {
         Console.Error.WriteLine("Uso: dotnet run --project src/EmissorFiscal.Cli -- [demo|schemas]");
+        Console.Error.WriteLine("Modelo: prepare <venda.json> <emitente.json> <contexto-teste.json> <diretorio-novo>");
         Console.Error.WriteLine("Exclusivamente offline; não recebe A1 real, senha, CSC ou endpoint.");
         return 2;
     }

@@ -1,0 +1,142 @@
+{
+  "version": "nfce-preparation/0.1",
+  "reference": "SYN-SALE-CRT1-001",
+  "emitterProfileId": "synthetic-crt1-profile",
+  "issuedAt": "2026-10-05T10:11:12-03:00",
+  "operation": {
+    "natOp": "VENDA SINTETICA PRESENCIAL",
+    "tpNF": "1",
+    "idDest": "1",
+    "finNFe": "1",
+    "indFinal": "1",
+    "indPres": "1",
+    "modFrete": "9"
+  },
+  "recipient": {
+    "documentType": "CPF",
+    "document": "12345678909",
+    "name": "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+    "indIEDest": "9",
+    "creditIntent": "no",
+    "address": {
+      "street": "RUA SINTETICA DO DESTINATARIO",
+      "number": "200",
+      "complement": "LABORATORIO OFFLINE",
+      "district": "SETOR DE TESTE",
+      "municipalityCode": "5300108",
+      "municipalityName": "BRASILIA",
+      "uf": "DF",
+      "postalCode": "70040999",
+      "countryCode": "1058",
+      "countryName": "BRASIL",
+      "phone": "61999999999"
+    }
+  },
+  "items": [
+    {
+      "nItem": "1",
+      "cProd": "SYN-KIT-01",
+      "cEAN": "SEM GTIN",
+      "xProd": "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+      "NCM": "39269090",
+      "CFOP": "5102",
+      "uCom": "CX",
+      "qCom": "2.0000",
+      "vUnCom": "35.1250000000",
+      "vProd": "70.25",
+      "cEANTrib": "SEM GTIN",
+      "uTrib": "UN",
+      "qTrib": "6.0000",
+      "vUnTrib": "11.7083333333",
+      "vDesc": "5.00",
+      "indTot": "1",
+      "taxes": {
+        "ICMS": {
+          "group": "ICMSSN102",
+          "orig": "0",
+          "CSOSN": "102"
+        },
+        "PIS": {
+          "group": "PISNT",
+          "CST": "07"
+        },
+        "COFINS": {
+          "group": "COFINSNT",
+          "CST": "07"
+        }
+      },
+      "additionalInfo": "NCM CFOP CSOSN CST SAO HIPOTESES DE TESTE"
+    },
+    {
+      "nItem": "2",
+      "cProd": "SYN-KIT-02",
+      "cEAN": "SEM GTIN",
+      "xProd": "SEGUNDO PRODUTO SINTETICO",
+      "NCM": "39269090",
+      "CFOP": "5102",
+      "uCom": "PCT",
+      "qCom": "1.0000",
+      "vUnCom": "29.7500000000",
+      "vProd": "29.75",
+      "cEANTrib": "SEM GTIN",
+      "uTrib": "UN",
+      "qTrib": "5.0000",
+      "vUnTrib": "5.9500000000",
+      "vDesc": "2.00",
+      "indTot": "1",
+      "taxes": {
+        "ICMS": {
+          "group": "ICMSSN102",
+          "orig": "0",
+          "CSOSN": "102"
+        },
+        "PIS": {
+          "group": "PISNT",
+          "CST": "07"
+        },
+        "COFINS": {
+          "group": "COFINSNT",
+          "CST": "07"
+        }
+      },
+      "additionalInfo": "NCM CFOP CSOSN CST SAO HIPOTESES DE TESTE"
+    }
+  ],
+  "totals": {
+    "ICMSTot": {
+      "vBC": "0.00",
+      "vICMS": "0.00",
+      "vICMSDeson": "0.00",
+      "vFCP": "0.00",
+      "vBCST": "0.00",
+      "vST": "0.00",
+      "vFCPST": "0.00",
+      "vFCPSTRet": "0.00",
+      "vProd": "100.00",
+      "vFrete": "0.00",
+      "vSeg": "0.00",
+      "vDesc": "7.00",
+      "vII": "0.00",
+      "vIPI": "0.00",
+      "vIPIDevol": "0.00",
+      "vPIS": "0.00",
+      "vCOFINS": "0.00",
+      "vOutro": "0.00",
+      "vNF": "93.00"
+    }
+  },
+  "payments": [
+    {
+      "indPag": "0",
+      "tPag": "01",
+      "vPag": "50.00"
+    },
+    {
+      "indPag": "0",
+      "tPag": "01",
+      "vPag": "48.00"
+    }
+  ],
+  "change": "5.00",
+  "additionalInfo": "DADOS SINTETICOS. CADASTRO E HIPOTESES TRIBUTARIAS SEM AUTORIZACAO FISCAL."
+}

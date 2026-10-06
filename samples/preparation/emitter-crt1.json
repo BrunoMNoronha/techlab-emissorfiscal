@@ -1,0 +1,25 @@
+{
+  "version": "nfce-preparation/0.1",
+  "profileId": "synthetic-crt1-profile",
+  "cnpj": "93847261000122",
+  "name": "EMITENTE SINTETICO CRT1 PREPARACAO",
+  "fantasyName": "LABORATORIO LOCAL CRT1",
+  "stateRegistration": "0734567800195",
+  "crt": "1",
+  "series": "17",
+  "fiscalMunicipality": "5300108",
+  "processVersion": "PREPARATION-0.1",
+  "address": {
+    "street": "VIA SINTETICA DE TESTE",
+    "number": "170",
+    "complement": "LABORATORIO OFFLINE",
+    "district": "SETOR DE TESTE",
+    "municipalityCode": "5300108",
+    "municipalityName": "BRASILIA",
+    "uf": "DF",
+    "postalCode": "70040999",
+    "countryCode": "1058",
+    "countryName": "BRASIL",
+    "phone": "61999999999"
+  }
+}
