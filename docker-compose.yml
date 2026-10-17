@@ -1,0 +1,31 @@
+services:
+  # CLI empacotada (schemas | demo | prepare). Exemplos:
+  #   docker compose run --rm cli schemas
+  #   docker compose run --rm cli demo
+  #   docker compose run --rm -v ./.validation:/out cli \
+  #     prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json \
+  #             samples/preparation/test-context.json /out/docker-crt1
+  # (o diretório de saída do prepare não pode existir antes da execução)
+  cli:
+    build:
+      context: .
+      target: runtime
+    image: emissorfiscal
+
+  # Validação completa (scripts/verify.ps1) em Linux, com o repositório montado:
+  #   docker compose run --rm verify
+  # As evidências ficam em TestResults/ci/<guid>/ no host. Em caso de erro de
+  # build por artefatos do Windows em bin/obj, rode antes: git clean -xdf src tests
+  verify:
+    build:
+      context: .
+      target: verify
+    image: emissorfiscal-verify
+    environment:
+      NUGET_PACKAGES: /nuget
+    volumes:
+      - .:/workspace
+      - nuget-cache:/nuget
+
+volumes:
+  nuget-cache:

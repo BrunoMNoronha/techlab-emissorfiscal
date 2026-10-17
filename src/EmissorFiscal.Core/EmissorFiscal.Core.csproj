@@ -3,6 +3,6 @@
     <Description>Prova estrutural offline NFC-e 65/DF/homologação. Sem transporte fiscal.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="[10.0.12]" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="[10.0.13]" />
   </ItemGroup>
 </Project>

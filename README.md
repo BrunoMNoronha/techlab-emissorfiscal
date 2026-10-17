@@ -81,6 +81,50 @@ pwsh -NoProfile -File ./scripts/verify.ps1
 Versionar os locks revisados junto com a mudança. Não usar esse procedimento para
 contornar falhas do CI; SDK e versões diretas atuais permanecem preservados.
 
+## Executando com Docker
+
+Alternativa ao SDK instalado no host: o `Dockerfile` multi-stage usa a imagem
+`mcr.microsoft.com/dotnet/sdk:10.0.401` (a mesma versão exata de `global.json`),
+restaura em `--locked-mode`, compila em Release e **executa os testes durante o
+build** — a imagem final só é produzida com a suíte aprovada. O estágio `runtime`
+(`mcr.microsoft.com/dotnet/runtime:10.0.12`, usuário não-root) publica apenas a
+CLI com schemas e fixtures. Restore consulta nuget.org; nada mais acessa rede.
+
+```bash
+docker build -t emissorfiscal .
+```
+
+```bash
+docker run --rm emissorfiscal schemas
+```
+
+```bash
+docker run --rm emissorfiscal demo
+```
+
+`prepare` grava em disco, então requer um volume; o diretório de saída não pode
+existir antes da execução:
+
+```bash
+docker run --rm -v ./.validation:/out emissorfiscal prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json /out/docker-crt1
+```
+
+O serviço `verify` do `docker-compose.yml` roda `scripts/verify.ps1` completo em
+Linux, com o repositório montado em `/workspace` (o script precisa de `.git` para
+registrar o commit) e cache NuGet em volume nomeado. As evidências ficam em
+`TestResults/ci/<id-único>/` no host, como na execução local:
+
+```bash
+docker compose run --rm verify
+```
+
+Como o repositório é montado, `bin/`/`obj/` gerados no Windows convivem com o
+build Linux; o restore bloqueado regenera os assets, mas, diante de erro de build
+inesperado, limpar com `git clean -xdf src tests` antes de repetir. Segredos,
+certificados (`*.pfx`, `*.p12`, chaves) e `.env` são excluídos do contexto pelo
+`.dockerignore`. O CI continua rodando em Windows sem Docker; a imagem é um meio
+de execução adicional, não substitui a verificação oficial.
+
 ## CI e evidências
 
 `.github/workflows/ci-offline.yml` reproduz o mesmo script em `windows-2025`/pwsh,

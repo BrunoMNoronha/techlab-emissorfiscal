@@ -1,0 +1,27 @@
+# Artefatos de build e evidências
+**/bin/
+**/obj/
+TestResults/
+.validation/
+tmp/
+
+# Controle de versão e CI (o estágio verify usa bind mount, não o contexto)
+.git/
+.github/
+
+# Documentação não entra na imagem
+docs/
+
+# Segredos e certificados nunca entram no contexto
+*.pfx
+*.p12
+*.key
+*.pem
+.env
+.env.*
+!.env.example
+
+# Arquivos Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
