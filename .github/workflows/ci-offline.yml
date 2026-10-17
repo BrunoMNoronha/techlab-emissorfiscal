@@ -20,6 +20,9 @@ on:
       - '.github/workflows/ci-offline.yml'
       - 'README.md'
       - 'docs/**'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'docker-compose.yml'
   pull_request:
     branches: [main]
     paths: *validation-paths
@@ -95,3 +98,23 @@ jobs:
             TestResults/ci/*/prepare-*.log
             TestResults/ci/*/preparation-*/summary.json
             TestResults/ci/*/preparation-*/*.xml
+
+  docker:
+    name: Containerização / Linux / Docker
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build da imagem (restore bloqueado, build Release e testes)
+        run: docker build -t emissorfiscal .
+      - name: Smoke test da CLI (schemas e demo emitem JSON)
+        run: |
+          docker run --rm emissorfiscal schemas | jq -e . > /dev/null
+          docker run --rm emissorfiscal demo | jq -e . > /dev/null
+          echo 'CLI containerizada respondeu schemas e demo com JSON válido.' >> "$GITHUB_STEP_SUMMARY"

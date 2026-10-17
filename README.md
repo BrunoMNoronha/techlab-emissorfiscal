@@ -122,8 +122,8 @@ Como o repositório é montado, `bin/`/`obj/` gerados no Windows convivem com o
 build Linux; o restore bloqueado regenera os assets, mas, diante de erro de build
 inesperado, limpar com `git clean -xdf src tests` antes de repetir. Segredos,
 certificados (`*.pfx`, `*.p12`, chaves) e `.env` são excluídos do contexto pelo
-`.dockerignore`. O CI continua rodando em Windows sem Docker; a imagem é um meio
-de execução adicional, não substitui a verificação oficial.
+`.dockerignore`. A verificação oficial do CI continua sendo o job Windows sem
+Docker; um job Linux adicional valida a containerização (ver [CI e evidências](#ci-e-evidências)).
 
 ## CI e evidências
 
@@ -132,6 +132,12 @@ para PRs destinadas à `main`, pushes na `main` e execução manual. Instala o S
 `global.json`; ações oficiais têm SHA completo revisado e `contents: read` é a
 única permissão concedida. Não há cache restaurado de execuções anteriores nem
 credenciais Git persistidas. As dependências são obtidas de nuget.org.
+
+Um segundo job, `docker` (`ubuntu-24.04`), valida a containerização: faz
+`docker build -t emissorfiscal .` — o que já executa restore em `--locked-mode`,
+build Release e a suíte completa de testes dentro da imagem — e um smoke test da
+CLI containerizada (`schemas` e `demo`), conferindo que a saída é JSON válido. O
+job Windows permanece a verificação oficial da prova offline.
 
 Cada invocação escreve em `TestResults/ci/<id-único>/`: TRX, logs das etapas, JSONs
 `cli-schemas`/`cli-demo` e `summary.json` com commit, ambiente, SDK/runtime,
