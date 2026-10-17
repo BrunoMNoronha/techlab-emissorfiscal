@@ -40,3 +40,10 @@ T01 — A seleção EF-06 utiliza registro privado já autorizado, sob guarda do
 ## Novo incremento — modelo técnico e dados de teste
 
 H17 — Após reafirmar que o objetivo é emitir notas fiscais, o usuário pediu levantamento dos dados necessários, pesquisa e estruturação do modelo com dados de teste. Autoriza o modelo executável local `nfce-preparation/0.1`, exemplos completos e prova JSON → XML/assinatura/XSD, em incremento posterior à entrega documental 0.2. A empresa ainda não foi indicada: exemplos identificados como sintéticos não preenchem a ficha nem substituem cadastro, responsável tributário ou A1 reais. Fontes, capacidade e limites em [NFCE-INPUT-MODEL.md](../../NFCE-INPUT-MODEL.md). Nenhuma autorização de transmissão ou produção é inferida desse pedido.
+
+## Decisões de 17/10/2026 — varejo amplo e trilha NFS-e
+
+| ID | Fonte e evidência | Alcance / limites |
+| --- | --- | --- |
+| H18 | Decisão de atender varejo amplo organizada na [matriz de cobertura](../../RETAIL-COVERAGE-MATRIX.md) (17/10/2026) e entrega do incremento P1 pela issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24), commit `94fb267`, 152/152 testes no CI | Prioriza P1–P4 por variante tributária; P1 (ST retido `ICMSSN500`/`ICMS60` + CEST condicional) implementado com hipóteses sintéticas. Não enquadra mercadoria real, não aprova caso tributário, não preenche a ficha; P2–P4 exigem issue, matriz de validação e fontes próprias |
+| H19 | Resposta de Bruno neste chat, 17/10/2026: os documentos NFS-e ([TISS](../../TISS-NFSE-FIELD-MAP.md), [fisioterapia](../../FISIO-NFSE-REQUIREMENTS.md)) refletem interessado real a avaliar; formalizar como trilha exploratória paralela | NFS-e saúde acompanhada como exploração, fora do MVP NFC-e, sem issue, épico EF ou compromisso de implementação. Identidade do interessado permanece em registro privado (T01), fora do Git; confirmação formal, contador/responsável tributário, ambiente DF/Anexo I, granularidade e volume seguem `TBD` |

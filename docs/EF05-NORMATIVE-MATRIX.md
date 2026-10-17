@@ -2,6 +2,8 @@
 
 Pesquisa de 05/10/2026, sobre main 4a475c4edc96b7b262b5087145b3bdfd99b3dd89. Incorporação documental e regressões da baseline existente; issue #2 aberta e compatibilidade bloqueada. As seções abaixo preservam os resultados históricos do levantamento, não a execução deste incremento.
 
+**Nota de 17/10/2026:** vários prazos anunciados nesta matriz já venceram ou estão próximos (ex.: tabelas da IT 2025.002 até 16/10/2026; produção das NTs 2026.007/2026.008 e correções VC02 em 03/11/2026; RVs da NT 2026.002 prorrogadas para 14/12/2026). Nenhuma reconferência foi feita nesta data; **reconferir todas as datas e vigências nas fontes oficiais antes de qualquer incremento com transmissão** (EF-14), conforme a issue #2. Esta nota não atribui novas vigências nem altera a baseline.
+
 Evidências compactas: [fontes](evidence/ef05/FONTES.md), [índice](evidence/ef05/source-index.json), [inventário](evidence/ef05/zip-inventory.json), [bytes](evidence/ef05/baseline-byte-verification.json), [dependências](evidence/ef05/dependency-closures.json). Scripts, PDFs, XMLs placeholder, TRX e logs citados como históricos permanecem em tmp/ef05-research e não são requisitos para executar a suíte versionada.
 
 ## 1. Resultado e recomendação

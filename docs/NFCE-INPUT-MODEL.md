@@ -1,5 +1,9 @@
 # Modelo de entrada e dados de preparação de NFC-e
 
+Preparado em 05/10/2026; revisado em 17/10/2026 com o incremento P1 (ST retido
+`ICMSSN500`/`ICMS60` com CEST condicional e exemplo `sale-st-crt1.json`,
+issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)).
+
 Contrato executável local **`nfce-preparation/0.1`**, para preparar XML de NFC-e 65/DF em homologação, com emissão normal e dados sintéticos. O novo modelo separa venda, perfil do emitente e contexto de teste; não usa a antiga fixture como molde de uma venda recebida. Permite avançar na preparação e nos testes antes da seleção da empresa real. Não cadastra contribuinte, reserva numeração fiscal, transmite, consulta ou obtém autorização; `fiscalIo` permanece desabilitado.
 
 O [contrato documental `nfce-df-homologacao/0.2`](PILOT-CONTRACT.md) registra as decisões e condições do piloto real. O `SaleRequest` v1 da integração simulada local anterior é outro contrato. `nfce-preparation/0.1` não substitui essas versões nem habilita implicitamente seus fluxos. O [dicionário fiscal](PILOT-DATA-DICTIONARY.md) e o [manifesto XSD](../schemas/nfe/4.00/manifest.json) continuam referências de precisão, estrutura e limites da baseline.
