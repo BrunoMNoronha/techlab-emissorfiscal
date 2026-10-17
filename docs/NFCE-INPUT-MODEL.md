@@ -72,13 +72,19 @@ Os exemplos públicos contêm os três arquivos completos, marcando CNPJ/IE/ende
 | --- | --- | --- | --- |
 | Simples sintético, CRT 1 | [sale-crt1.json](../samples/preparation/sale-crt1.json) | [emitter-crt1.json](../samples/preparation/emitter-crt1.json) | [test-context.json](../samples/preparation/test-context.json) |
 | Normal sintético, CRT 3 com RTC | [sale-crt3.json](../samples/preparation/sale-crt3.json) | [emitter-crt3.json](../samples/preparation/emitter-crt3.json) | O mesmo contexto, em execução/diretório distintos; não é pool fiscal compartilhado |
+| ST retido sintético ("caixa de cerveja"), CRT 1 | [sale-st-crt1.json](../samples/preparation/sale-st-crt1.json) | O mesmo [emitter-crt1.json](../samples/preparation/emitter-crt1.json) | O mesmo contexto, em execução/diretório distintos; não é pool fiscal compartilhado |
 
 O caso CRT 1 usa dois itens com unidades comercial/tributável diferentes: CX/UN, quantidades 2/6 e preço comercial com 10 casas; PCT/UN, quantidades 1/5. Produtos somam 100,00, descontos por item 5,00 + 2,00, nota 93,00, dois pagamentos em dinheiro 50,00 + 48,00 e troco 5,00. O caso CRT 3 usa CX/UN, quantidades 2/4 e nota 100,00; pagamentos 50,00 + 55,00 e troco 5,00. Ambos identificam destinatário; no CRT 3, `creditIntent="unknown"` preserva a condição ainda não determinada e impede tratá-lo como caso real elegível, sem impedir a prova local sintética. Série 17/18 e número 123/código 87654321 são parâmetros explícitos de teste, sem reserva ou disponibilidade fiscal comprovadas.
 
+O caso ST retido reutiliza o perfil CRT 1 e declara um item único "caixa de cerveja" com unidades CX/UN (1 caixa, 12 unidades), produto 48,00, pagamento 50,00 e troco 2,00. O grupo `ICMSSN500` declara as três sequências completas: retenção 40,00/18%/4,00/7,20, FCP-ST 40,00/2%/0,80 e efetivos 10%/43,20/12,5%/5,40; `vFCPSTRet` de `ICMSTot` repete 0,80 por declaração. NCM 22030000, CEST 0302103 (Anexo IV do Convênio ICMS 142/18, cerveja em lata) e CFOP 5405 são **hipóteses de teste declaradas no próprio arquivo**, não enquadramento aprovado; PIS/COFINS usam CST 04 via grupos NT como hipótese de monofásico, com a base legal ainda pendente na [matriz de cobertura](RETAIL-COVERAGE-MATRIX.md). Nenhum valor é recalculado ou conferido contra MVA/pauta/alíquota real.
+
 | Alternativa implementada | Campos admitidos / limite |
 | --- | --- |
-| CRT 1 + `ICMSSN102` | `orig` e `CSOSN=102`; sem CST, base/alíquota/valor de ICMS00. Escolha explícita do teste, sem tornar 102 padrão de Simples |
-| CRT 3 + `ICMS00` | `orig`, `CST=00`, `modBC`, `vBC`, `pICMS`, `vICMS`; outros grupos e adicionais específicos ainda não têm representação |
+| CRT 1 + `ICMSSN102` | `orig` e `CSOSN=102`; sem CST, base/alíquota/valor de ICMS00 nem campos de ST retido. Escolha explícita do teste, sem tornar 102 padrão de Simples |
+| CRT 3 + `ICMS00` | `orig`, `CST=00`, `modBC`, `vBC`, `pICMS`, `vICMS`; sem campos de ST retido. Outros grupos e adicionais específicos ainda não têm representação |
+| CRT 1 + `ICMSSN500` | `orig`, `CSOSN=500` e as três sequências opcionais do XSD, cada uma completa ou ausente: retenção `vBCSTRet`+`pST`+`vICMSSubstituto`?+`vICMSSTRet`, FCP-ST `vBCFCPSTRet`+`pFCPSTRet`+`vFCPSTRet` e efetivos `pRedBCEfet`+`vBCEfet`+`pICMSEfet`+`vICMSEfet`. Valores declarados preservados; `TDec_0302a04Opc` não admite `"0"` inteiro |
+| CRT 3 + `ICMS60` | `orig`, `CST=60` e as mesmas sequências de ST retido do `ICMSSN500`; sem `modBC`/`vBC`/`pICMS`/`vICMS` |
+| CEST condicional a ST | `CEST` (7 dígitos) obrigatório quando o grupo declarado é `ICMSSN500`/`ICMS60`, conforme Convênio ICMS 142/18, cláusula vigésima, I ([fonte baixada](evidence/retail-coverage/FONTES.md)). O preparador não escolhe o código |
 | `PISNT` / `COFINSNT` | CST 04–09, sem base/alíquota/valor de grupo tributado |
 | `PISAliq` / `COFINSAliq` | CST 01–02, base/alíquota/valor explícitos, sem converter NT em tributado ou o inverso |
 | RTC regular | `CST=000`, `cClassTrib=000001`, `gIBSCBS` com IBS UF/município/CBS e seus totais. Sem redução, diferimento, monofásico ou crédito presumido; demais CST/classificações/grupos são recusados |
@@ -106,6 +112,7 @@ Após compilar a solução, a CLI recebe os três JSONs e um diretório de saíd
 ```powershell
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json .validation/preparation-crt1
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt3.json samples/preparation/emitter-crt3.json samples/preparation/test-context.json .validation/preparation-crt3
+dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-st-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json .validation/preparation-st-crt1
 ```
 
 Escolher outro diretório novo ao repetir cada comando; a CLI recusa sobrescrever saída existente.

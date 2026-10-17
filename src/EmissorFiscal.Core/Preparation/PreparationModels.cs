@@ -222,6 +222,30 @@ public sealed record PreparationIcms
     public string? Rate { get; init; }
     [JsonPropertyName("vICMS")]
     public string? Value { get; init; }
+    // Sequências opcionais de ST retido dos grupos ICMSSN500/ICMS60 do
+    // leiauteNFe_v4.00.xsd: retenção, FCP-ST e valores efetivos.
+    [JsonPropertyName("vBCSTRet")]
+    public string? StRetainedBase { get; init; }
+    [JsonPropertyName("pST")]
+    public string? FinalConsumerRate { get; init; }
+    [JsonPropertyName("vICMSSubstituto")]
+    public string? SubstituteValue { get; init; }
+    [JsonPropertyName("vICMSSTRet")]
+    public string? StRetainedValue { get; init; }
+    [JsonPropertyName("vBCFCPSTRet")]
+    public string? FcpStRetainedBase { get; init; }
+    [JsonPropertyName("pFCPSTRet")]
+    public string? FcpStRetainedRate { get; init; }
+    [JsonPropertyName("vFCPSTRet")]
+    public string? FcpStRetainedValue { get; init; }
+    [JsonPropertyName("pRedBCEfet")]
+    public string? EffectiveBaseReductionRate { get; init; }
+    [JsonPropertyName("vBCEfet")]
+    public string? EffectiveBase { get; init; }
+    [JsonPropertyName("pICMSEfet")]
+    public string? EffectiveRate { get; init; }
+    [JsonPropertyName("vICMSEfet")]
+    public string? EffectiveValue { get; init; }
 }
 
 public sealed record PreparationPis

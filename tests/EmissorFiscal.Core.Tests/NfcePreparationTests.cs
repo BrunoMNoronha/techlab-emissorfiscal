@@ -34,6 +34,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [Theory]
     [InlineData("crt1")]
     [InlineData("crt3")]
+    [InlineData("st-crt1")]
     public void DeclaredModelsProduceNewSignedNfeSubmissionAndConsultationValidatedByPinnedXsd(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -58,6 +59,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [Theory]
     [InlineData("crt1")]
     [InlineData("crt3")]
+    [InlineData("st-crt1")]
     public void DeclaredValuesGroupsUnitsDiscountsPaymentsAndEmitterArePreserved(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -381,6 +383,128 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
         Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(sale with { Operation = null! }, emitter, context));
     }
 
+    [Fact]
+    public void StRetainedDeclaredFieldsAndCestAreSerializedInXsdOrderWithoutRecalculation()
+    {
+        var (sale, emitter, context) = Models("st-crt1");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var detail = SafeXml.Children(Info(prepared.UnsignedXml), "det")[0];
+        Assert.Equal(sale.Items[0].Cest, SafeXml.Text(SafeXml.Child(detail, "prod"), "CEST"));
+        var icms = SafeXml.Child(SafeXml.Child(SafeXml.Child(detail, "imposto"), "ICMS"), "ICMSSN500");
+        Assert.Equal(new[]
+        {
+            "orig", "CSOSN", "vBCSTRet", "pST", "vICMSSubstituto", "vICMSSTRet",
+            "vBCFCPSTRet", "pFCPSTRet", "vFCPSTRet", "pRedBCEfet", "vBCEfet", "pICMSEfet", "vICMSEfet"
+        }, icms.ChildNodes.OfType<XmlElement>().Select(element => element.LocalName).ToArray());
+        var declared = sale.Items[0].Taxes.Icms;
+        foreach (var (value, name) in new (string?, string)[]
+        {
+            (declared.StRetainedBase, "vBCSTRet"), (declared.FinalConsumerRate, "pST"),
+            (declared.SubstituteValue, "vICMSSubstituto"), (declared.StRetainedValue, "vICMSSTRet"),
+            (declared.FcpStRetainedBase, "vBCFCPSTRet"), (declared.FcpStRetainedRate, "pFCPSTRet"),
+            (declared.FcpStRetainedValue, "vFCPSTRet"), (declared.EffectiveBaseReductionRate, "pRedBCEfet"),
+            (declared.EffectiveBase, "vBCEfet"), (declared.EffectiveRate, "pICMSEfet"),
+            (declared.EffectiveValue, "vICMSEfet")
+        }) Assert.Equal(value, SafeXml.Text(icms, name));
+        // Valores declarados preservados; nenhuma soma, MVA ou alíquota é calculada.
+    }
+
+    [Fact]
+    public void Icms60DeclaredStFieldsPrepareSignAndValidateAgainstPinnedXsd()
+    {
+        var sale = PreparationJson.ParseSale(Icms60Sale().ToJsonString());
+        var (_, emitter, context) = Models("crt3");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var icms = SafeXml.Child(SafeXml.Child(SafeXml.Child(
+            SafeXml.Children(Info(prepared.UnsignedXml), "det")[0], "imposto"), "ICMS"), "ICMS60");
+        Assert.Equal("60", SafeXml.Text(icms, "CST"));
+        Assert.Equal("90.00", SafeXml.Text(icms, "vBCSTRet"));
+        Assert.Equal("20.00", SafeXml.Text(icms, "pST"));
+        Assert.Equal("18.00", SafeXml.Text(icms, "vICMSSTRet"));
+        proof.Validator.RequireValid("nfe", Sign(prepared));
+    }
+
+    [Fact]
+    public void StRetainedSequencesMayBeEntirelyOmittedAndStillValidateAgainstPinnedXsd()
+    {
+        var json = JsonNode.Parse(Sample("sale-st-crt1"))!.AsObject();
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        foreach (var field in new[]
+        {
+            "vBCSTRet", "pST", "vICMSSubstituto", "vICMSSTRet", "vBCFCPSTRet", "pFCPSTRet",
+            "vFCPSTRet", "pRedBCEfet", "vBCEfet", "pICMSEfet", "vICMSEfet"
+        }) icms.Remove(field);
+        var sale = PreparationJson.ParseSale(json.ToJsonString());
+        var (_, emitter, context) = Models("st-crt1");
+        proof.Validator.RequireValid("nfe", Sign(NfcePreparation.BuildUnsigned(sale, emitter, context)));
+    }
+
+    [Fact]
+    public void StGroupsRequireTheMatchingCrtWithoutSubstitution()
+    {
+        var sale60 = PreparationJson.ParseSale(Icms60Sale().ToJsonString());
+        var (saleSn500, _, context) = Models("st-crt1");
+        var (_, emitter1, _) = Models("crt1");
+        var (_, emitter3, _) = Models("crt3");
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            sale60 with { EmitterProfileId = emitter1.ProfileId }, emitter1, context));
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            saleSn500 with { EmitterProfileId = emitter3.ProfileId }, emitter3, context));
+    }
+
+    [Theory]
+    [InlineData("missing-cest")]
+    [InlineData("cst-in-sn500")]
+    [InlineData("wrong-csosn")]
+    [InlineData("partial-retention")]
+    [InlineData("substitute-alone")]
+    [InlineData("partial-fcp")]
+    [InlineData("partial-effective")]
+    [InlineData("zero-pst")]
+    [InlineData("one-decimal-pst")]
+    [InlineData("comma-decimal")]
+    [InlineData("modbc-in-sn500")]
+    [InlineData("st-field-in-sn102")]
+    public void StRetainedRepresentationViolationsAreRejected(string scenario)
+    {
+        var json = JsonNode.Parse(Sample(scenario == "st-field-in-sn102" ? "sale-crt1" : "sale-st-crt1"))!.AsObject();
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        switch (scenario)
+        {
+            case "missing-cest": json["items"]![0]!.AsObject().Remove("CEST"); break;
+            case "cst-in-sn500": icms["CST"] = "60"; break;
+            case "wrong-csosn": icms["CSOSN"] = "102"; break;
+            case "partial-retention": icms.Remove("vICMSSTRet"); break;
+            case "substitute-alone":
+                icms.Remove("vBCSTRet");
+                icms.Remove("pST");
+                icms.Remove("vICMSSTRet");
+                break;
+            case "partial-fcp": icms.Remove("vFCPSTRet"); break;
+            case "partial-effective": icms.Remove("vICMSEfet"); break;
+            case "zero-pst": icms["pST"] = "0"; break;
+            case "one-decimal-pst": icms["pST"] = "18.0"; break;
+            case "comma-decimal": icms["vBCSTRet"] = "40,00"; break;
+            case "modbc-in-sn500": icms["modBC"] = "0"; break;
+            case "st-field-in-sn102": icms["vBCSTRet"] = "40.00"; break;
+        }
+        Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
+    }
+
+    private static JsonObject Icms60Sale()
+    {
+        var json = JsonNode.Parse(Sample("sale-crt3"))!.AsObject();
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        icms["group"] = "ICMS60";
+        icms["CST"] = "60";
+        foreach (var field in new[] { "modBC", "vBC", "pICMS", "vICMS" }) icms.Remove(field);
+        icms["vBCSTRet"] = "90.00";
+        icms["pST"] = "20.00";
+        icms["vICMSSTRet"] = "18.00";
+        json["items"]![0]!["CEST"] = "0302103";
+        return json;
+    }
+
     private string Sign(PreparedNfce prepared) =>
         A1Signer.Sign(QrCode3.AddToInvoice(prepared.UnsignedXml), proof.Certificate);
 
@@ -391,6 +515,6 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
 
     private static (PreparationSale Sale, PreparationEmitterProfile Emitter, PreparationTestContext Context) Models(string scenario) =>
         (PreparationJson.ParseSale(Sample("sale-" + scenario)),
-         PreparationJson.ParseEmitter(Sample("emitter-" + scenario)),
+         PreparationJson.ParseEmitter(Sample("emitter-" + (scenario == "st-crt1" ? "crt1" : scenario))),
          PreparationJson.ParseContext(Sample("test-context")));
 }

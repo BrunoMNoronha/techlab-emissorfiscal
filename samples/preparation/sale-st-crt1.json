@@ -1,0 +1,114 @@
+{
+  "version": "nfce-preparation/0.1",
+  "reference": "SYN-SALE-ST-CRT1-001",
+  "emitterProfileId": "synthetic-crt1-profile",
+  "issuedAt": "2026-10-17T15:30:00-03:00",
+  "operation": {
+    "natOp": "VENDA SINTETICA PRESENCIAL",
+    "tpNF": "1",
+    "idDest": "1",
+    "finNFe": "1",
+    "indFinal": "1",
+    "indPres": "1",
+    "modFrete": "9"
+  },
+  "recipient": {
+    "documentType": "CPF",
+    "document": "12345678909",
+    "name": "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+    "indIEDest": "9",
+    "creditIntent": "no",
+    "address": {
+      "street": "RUA SINTETICA DO DESTINATARIO",
+      "number": "200",
+      "complement": "LABORATORIO OFFLINE",
+      "district": "SETOR DE TESTE",
+      "municipalityCode": "5300108",
+      "municipalityName": "BRASILIA",
+      "uf": "DF",
+      "postalCode": "70040999",
+      "countryCode": "1058",
+      "countryName": "BRASIL",
+      "phone": "61999999999"
+    }
+  },
+  "items": [
+    {
+      "nItem": "1",
+      "cProd": "SYN-CERVEJA-CX-01",
+      "cEAN": "SEM GTIN",
+      "xProd": "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+      "NCM": "22030000",
+      "CEST": "0302103",
+      "CFOP": "5405",
+      "uCom": "CX",
+      "qCom": "1.0000",
+      "vUnCom": "48.0000000000",
+      "vProd": "48.00",
+      "cEANTrib": "SEM GTIN",
+      "uTrib": "UN",
+      "qTrib": "12.0000",
+      "vUnTrib": "4.0000000000",
+      "indTot": "1",
+      "taxes": {
+        "ICMS": {
+          "group": "ICMSSN500",
+          "orig": "0",
+          "CSOSN": "500",
+          "vBCSTRet": "40.00",
+          "pST": "18.00",
+          "vICMSSubstituto": "4.00",
+          "vICMSSTRet": "7.20",
+          "vBCFCPSTRet": "40.00",
+          "pFCPSTRet": "2.00",
+          "vFCPSTRet": "0.80",
+          "pRedBCEfet": "10.00",
+          "vBCEfet": "43.20",
+          "pICMSEfet": "12.50",
+          "vICMSEfet": "5.40"
+        },
+        "PIS": {
+          "group": "PISNT",
+          "CST": "04"
+        },
+        "COFINS": {
+          "group": "COFINSNT",
+          "CST": "04"
+        }
+      },
+      "additionalInfo": "CAIXA DE CERVEJA SINTETICA. NCM CFOP CSOSN CEST ALIQUOTAS E VALORES ST SAO HIPOTESES DE TESTE"
+    }
+  ],
+  "totals": {
+    "ICMSTot": {
+      "vBC": "0.00",
+      "vICMS": "0.00",
+      "vICMSDeson": "0.00",
+      "vFCP": "0.00",
+      "vBCST": "0.00",
+      "vST": "0.00",
+      "vFCPST": "0.00",
+      "vFCPSTRet": "0.80",
+      "vProd": "48.00",
+      "vFrete": "0.00",
+      "vSeg": "0.00",
+      "vDesc": "0.00",
+      "vII": "0.00",
+      "vIPI": "0.00",
+      "vIPIDevol": "0.00",
+      "vPIS": "0.00",
+      "vCOFINS": "0.00",
+      "vOutro": "0.00",
+      "vNF": "48.00"
+    }
+  },
+  "payments": [
+    {
+      "indPag": "0",
+      "tPag": "01",
+      "vPag": "50.00"
+    }
+  ],
+  "change": "2.00",
+  "additionalInfo": "DADOS SINTETICOS. CAIXA DE CERVEJA COM ST RETIDO E DADOS TRIBUTARIOS DECLARADOS COMO HIPOTESES DE TESTE, SEM AUTORIZACAO FISCAL."
+}

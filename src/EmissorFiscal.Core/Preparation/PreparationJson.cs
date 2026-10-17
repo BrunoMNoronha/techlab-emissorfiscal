@@ -88,6 +88,8 @@ internal static class PreparationValidation
     private const string MoneyPattern = @"^(0|[1-9][0-9]{0,12})\.[0-9]{2}$";
     private const string OptionalMoneyPattern = @"^(0\.[0-9][1-9]|0\.[1-9][0-9]|[1-9][0-9]{0,12}\.[0-9]{2})$";
     private const string RatePattern = @"^(0|0\.[0-9]{2,4}|[1-9][0-9]{0,2}(\.[0-9]{2,4})?)$";
+    // TDec_0302a04Opc do XSD fixado: diferente de TDec_0302a04, não admite "0" inteiro.
+    private const string OptionalRatePattern = @"^(0\.[0-9]{2,4}|[1-9][0-9]{0,2}(\.[0-9]{2,4})?)$";
 
     public static void Validate(PreparationSale sale, PreparationEmitterProfile emitter, PreparationTestContext context)
     {
@@ -97,10 +99,10 @@ internal static class PreparationValidation
         if (sale.EmitterProfileId != emitter.ProfileId) Fail("Perfil da venda não corresponde ao perfil fornecido.");
         foreach (var item in sale.Items)
         {
-            if (emitter.Crt == "1" && item.Taxes.Icms.Group != "ICMSSN102")
-                Fail("CRT1: este subconjunto prepara somente ICMSSN102/CSOSN102.");
-            if (emitter.Crt == "3" && item.Taxes.Icms.Group != "ICMS00")
-                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00.");
+            if (emitter.Crt == "1" && item.Taxes.Icms.Group is not ("ICMSSN102" or "ICMSSN500"))
+                Fail("CRT1: este subconjunto prepara somente ICMSSN102/CSOSN102 e ICMSSN500/CSOSN500.");
+            if (emitter.Crt == "3" && item.Taxes.Icms.Group is not ("ICMS00" or "ICMS60"))
+                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00 e ICMS60/CST60.");
             if (emitter.Crt == "3" && item.Taxes.IbsCbs is null)
                 Fail("CRT3: IBSCBS explícito é obrigatório neste recorte de homologação RTC.");
             if (emitter.Crt == "1" && item.Taxes.IbsCbs is not null)
@@ -238,6 +240,10 @@ internal static class PreparationValidation
         Text(item.Description, 1, 120, "xProd");
         Match(item.Ncm, @"^([0-9]{2}|[0-9]{8})$", "NCM");
         if (item.Cest is not null) Match(item.Cest, @"^[0-9]{7}$", "CEST");
+        // Convênio ICMS 142/18, cláusula vigésima, I: CEST no documento fiscal das
+        // mercadorias dos Anexos II–XXVI; grupo ST declarado sem CEST é recusado.
+        if (item.Taxes.Icms.Group is "ICMSSN500" or "ICMS60" && item.Cest is null)
+            Fail("CEST é obrigatório quando o grupo ICMS declarado é de ST retido (Convênio ICMS 142/18, cláusula vigésima, I).");
         OptionalText(item.BenefitCode, 8, 10, "cBenef");
         Match(item.Cfop, @"^5[0-9]{3}$", "CFOP interno deste recorte");
         Text(item.CommercialUnit, 1, 6, "uCom");
@@ -267,15 +273,29 @@ internal static class PreparationValidation
             Money(taxes.Icms.Base, "vBC ICMS00");
             Rate(taxes.Icms.Rate, "pICMS");
             Money(taxes.Icms.Value, "vICMS");
+            NoStRetainedFields(taxes.Icms);
         }
         else if (taxes.Icms.Group == "ICMSSN102")
         {
             Equal(taxes.Icms.Csosn, "102", "CSOSN deste subconjunto");
             Absent(taxes.Icms.Cst, "CST em ICMSSN102");
-            Absent(taxes.Icms.BaseMode, "modBC em ICMSSN102");
-            Absent(taxes.Icms.Base, "vBC em ICMSSN102");
-            Absent(taxes.Icms.Rate, "pICMS em ICMSSN102");
-            Absent(taxes.Icms.Value, "vICMS em ICMSSN102");
+            NoOwnTaxFields(taxes.Icms);
+            NoStRetainedFields(taxes.Icms);
+        }
+        else if (taxes.Icms.Group is "ICMSSN500" or "ICMS60")
+        {
+            if (taxes.Icms.Group == "ICMSSN500")
+            {
+                Equal(taxes.Icms.Csosn, "500", "CSOSN de ICMSSN500");
+                Absent(taxes.Icms.Cst, "CST em ICMSSN500");
+            }
+            else
+            {
+                Equal(taxes.Icms.Cst, "60", "CST de ICMS60");
+                Absent(taxes.Icms.Csosn, "CSOSN em ICMS60");
+            }
+            NoOwnTaxFields(taxes.Icms);
+            StRetainedSequences(taxes.Icms);
         }
         else Fail("Grupo ICMS não mapeado: " + taxes.Icms.Group);
         Contribution(taxes.Pis.Group, "PIS", taxes.Pis.Cst, taxes.Pis.Base, taxes.Pis.Rate, taxes.Pis.Value);
@@ -296,6 +316,60 @@ internal static class PreparationValidation
             Money(rtc.Cbs.Value, "vCBS");
         }
     }
+
+    // Campos próprios dos grupos tributados (ICMS00): fora de ICMSSN102/ICMSSN500/ICMS60.
+    private static void NoOwnTaxFields(PreparationIcms icms)
+    {
+        Absent(icms.BaseMode, "modBC em " + icms.Group);
+        Absent(icms.Base, "vBC em " + icms.Group);
+        Absent(icms.Rate, "pICMS em " + icms.Group);
+        Absent(icms.Value, "vICMS em " + icms.Group);
+    }
+
+    private static void NoStRetainedFields(PreparationIcms icms)
+    {
+        foreach (var (value, name) in StRetainedFields(icms))
+            Absent(value, name + " em " + icms.Group);
+    }
+
+    // Sequências opcionais de ICMSSN500/ICMS60 no XSD fixado: cada sequência é
+    // completa ou ausente; vICMSSubstituto só existe dentro da sequência de retenção.
+    private static void StRetainedSequences(PreparationIcms icms)
+    {
+        if (icms.StRetainedBase is not null || icms.FinalConsumerRate is not null ||
+            icms.SubstituteValue is not null || icms.StRetainedValue is not null)
+        {
+            Money(icms.StRetainedBase, "vBCSTRet");
+            Match(icms.FinalConsumerRate, OptionalRatePattern, "pST");
+            if (icms.SubstituteValue is not null) Money(icms.SubstituteValue, "vICMSSubstituto");
+            Money(icms.StRetainedValue, "vICMSSTRet");
+        }
+        if (icms.FcpStRetainedBase is not null || icms.FcpStRetainedRate is not null ||
+            icms.FcpStRetainedValue is not null)
+        {
+            Money(icms.FcpStRetainedBase, "vBCFCPSTRet");
+            Match(icms.FcpStRetainedRate, OptionalRatePattern, "pFCPSTRet");
+            Money(icms.FcpStRetainedValue, "vFCPSTRet");
+        }
+        if (icms.EffectiveBaseReductionRate is not null || icms.EffectiveBase is not null ||
+            icms.EffectiveRate is not null || icms.EffectiveValue is not null)
+        {
+            Match(icms.EffectiveBaseReductionRate, OptionalRatePattern, "pRedBCEfet");
+            Money(icms.EffectiveBase, "vBCEfet");
+            Match(icms.EffectiveRate, OptionalRatePattern, "pICMSEfet");
+            Money(icms.EffectiveValue, "vICMSEfet");
+        }
+    }
+
+    private static (string? Value, string Name)[] StRetainedFields(PreparationIcms icms) =>
+    [
+        (icms.StRetainedBase, "vBCSTRet"), (icms.FinalConsumerRate, "pST"),
+        (icms.SubstituteValue, "vICMSSubstituto"), (icms.StRetainedValue, "vICMSSTRet"),
+        (icms.FcpStRetainedBase, "vBCFCPSTRet"), (icms.FcpStRetainedRate, "pFCPSTRet"),
+        (icms.FcpStRetainedValue, "vFCPSTRet"), (icms.EffectiveBaseReductionRate, "pRedBCEfet"),
+        (icms.EffectiveBase, "vBCEfet"), (icms.EffectiveRate, "pICMSEfet"),
+        (icms.EffectiveValue, "vICMSEfet")
+    ];
 
     private static void Contribution(string group, string prefix, string cst, string? basis, string? rate, string? value)
     {

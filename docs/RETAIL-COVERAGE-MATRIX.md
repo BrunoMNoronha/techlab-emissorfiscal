@@ -34,10 +34,12 @@ Fatos verificados no código em 17/10/2026:
 | RTC (IBS/CBS) | Somente CST `000` com `cClassTrib` `000001` (regular); demais classificações/grupos recusados | [NFCE-INPUT-MODEL.md](NFCE-INPUT-MODEL.md), seção 3 |
 
 Consequência prática: uma venda de varejo típica com mercadoria em substituição
-tributária já retida — por exemplo, uma caixa de cerveja — é **recusada** pelo
-subconjunto atual, pois exigiria `ICMSSN500` (Simples) ou `ICMS60` (regime normal).
-A recusa é o comportamento projetado para variante sem suporte; este documento
-organiza a ordem de ampliação.
+tributária já retida — por exemplo, uma caixa de cerveja — era **recusada** pelo
+subconjunto da data do levantamento, pois exigiria `ICMSSN500` (Simples) ou
+`ICMS60` (regime normal). A recusa é o comportamento projetado para variante sem
+suporte; este documento organiza a ordem de ampliação. O incremento P1 da seção 4
+foi implementado em 17/10/2026 (ver status na seção 3); a tabela acima permanece
+como o retrato do levantamento original.
 
 ## 2. Matriz segmento × variantes esperadas (hipóteses de priorização)
 
@@ -64,9 +66,9 @@ exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
 | --- | --- | --- | --- | --- |
 | Entregue | CSOSN 102 (Simples, tributado sem crédito) | `ICMSSN102` | Implementado | — |
 | Entregue | CST 00 (normal, tributado integral) | `ICMS00`: `modBC`, `vBC`, `pICMS`, `vICMS` | Implementado | — |
-| **P1** | CSOSN 500 (Simples, ST retido/antecipação) | `ICMSSN500`: sequências opcionais `vBCSTRet`+`pST`+`vICMSSubstituto`?+`vICMSSTRet`, FCP-ST (`vBCFCPSTRet`/`pFCPSTRet`/`vFCPSTRet`) e efetivos (`pRedBCEfet`/`vBCEfet`/`pICMSEfet`/`vICMSEfet`) | Sem representação; grupo recusado | Novos campos no record ICMS + validação + serialização; totais já existem |
-| **P1** | CST 60 (normal, ST retido) | `ICMS60`: mesmas sequências do `ICMSSN500` | Sem representação; grupo recusado | Compartilha campos com CSOSN 500 |
-| **P1** | CEST condicional ao ST | `prod/CEST` | Campo existe; falta exigência quando o grupo é ST | Regra condicional no validador; fonte: Convênio ICMS 142/18 |
+| **P1** | CSOSN 500 (Simples, ST retido/antecipação) | `ICMSSN500`: sequências opcionais `vBCSTRet`+`pST`+`vICMSSubstituto`?+`vICMSSTRet`, FCP-ST (`vBCFCPSTRet`/`pFCPSTRet`/`vFCPSTRet`) e efetivos (`pRedBCEfet`/`vBCEfet`/`pICMSEfet`/`vICMSEfet`) | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)): campos representados, validados e serializados; exemplo [sale-st-crt1.json](../samples/preparation/sale-st-crt1.json) | Entregue; totais já existiam |
+| **P1** | CST 60 (normal, ST retido) | `ICMS60`: mesmas sequências do `ICMSSN500` | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)), compartilhando os campos do `ICMSSN500`; coberto por teste com XSD | Entregue |
+| **P1** | CEST condicional ao ST | `prod/CEST` | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)): CEST exigido quando o grupo declarado é `ICMSSN500`/`ICMS60`; fonte baixada e hasheada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Entregue; Convênio ICMS 142/18, cláusula vigésima, I |
 | **P2** | CSOSN 103/300/400 (isenção de faixa, imune, não tributada) | Mesmo grupo `ICMSSN102`, enumeração já admite os quatro códigos | Parser restringe a `102` | Extensão de enumeração + casos; sem campos novos |
 | **P2** | CST 40/41 (isenta, não tributada) | `ICMS40` (admite 40/41/50): opcionais `vICMSDeson`+`motDesICMS` | Sem representação; grupo recusado | Grupo pequeno; desoneração opcional pode ficar fora do primeiro recorte |
 | **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Sem representação; grupo recusado | Campos simples; exige fonte do percentual por caso |

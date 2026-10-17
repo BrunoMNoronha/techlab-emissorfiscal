@@ -122,9 +122,14 @@ try {
         if ($taskHash -ne $taskFile.sha256) { throw "Hash de schema incompatível: $($taskFile.name)" }
         $taskSummary.schemaHashes += [ordered]@{ path = $taskFile.path; sha256 = $taskHash }
     }
-    foreach ($taskRegime in @('crt1', 'crt3')) {
+    foreach ($taskCase in @(
+        @{ regime = 'crt1'; sale = 'sale-crt1'; emitter = 'emitter-crt1' },
+        @{ regime = 'crt3'; sale = 'sale-crt3'; emitter = 'emitter-crt3' },
+        @{ regime = 'st-crt1'; sale = 'sale-st-crt1'; emitter = 'emitter-crt1' }
+    )) {
+        $taskRegime = $taskCase.regime
         $taskPreparationDir = Join-Path $taskEvidence "preparation-$taskRegime"
-        Invoke-ValidationStep "prepare-$taskRegime" @('run', '--project', 'src/EmissorFiscal.Cli', '-c', 'Release', '--no-build', '--no-restore', '--', 'prepare', "samples/preparation/sale-$taskRegime.json", "samples/preparation/emitter-$taskRegime.json", 'samples/preparation/test-context.json', $taskPreparationDir)
+        Invoke-ValidationStep "prepare-$taskRegime" @('run', '--project', 'src/EmissorFiscal.Cli', '-c', 'Release', '--no-build', '--no-restore', '--', 'prepare', "samples/preparation/$($taskCase.sale).json", "samples/preparation/$($taskCase.emitter).json", 'samples/preparation/test-context.json', $taskPreparationDir)
         $taskPreparation = Get-Content -LiteralPath (Join-Path $taskPreparationDir 'summary.json') -Raw | ConvertFrom-Json
         if ($taskPreparation.kind -ne 'NFCE_INPUT_MODEL_PREPARATION' -or
             $taskPreparation.modelVersion -ne 'nfce-preparation/0.1' -or

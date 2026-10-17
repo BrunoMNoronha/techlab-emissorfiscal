@@ -115,9 +115,17 @@ public static class NfcePreparation
     {
         Fields(document, parent, ("vTotTrib", taxes.TotalTaxes));
         var icms = Element(document, Element(document, parent, "ICMS"), taxes.Icms.Group);
+        // Ordem dos grupos ICMS no leiauteNFe_v4.00.xsd; as sequências ST retido
+        // (retenção, FCP-ST, efetivos) existem apenas em ICMSSN500/ICMS60.
         Fields(document, icms, ("orig", taxes.Icms.Origin), ("CST", taxes.Icms.Cst), ("CSOSN", taxes.Icms.Csosn),
             ("modBC", taxes.Icms.BaseMode), ("vBC", taxes.Icms.Base), ("pICMS", taxes.Icms.Rate),
-            ("vICMS", taxes.Icms.Value));
+            ("vICMS", taxes.Icms.Value),
+            ("vBCSTRet", taxes.Icms.StRetainedBase), ("pST", taxes.Icms.FinalConsumerRate),
+            ("vICMSSubstituto", taxes.Icms.SubstituteValue), ("vICMSSTRet", taxes.Icms.StRetainedValue),
+            ("vBCFCPSTRet", taxes.Icms.FcpStRetainedBase), ("pFCPSTRet", taxes.Icms.FcpStRetainedRate),
+            ("vFCPSTRet", taxes.Icms.FcpStRetainedValue),
+            ("pRedBCEfet", taxes.Icms.EffectiveBaseReductionRate), ("vBCEfet", taxes.Icms.EffectiveBase),
+            ("pICMSEfet", taxes.Icms.EffectiveRate), ("vICMSEfet", taxes.Icms.EffectiveValue));
         var pis = Element(document, Element(document, parent, "PIS"), taxes.Pis.Group);
         Fields(document, pis, ("CST", taxes.Pis.Cst), ("vBC", taxes.Pis.Base),
             ("pPIS", taxes.Pis.Rate), ("vPIS", taxes.Pis.Value));
