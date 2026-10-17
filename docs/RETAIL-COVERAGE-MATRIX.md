@@ -1,0 +1,124 @@
+# Matriz de cobertura tributária do varejo — NFC-e 65/DF
+
+Levantamento documental preparado em 17/10/2026 (America/Sao_Paulo). Mapeia as
+**variantes tributárias** que os segmentos de varejo pretendidos tendem a exigir,
+o estado de cada variante no preparador `nfce-preparation/0.1` e uma proposta de
+priorização de implementação. Complementa o [modelo de entrada](NFCE-INPUT-MODEL.md)
+e o [dicionário do piloto](PILOT-DATA-DICTIONARY.md); não altera contratos,
+não habilita variantes no código e não substitui o caso fiscal aprovado da
+[ficha do piloto](PILOT-REGISTRATION.md).
+
+**Princípio do levantamento:** não se mapeiam produtos, que são infinitos;
+mapeiam-se variantes tributárias, que são finitas. A classificação de cada
+mercadoria real (NCM, CEST, CST/CSOSN, CFOP, benefício) permanece responsabilidade
+do sistema cliente/responsável tributário, como o dicionário já fixa. A decisão
+de produto deste repositório é **quais grupos o preparador representa e valida**
+— e em que ordem.
+
+As associações segmento→variante abaixo são **hipóteses de produto para
+priorização**, baseadas em perfis usuais de sortimento; não são determinações
+fiscais. Cada variante só entra em operação com a matriz de validação da
+seção 3 do dicionário preenchida e fontes conferidas para o caso aprovado.
+
+## 1. Estado atual do preparador
+
+Fatos verificados no código em 17/10/2026:
+
+| Capacidade | Estado | Evidência |
+| --- | --- | --- |
+| Grupos ICMS aceitos | Somente `ICMSSN102` com CSOSN `102` (CRT 1) e `ICMS00` com CST `00` (CRT 3); qualquer outro grupo é recusado com "Grupo ICMS não mapeado" | [PreparationJson.cs](../src/EmissorFiscal.Core/Preparation/PreparationJson.cs), validações de CRT e de grupo |
+| PIS/COFINS aceitos | `PISAliq`/`COFINSAliq` (CST 01–02) e `PISNT`/`COFINSNT` (CST 04–09); demais grupos recusados | [PreparationJson.cs](../src/EmissorFiscal.Core/Preparation/PreparationJson.cs), `Contribution` |
+| CEST e cBenef | Campos opcionais já parseados, validados (CEST 7 dígitos; cBenef 8–10) e serializados em `prod/CEST`/`prod/cBenef`. Não há exigência condicional (ex.: CEST obrigatório quando ST) | [PreparationModels.cs](../src/EmissorFiscal.Core/Preparation/PreparationModels.cs), [NfcePreparation.cs](../src/EmissorFiscal.Core/Preparation/NfcePreparation.cs) |
+| Campos ST no item | O record `PreparationIcms` não representa `vBCSTRet`, `pST`, `vICMSSubstituto`, `vICMSSTRet`, FCP-ST nem base/alíquota efetivas | [PreparationModels.cs](../src/EmissorFiscal.Core/Preparation/PreparationModels.cs), `PreparationIcms` |
+| Totais ST | `ICMSTot` já exige `vBCST`, `vST`, `vFCPST` e `vFCPSTRet` declarados pelo cliente | [PreparationModels.cs](../src/EmissorFiscal.Core/Preparation/PreparationModels.cs), `PreparationIcmsTotals` |
+| RTC (IBS/CBS) | Somente CST `000` com `cClassTrib` `000001` (regular); demais classificações/grupos recusados | [NFCE-INPUT-MODEL.md](NFCE-INPUT-MODEL.md), seção 3 |
+
+Consequência prática: uma venda de varejo típica com mercadoria em substituição
+tributária já retida — por exemplo, uma caixa de cerveja — é **recusada** pelo
+subconjunto atual, pois exigiria `ICMSSN500` (Simples) ou `ICMS60` (regime normal).
+A recusa é o comportamento projetado para variante sem suporte; este documento
+organiza a ordem de ampliação.
+
+## 2. Matriz segmento × variantes esperadas (hipóteses de priorização)
+
+| Segmento | Perfil usual do sortimento | Variantes ICMS esperadas | PIS/COFINS esperados | Observações |
+| --- | --- | --- | --- | --- |
+| Mercado/minimercado | Mix amplo: bebidas, cigarros, higiene/limpeza, alimentos, hortifrúti | ST retido (CSOSN 500 / CST 60) em parte relevante; tributado integral (102 / 00); isenções/reduções de cesta básica conforme legislação DF (40/41/20; CSOSN 103/300/400) | Alíquota básica (01), monofásico de bebidas frias (04), alíquota zero de cesta básica (06) | Segmento que exige a maior largura de variantes; concentra P1 e P2 |
+| Padaria | Produção própria + revenda de bebidas/industrializados | Tributado integral; ST retido na revenda | 01 e 04 | Produção própria tende ao grupo tributado; revenda espelha o mercado |
+| Distribuidora de bebidas | Quase todo o sortimento em bebidas | **Dominância de ST retido** (CSOSN 500 / CST 60) | Monofásico (04) dominante | Sem P1, o segmento é inviável no emissor |
+| Lanchonete | Preparo próprio + bebidas | Tributado integral no preparo; ST retido nas bebidas | 01 e 04 | Semelhante à padaria |
+| Armarinho/papelaria | Mercadorias gerais de baixo giro ST | Tributado integral dominante; ST pontual | 01 | Segmento mais próximo do recorte já implementado |
+| Agropecuária | Rações, insumos, defensivos, utensílios | Isenções/reduções de insumos (40/41/20; CSOSN correspondentes) conforme convênios; tributado integral; ST pontual | 01; regimes específicos de insumos a confirmar | Variantes de benefício exigem reconciliação DF (pendência 2 do [roadmap](ROADMAP.md)) |
+
+A coluna de variantes é hipótese a confirmar com o responsável tributário de cada
+empresa e com as fontes da seção 5. Nenhuma linha autoriza enquadramento de
+mercadoria real nem comprova aplicabilidade no DF.
+
+## 3. Variante × estrutura × status × prioridade
+
+Grupos e campos conferidos no [leiauteNFe_v4.00.xsd](../schemas/nfe/4.00/files/leiauteNFe_v4.00.xsd)
+da baseline local (`nfe-4.00-offline-2026-10-04`); a presença no XSD não comprova
+exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
+
+| Prioridade | Variante | Grupo XSD e campos além de `orig`+CST/CSOSN | Status no preparador | Esforço estrutural |
+| --- | --- | --- | --- | --- |
+| Entregue | CSOSN 102 (Simples, tributado sem crédito) | `ICMSSN102` | Implementado | — |
+| Entregue | CST 00 (normal, tributado integral) | `ICMS00`: `modBC`, `vBC`, `pICMS`, `vICMS` | Implementado | — |
+| **P1** | CSOSN 500 (Simples, ST retido/antecipação) | `ICMSSN500`: sequências opcionais `vBCSTRet`+`pST`+`vICMSSubstituto`?+`vICMSSTRet`, FCP-ST (`vBCFCPSTRet`/`pFCPSTRet`/`vFCPSTRet`) e efetivos (`pRedBCEfet`/`vBCEfet`/`pICMSEfet`/`vICMSEfet`) | Sem representação; grupo recusado | Novos campos no record ICMS + validação + serialização; totais já existem |
+| **P1** | CST 60 (normal, ST retido) | `ICMS60`: mesmas sequências do `ICMSSN500` | Sem representação; grupo recusado | Compartilha campos com CSOSN 500 |
+| **P1** | CEST condicional ao ST | `prod/CEST` | Campo existe; falta exigência quando o grupo é ST | Regra condicional no validador; fonte: Convênio ICMS 142/18 |
+| **P2** | CSOSN 103/300/400 (isenção de faixa, imune, não tributada) | Mesmo grupo `ICMSSN102`, enumeração já admite os quatro códigos | Parser restringe a `102` | Extensão de enumeração + casos; sem campos novos |
+| **P2** | CST 40/41 (isenta, não tributada) | `ICMS40` (admite 40/41/50): opcionais `vICMSDeson`+`motDesICMS` | Sem representação; grupo recusado | Grupo pequeno; desoneração opcional pode ficar fora do primeiro recorte |
+| **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Sem representação; grupo recusado | Campos simples; exige fonte do percentual por caso |
+| **P4** | CST 90 / CSOSN 900 (outros) | `ICMS90`/`ICMSSN900`: combinações amplas de campos opcionais | Sem representação; grupos recusados | Genéricos; implementar somente com caso aprovado que os exija |
+| **P4** | PIS/COFINS `Outr` (CST 49+) e `Qtde` | `PISOutr`/`PISQtde` e equivalentes COFINS | Sem representação | Conforme caso; monofásico de bebidas (CST 04) já é representável via `PISNT`/`COFINSNT` |
+| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
+
+Gate comum a todas as linhas: preencher a matriz de validação (seção 3 do
+[dicionário](PILOT-DATA-DICTIONARY.md)) com fonte oficial, regra, equações e
+tolerâncias **quando a fonte as estabelecer**, exemplo aprovado e responsável.
+Sem isso, a variante permanece recusada, que é o comportamento correto.
+
+## 4. Incremento P1 proposto
+
+Escopo sugerido para o primeiro incremento de código (issue a criar antes da
+implementação, conforme convenção do roadmap):
+
+- Representar os campos ST-retido em `PreparationIcms` (ou record próprio por
+  grupo), com validação de representação decimal nos tipos `TDec_1302`/`TDec_0302a04Opc`.
+- Aceitar `ICMSSN500` (CRT 1) e `ICMS60` (CRT 3), mantendo a recusa das demais
+  combinações e a regra de não recalcular/completar valores declarados.
+- Exigir CEST quando o grupo declarado for ST, com fonte registrada.
+- Exemplo sintético novo "caixa de cerveja": unidades CX/UN, CFOP de ST a
+  confirmar na fonte, PIS/COFINS CST 04 via grupos NT existentes, destinatário
+  com os textos de homologação vigentes.
+- Testes positivos/negativos e validação XSD via CLI `prepare`.
+
+Os valores do exemplo serão sintéticos e declarados, como nos casos CRT 1/3
+atuais; nenhuma alíquota ou MVA real é embutida.
+
+## 5. Fontes a levantar
+
+Nenhuma das fontes abaixo foi baixada nesta entrega; URLs servem de ponto de
+partida e os hashes/datas devem ser registrados em
+[evidence/retail-coverage/FONTES.md](evidence/retail-coverage/FONTES.md) quando a
+coleta ocorrer, no padrão das evidências EF-05/EF-06.
+
+| Fonte | Para quê | Status |
+| --- | --- | --- |
+| [Convênio ICMS 142/18 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) e anexos (tabela CEST) | Regime geral de ST, segmentos/CEST e obrigatoriedade do código | `TBD` — baixar, datar e hashear |
+| Regulamento do ICMS do DF e anexos de ST/benefícios vigentes | Quais segmentos/mercadorias têm ST ou benefício no DF; conecta-se à pendência 2 do roadmap (anexo DF não reconciliado) | `TBD` — identificar ato vigente; não usar tabela histórica como cobertura atual |
+| Base legal do regime monofásico de PIS/COFINS para bebidas frias | Confirmar CST aplicável na revenda (hipótese: 04) | `TBD` — identificar lei/ato e vigência |
+| [Convênio ICMS 100/97 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97) | Reduções/isenções de insumos agropecuários e vigência | `TBD` — confirmar prorrogações e aplicação no DF |
+| [Tabela de Classificação Tributária IBS/CBS — CFF](https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria) | CST/`cClassTrib` RTC correspondentes a cada variante nova | `TBD` — consulta por variante, como feito para 000001 |
+
+## 6. Limites desta entrega
+
+- Documento de priorização: não escolhe enquadramento de mercadoria real, não
+  habilita variantes no código, não cria issues e não altera contratos existentes.
+- As frequências por segmento são hipóteses de produto; a cobertura efetiva do
+  piloto continua determinada pela empresa selecionada e seus casos aprovados.
+- Nenhuma alíquota, MVA, pauta ou benefício é afirmado; nenhum autorizador foi
+  contatado; nada aqui comprova ativação de regra em homologação ou produção.
+- A transmissão permanece no gate EF-14 do [roadmap](ROADMAP.md); este documento
+  não a antecipa.

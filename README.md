@@ -22,6 +22,8 @@ de três JSONs: venda, perfil fiscal do emitente e contexto sintético de numera
 Os exemplos de CRT 1 e CRT 3 geram XML novo com os dados recebidos, sem clonar o
 XML da fixture ou calcular tributos. O caso normal inclui grupos IBS/CBS.
 As hipóteses tributárias dos exemplos exigem validação antes do uso com empresa real.
+A [matriz de cobertura do varejo](docs/RETAIL-COVERAGE-MATRIX.md) prioriza as
+variantes tributárias (ST, isenções, reduções) ainda não suportadas pelo preparador.
 
 Nenhuma transmissão fiscal foi feita. Não houve homologação fiscal nem liberação
 para operação. Fixtures, certificado sintético e retornos simulados não têm

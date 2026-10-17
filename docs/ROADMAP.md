@@ -186,6 +186,16 @@ modelo 55 nem outras UFs. A criação das issues não autoriza deploy ou produç
 
 O pedido posterior de levantamento/modelo foi implementado como [preparação de entrada](NFCE-INPUT-MODEL.md), `nfce-preparation/0.1`: venda/perfil/contexto, exemplos CRT 1/3 e XML novo com assinatura sintética/XSD. É base técnica offline; não conclui EF-06, EF-11 ou o piloto, nem altera o contrato executável da API simulada. Usar os exemplos para preparar casos reais, sem promover seus códigos/alíquotas a padrões fiscais. A seleção da empresa pode ocorrer em paralelo ao trabalho técnico autorizado.
 
+A decisão de atender varejo amplo (mercados, padarias, distribuidoras de bebidas,
+lanchonetes, armarinhos, agropecuárias) foi organizada na
+[matriz de cobertura tributária do varejo](RETAIL-COVERAGE-MATRIX.md), de 17/10/2026:
+variantes por segmento, estado no preparador e priorização P1 (ST retido:
+`ICMSSN500`/`ICMS60` + CEST condicional), P2 (isenções/não incidência), P3
+(redução de base) e P4 (genéricos/`Outr`). É documento de priorização; cada
+incremento P1–P4 exige issue própria, matriz de validação do dicionário e fontes
+antes da implementação. A decisão de transmissão permanece a direta via
+SEFAZ/SVRS, já coberta por EF-14, sem mudança de aceite.
+
 A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
 especificar o contrato operacional; **EF-07** fecha as escolhas necessárias para
@@ -210,6 +220,7 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 04/10/2026 | Roadmap consolidado após revisão do projeto; briefing corrigido e requisitos de origem do retorno/fencing esclarecidos. Nenhum código fiscal, CI, banco ou transporte implementado nesta atualização. |
 | 04/10/2026 | Pendências EF-04 a EF-21 convertidas em 18 issues verificadas (#1 a #18), com vínculos neste roadmap. EF-21 permanece diferido; EF-01 a EF-03 não foram reabertos. Sem implementação fiscal ou deploy. |
 | 05/10/2026 | EF-04 concluído: três locks NuGet, CI Windows 2025 com 70/70 testes, artefatos conferidos e cenários negativos comprovados. [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem mudança no núcleo fiscal/schemas, transmissão ou deploy. |
+| 17/10/2026 | [Matriz de cobertura tributária do varejo](RETAIL-COVERAGE-MATRIX.md) publicada: variantes por segmento, estado do preparador e priorização P1–P4; fontes externas pendentes em `evidence/retail-coverage/`. Decisão de transmissão direta SEFAZ/SVRS mantida em EF-14. Sem mudança de código, contratos ou issues. |
 
 ### EF-05 — incremento documental e regressões
 
