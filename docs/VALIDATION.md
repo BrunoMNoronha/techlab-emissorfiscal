@@ -1,7 +1,10 @@
 # Relatório do incremento NFC-e offline
 
-O relatório de 04/10/2026 abaixo é histórico. A validação de CI/locks EF-04 está
-registrada ao final deste documento, sem substituir a prova original.
+O relatório de 04/10/2026 abaixo é histórico. As entregas posteriores (EF-04,
+EF-05, EF-06, modelo de entrada, containerização Docker, job Linux de CI e
+incremento P1 de ST retido) estão registradas em seções datadas ao final deste
+documento, sem substituir a prova original. **Estado vigente em 17/10/2026:
+152/152 testes aprovados no CI** (seção do incremento P1).
 
 Data da execução: **04/10/2026**. Diretório: `C:/Development/Projects/techlab-emissorfiscal`.
 
@@ -356,3 +359,64 @@ Os cinquenta casos novos cobrem modelos declarados, preservação de dados, offs
 Dois negativos adicionais da CLI retornaram exit 1: diretório existente permaneceu byte a byte igual e campo desconhecido foi recusado antes de criar a saída. PowerShell parser e actionlint aprovaram scripts/workflow. Briefing mantém quinze campos e 51 registros, PROJECT seis seções e links locais conferidos. Onze XSDs, manifest, SDK, três locks e fixtures anteriores estão preservados; os 96 arquivos rastreados/não ignorados do checkout original e seu inventário permanecem iguais. Tentativas e acessos normativos históricos não foram sobrescritos.
 
 [Fontes oficiais](evidence/input-model/FONTES.md) e [modelo/campos](NFCE-INPUT-MODEL.md) registram aplicabilidade e limites; equações fiscais universais, leiaute posterior NT 2026.008, aprovação dos casos reais e consulta com alertas continuam pendentes. Nenhuma API, banco ou transporte foi adicionado neste incremento. Sem certificado do contribuinte, transmissão, protocolo inventado, DANFE ou homologação real. A issue #3 permanece parcial/aberta; CI/PR desta implementação serão identificados separadamente na entrega Git.
+
+## Containerização Docker — 17/10/2026
+
+Commit `7c03c78`: Dockerfile multi-stage com SDK fixado 10.0.401 (mesmo
+`global.json`, sem roll-forward), restore em `--locked-mode`, build Release e a
+suíte completa executada durante o build; o estágio runtime não-root publica
+apenas a CLI com schemas, fixtures e samples de preparação. `docker-compose.yml`
+adiciona os serviços `cli` e `verify` (este roda `scripts/verify.ps1` com o
+repositório montado); `.dockerignore` exclui segredos, certificados e artefatos.
+
+O mesmo commit atualizou `System.Security.Cryptography.Xml`/`Pkcs` de 10.0.12
+para **10.0.13**, com os três locks regenerados e revisados: advisories NuGet
+publicados após 05/10 (GHSA-846f-f764-76mx e GHSA-7hqp-7c5m-4vq6, entre outros)
+tornavam NU1902/NU1903 erros e quebravam qualquer restore novo com a auditoria
+habilitada. Referências a runtime/pacotes 10.0.12 nas seções anteriores são
+registros históricos das execuções daquela época e não foram reescritas.
+
+Validação: `docker compose run --rm verify` em Ubuntu 24.04, status `passed`,
+**134/134 testes** (contagem da base anterior ao P1), build sem avisos/erros e
+assinatura verificada após serialização, envelope e nfeProc. Execução local em
+container; nenhuma transmissão, credencial real ou homologação fiscal.
+
+## Job Linux de CI — 17/10/2026
+
+Commit `197da44`: job `docker` (`ubuntu-24.04`) adicionado ao
+`ci-offline.yml` — `docker build` da imagem (que já executa restore bloqueado,
+build Release e a suíte de testes) e smoke test da CLI containerizada
+(`schemas` e `demo`, com conferência de JSON válido). O job Windows permanece a
+verificação oficial da prova offline. Execução real aprovada no Actions:
+[run 39069877353](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39069877353),
+17/10/2026. Sem mudança no núcleo fiscal, schemas ou locks.
+
+## Incremento P1 — ST retido no preparador — 17/10/2026
+
+Commit `94fb267`, issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24),
+primeiro incremento da priorização P1 da
+[matriz de cobertura do varejo](RETAIL-COVERAGE-MATRIX.md): `PreparationIcms`
+representa as sequências opcionais de retenção, FCP-ST e valores efetivos do
+XSD fixado (cada sequência completa ou ausente), com validação `TDec_1302` e
+`TDec_0302a04Opc`; `ICMSSN500` aceito com CRT 1 e `ICMS60` com CRT 3, mantendo
+a recusa das demais combinações e sem recalcular valores declarados. CEST passa
+a ser exigido quando o grupo declarado é ST, com fonte baixada, datada e
+hasheada (Convênio ICMS 142/18, cláusula vigésima, I —
+[FONTES.md](evidence/retail-coverage/FONTES.md)). Novo exemplo sintético
+"caixa de cerveja" ([sale-st-crt1.json](../samples/preparation/sale-st-crt1.json)),
+19 casos de teste positivos/negativos e terceiro `prepare` em `verify.ps1`.
+
+**Validação: 152/152 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, CLI `schemas`/`demo` e os três `prepare` (CRT 1, CRT 3 e
+ST CRT 1) validados no XSD. Evidência autoritativa: Actions
+[run 39071294072](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39071294072)
+(Windows 2025, 17/10/2026), `summary.json` com SDK 10.0.401/runtime 10.0.13,
+`testCounters` 152/152 e hashes de artefatos/schemas/locks conferidos; o job
+`docker` do mesmo run também aprovou. A contagem 152/152 é a vigente e
+substitui 134/134 como estado atual; contagens anteriores (70, 84, 132, 134)
+permanecem como marcos históricos das seções correspondentes.
+
+As hipóteses tributárias do exemplo ST (NCM 2203.00.00, CEST 03.021.03,
+CFOP 5405, PIS/COFINS CST 04 via grupos NT) são sintéticas e declaradas; não
+enquadram mercadoria real nem comprovam aplicabilidade no DF. Sem transmissão,
+credencial real, DANFE ou homologação fiscal; issues #2/#3 permanecem abertas.

@@ -3,7 +3,9 @@
 **Preparação fiscal documental 0.2, 05/10/2026:** [contrato](PILOT-CONTRACT.md), [dicionário](PILOT-DATA-DICTIONARY.md) e [ficha](PILOT-REGISTRATION.md) atualizam decisões de recorte/acesso/série para o piloto real. Empresa/CRT, autoridades, série/histórico e casos tributários comprovados seguem pendentes. Sem novo DTO/transporte/validação fiscal implementados; distinguir este contrato do simulador v1. As recomendações históricas abaixo são subordinadas às decisões vigentes 0.2.
 
 Referência de pesquisa: **04/10/2026, America/Sao_Paulo**. Prova offline executada
-com SDK .NET 10.0.401/runtime 10.0.12: restore, build, 70 testes e CLI passaram.
+com SDK .NET 10.0.401/runtime 10.0.12: restore, build, 70 testes e CLI passaram
+(contagem histórica; estado vigente em 17/10/2026 é 152/152 com runtime 10.0.13,
+ver [VALIDATION.md](VALIDATION.md)).
 Esta prova não implementa regras tributárias completas nem determina
 operações/regimes aceitos. Evidências e limites estão em `VALIDATION.md`.
 

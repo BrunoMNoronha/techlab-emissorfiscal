@@ -28,7 +28,7 @@ CRT efetivo, regras/grupos e casos tributários aprovados continuam `TBD`.
 | --- | --- | --- |
 | XML, XSD e assinatura | Concluído no recorte offline | Parser seguro, 11 XSDs oficiais, seis entrypoints, chave/CNPJ numéricos e alfanuméricos, A1 sintético em memória e assinatura após serialização/envelope/nfeProc. [Código e execução](VALIDATION.md). |
 | QR e mensagens | Concluído no recorte offline | QR 3 online DF, envio síncrono unitário, consulta e interpretação correlacionada de protocolos simulados. Não há cliente SOAP ou transmissão. |
-| Validação local e CI | 70/70 testes aprovados em checkout limpo e Actions | SDK 10.0.401/runtime 10.0.12, build Release sem avisos/erros, CLI schemas/demo e hashes dos XSDs/manifest aprovados. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências de EF-04 em [VALIDATION.md](VALIDATION.md). |
+| Validação local e CI | **152/152 testes** aprovados no Actions em 17/10/2026 (run 39071294072, pós-P1); 70/70 foi o marco histórico da prova original | SDK 10.0.401/runtime 10.0.13 (atualização de 10.0.12 por advisories NuGet, commit `7c03c78`), build Release sem avisos/erros, CLI schemas/demo, três `prepare` e hashes dos XSDs/manifest aprovados. Job Linux adicional valida a containerização Docker. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências em [VALIDATION.md](VALIDATION.md). |
 | Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; anexo DF localizado integralmente; reconciliação das linhas e aplicação por operação permanecem pendentes. Ver [EF-05](EF05-NORMATIVE-MATRIX.md). |
 | Publicação e planejamento | Código, roadmap e CI entregues; issues vinculadas | Código offline em `d981b92`, revisão original em `ba17162`, CI/locks em `a00361b` e [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem API, banco ou transporte fiscal. |
 | API e confiabilidade operacional | Somente propostas documentadas | Autenticação, autorização, identidade canônica, banco, isolamento, reserva, idempotência, trabalhadores e reconciliação ainda não têm implementação. |
@@ -130,6 +130,30 @@ este recorte documental.
 | EF-20 | Preparar operação e eventual liberação de produção | Bloqueado | EF-15 e itens EF-16 a EF-19 exigidos pelo MVP; decisões/autoridade de produção `TBD` | Definir volumes/limites, disponibilidade, SLA/RPO/RTO, alertas, retenção e resposta a incidentes; provar carga, backup/restauração, recuperação e segregação de ambientes. Alvo, aceite tributário/operacional, credenciais e autoridade de liberação definidos antes de qualquer deploy/operação em produção. | [#17](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/17) |
 | EF-21 | NF-e modelo 55 e ampliação de UFs/operações | Diferido, fora do recorte atual | EF-15; novo recorte aprovado | Matriz/contratos/testes próprios para modelo 55 e operações aprovadas. Não liberar 55 removendo apenas o bloqueio de modelo do núcleo; rever eventos, DANFE, transporte, regimes e novas NTs aplicáveis. Marco de início e demais UFs seguem `TBD`. | [#18](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/18) |
 
+## Trilha exploratória — NFS-e saúde (fora do recorte NFC-e)
+
+Decisão de Bruno em 17/10/2026: há **interessado real** (prestador de saúde;
+identidade no registro privado da decisão T01, fora do Git) e a trilha NFS-e
+passa a ser acompanhada como **exploração paralela**, sem issue, sem épico EF e
+sem compromisso de implementação. O MVP e o piloto NFC-e 65/DF permanecem
+inalterados; nenhuma dependência das etapas EF-04 a EF-21 foi criada.
+
+Contexto que motiva a exploração: a emissão de NFS-e no padrão nacional
+(leiaute DPS) tornou-se obrigatória no DF em 01/10/2026, substituindo o padrão
+ABRASF/ISSNet. Documentos de insumo já preparados:
+[mapeamento TISS → NFS-e](TISS-NFSE-FIELD-MAP.md) (de-para de campos a partir
+de lote TISS 4.01.00) e [requisitos de clínica de fisioterapia](FISIO-NFSE-REQUIREMENTS.md)
+(persona, enquadramento indicativo e fluxos particular/convênio). O domínio é
+distinto do recorte atual (ISS municipal/DPS/Ambiente Nacional, não
+ICMS/SEFAZ/XSD NF-e 4.00); reaproveitam-se princípios — tributação decidida por
+responsável, decimal exato, idempotência de importação e LGPD — não código.
+
+O que destravaria uma decisão de produto (promover a trilha a recorte com issue
+própria): confirmação formal do interessado e de seu contador/responsável
+tributário, ambiente/leiaute vigente no DF conferido no Anexo I oficial,
+granularidade lote×guia escolhida e volume estimado (portal × API). Até lá,
+nenhum destes documentos autoriza implementação, emissão ou compromisso.
+
 ## Pontos que a revisão exige resolver
 
 1. **Consulta com alertas:** `ProtocolTests.AlertExtensionMissingInPinnedConsultationSchemaFailsClosed`
@@ -191,10 +215,13 @@ lanchonetes, armarinhos, agropecuárias) foi organizada na
 [matriz de cobertura tributária do varejo](RETAIL-COVERAGE-MATRIX.md), de 17/10/2026:
 variantes por segmento, estado no preparador e priorização P1 (ST retido:
 `ICMSSN500`/`ICMS60` + CEST condicional), P2 (isenções/não incidência), P3
-(redução de base) e P4 (genéricos/`Outr`). É documento de priorização; cada
-incremento P1–P4 exige issue própria, matriz de validação do dicionário e fontes
-antes da implementação. A decisão de transmissão permanece a direta via
-SEFAZ/SVRS, já coberta por EF-14, sem mudança de aceite.
+(redução de base) e P4 (genéricos/`Outr`). **O P1 foi implementado em
+17/10/2026** pela issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)
+(commit `94fb267`, 152/152 testes no CI, Convênio 142/18 hasheado em
+`evidence/retail-coverage/`); P2–P4 seguem exigindo issue própria, matriz de
+validação do dicionário e fontes antes da implementação. A decisão de
+transmissão permanece a direta via SEFAZ/SVRS, já coberta por EF-14, sem
+mudança de aceite.
 
 A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
@@ -220,7 +247,11 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 04/10/2026 | Roadmap consolidado após revisão do projeto; briefing corrigido e requisitos de origem do retorno/fencing esclarecidos. Nenhum código fiscal, CI, banco ou transporte implementado nesta atualização. |
 | 04/10/2026 | Pendências EF-04 a EF-21 convertidas em 18 issues verificadas (#1 a #18), com vínculos neste roadmap. EF-21 permanece diferido; EF-01 a EF-03 não foram reabertos. Sem implementação fiscal ou deploy. |
 | 05/10/2026 | EF-04 concluído: três locks NuGet, CI Windows 2025 com 70/70 testes, artefatos conferidos e cenários negativos comprovados. [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem mudança no núcleo fiscal/schemas, transmissão ou deploy. |
-| 17/10/2026 | [Matriz de cobertura tributária do varejo](RETAIL-COVERAGE-MATRIX.md) publicada: variantes por segmento, estado do preparador e priorização P1–P4; fontes externas pendentes em `evidence/retail-coverage/`. Decisão de transmissão direta SEFAZ/SVRS mantida em EF-14. Sem mudança de código, contratos ou issues. |
+| 17/10/2026 | [Matriz de cobertura tributária do varejo](RETAIL-COVERAGE-MATRIX.md) publicada: variantes por segmento, estado do preparador e priorização P1–P4; fontes externas pendentes em `evidence/retail-coverage/`. Decisão de transmissão direta SEFAZ/SVRS mantida em EF-14. Sem mudança de código, contratos ou issues naquela publicação. |
+| 17/10/2026 | Containerização Docker (commit `7c03c78`): Dockerfile multi-stage com testes no build, compose `cli`/`verify`, `.dockerignore`; NuGet Cryptography.Xml/Pkcs 10.0.12 → 10.0.13 por advisories, locks regenerados. Verificação em Ubuntu 24.04 com 134/134. |
+| 17/10/2026 | Job Linux `docker` adicionado ao CI (commit `197da44`, run 39069877353): build da imagem com testes e smoke test da CLI. Job Windows segue a verificação oficial. |
+| 17/10/2026 | Incremento P1 entregue (issue #24, commit `94fb267`): `ICMSSN500`/`ICMS60` com CEST condicional no preparador, exemplo ST sintético e 152/152 testes no Actions (run 39071294072). Convênio 142/18 coletado e hasheado. Sem transmissão ou homologação. |
+| 17/10/2026 | Decisão de Bruno: NFS-e saúde vira trilha exploratória com interessado real (seção própria acima), fora do MVP NFC-e, sem issue ou compromisso de implementação. Documentação sincronizada com o estado real (contagens, matriz de varejo, decisões H18/H19). |
 
 ### EF-05 — incremento documental e regressões
 

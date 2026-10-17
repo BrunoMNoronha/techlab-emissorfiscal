@@ -5,8 +5,11 @@ Levantamento documental preparado em 17/10/2026 (America/Sao_Paulo). Mapeia as
 o estado de cada variante no preparador `nfce-preparation/0.1` e uma proposta de
 priorização de implementação. Complementa o [modelo de entrada](NFCE-INPUT-MODEL.md)
 e o [dicionário do piloto](PILOT-DATA-DICTIONARY.md); não altera contratos,
-não habilita variantes no código e não substitui o caso fiscal aprovado da
-[ficha do piloto](PILOT-REGISTRATION.md).
+não habilita variantes no código por si e não substitui o caso fiscal aprovado da
+[ficha do piloto](PILOT-REGISTRATION.md). **Atualização de 17/10/2026:** o
+incremento P1 (ST retido) foi implementado em código pela issue
+[#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24); ver
+seções 3 e 4.
 
 **Princípio do levantamento:** não se mapeiam produtos, que são infinitos;
 mapeiam-se variantes tributárias, que são finitas. A classificação de cada
@@ -20,9 +23,11 @@ priorização**, baseadas em perfis usuais de sortimento; não são determinaç�
 fiscais. Cada variante só entra em operação com a matriz de validação da
 seção 3 do dicionário preenchida e fontes conferidas para o caso aprovado.
 
-## 1. Estado atual do preparador
+## 1. Estado do preparador no levantamento original
 
-Fatos verificados no código em 17/10/2026:
+Fatos verificados no código em 17/10/2026, **antes do incremento P1** (a tabela
+é o retrato daquele levantamento; o estado vigente das variantes está na
+seção 3):
 
 | Capacidade | Estado | Evidência |
 | --- | --- | --- |
@@ -81,10 +86,12 @@ Gate comum a todas as linhas: preencher a matriz de validação (seção 3 do
 tolerâncias **quando a fonte as estabelecer**, exemplo aprovado e responsável.
 Sem isso, a variante permanece recusada, que é o comportamento correto.
 
-## 4. Incremento P1 proposto
+## 4. Incremento P1 — proposto e entregue
 
-Escopo sugerido para o primeiro incremento de código (issue a criar antes da
-implementação, conforme convenção do roadmap):
+O escopo abaixo foi proposto neste levantamento e **implementado em 17/10/2026**
+pela issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)
+(commit `94fb267`), com 152/152 testes no CI; evidências na
+[validação](VALIDATION.md). O texto permanece como registro do escopo aprovado:
 
 - Representar os campos ST-retido em `PreparationIcms` (ou record próprio por
   grupo), com validação de representação decimal nos tipos `TDec_1302`/`TDec_0302a04Opc`.
@@ -101,14 +108,15 @@ atuais; nenhuma alíquota ou MVA real é embutida.
 
 ## 5. Fontes a levantar
 
-Nenhuma das fontes abaixo foi baixada nesta entrega; URLs servem de ponto de
-partida e os hashes/datas devem ser registrados em
-[evidence/retail-coverage/FONTES.md](evidence/retail-coverage/FONTES.md) quando a
-coleta ocorrer, no padrão das evidências EF-05/EF-06.
+Na entrega original da matriz nenhuma fonte externa havia sido baixada. O
+incremento P1 coletou o Convênio ICMS 142/18, registrado com URL, data/hora UTC
+e SHA-256 em [evidence/retail-coverage/FONTES.md](evidence/retail-coverage/FONTES.md);
+as demais fontes seguem pendentes e devem ser registradas no mesmo padrão
+(evidências EF-05/EF-06) quando a coleta ocorrer.
 
 | Fonte | Para quê | Status |
 | --- | --- | --- |
-| [Convênio ICMS 142/18 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) e anexos (tabela CEST) | Regime geral de ST, segmentos/CEST e obrigatoriedade do código | `TBD` — baixar, datar e hashear |
+| [Convênio ICMS 142/18 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) e anexos (tabela CEST) | Regime geral de ST, segmentos/CEST e obrigatoriedade do código | Obtido em 17/10/2026 (incremento P1), hasheado em [FONTES.md](evidence/retail-coverage/FONTES.md); vigência de item/MVA/pauta e aplicabilidade no DF seguem com o responsável tributário |
 | Regulamento do ICMS do DF e anexos de ST/benefícios vigentes | Quais segmentos/mercadorias têm ST ou benefício no DF; conecta-se à pendência 2 do roadmap (anexo DF não reconciliado) | `TBD` — identificar ato vigente; não usar tabela histórica como cobertura atual |
 | Base legal do regime monofásico de PIS/COFINS para bebidas frias | Confirmar CST aplicável na revenda (hipótese: 04) | `TBD` — identificar lei/ato e vigência |
 | [Convênio ICMS 100/97 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97) | Reduções/isenções de insumos agropecuários e vigência | `TBD` — confirmar prorrogações e aplicação no DF |
@@ -116,8 +124,12 @@ coleta ocorrer, no padrão das evidências EF-05/EF-06.
 
 ## 6. Limites desta entrega
 
-- Documento de priorização: não escolhe enquadramento de mercadoria real, não
-  habilita variantes no código, não cria issues e não altera contratos existentes.
+- Documento de priorização: não escolhe enquadramento de mercadoria real nem
+  altera contratos existentes. Na entrega original não habilitava variantes no
+  código; o P1 foi implementado depois, com issue própria
+  ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)),
+  conforme a convenção. P2–P4 continuam exigindo issue, matriz de validação do
+  dicionário e fontes antes de qualquer implementação.
 - As frequências por segmento são hipóteses de produto; a cobertura efetiva do
   piloto continua determinada pela empresa selecionada e seus casos aprovados.
 - Nenhuma alíquota, MVA, pauta ou benefício é afirmado; nenhum autorizador foi
