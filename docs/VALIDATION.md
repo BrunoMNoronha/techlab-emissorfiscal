@@ -420,3 +420,39 @@ As hipóteses tributárias do exemplo ST (NCM 2203.00.00, CEST 03.021.03,
 CFOP 5405, PIS/COFINS CST 04 via grupos NT) são sintéticas e declaradas; não
 enquadram mercadoria real nem comprovam aplicabilidade no DF. Sem transmissão,
 credencial real, DANFE ou homologação fiscal; issues #2/#3 permanecem abertas.
+
+## Incremento P2 — isenções/não incidência no preparador — 17/10/2026
+
+Commit `265122c`, issue [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26),
+PR [#27](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/27),
+segundo incremento da priorização da
+[matriz de cobertura do varejo](RETAIL-COVERAGE-MATRIX.md): a enumeração do
+grupo `ICMSSN102` passa a aceitar CSOSN `102|103|300|400` (Anexo III-A do
+Convênio s/nº de 1970, redação do Ajuste SINIEF 39/23) e o grupo `ICMS40` é
+representado com `orig`+CST `40|41` (Tabela B, mesma redação); CST 50 e a
+sequência de desoneração (`vICMSDeson`/`motDesICMS`) permanecem recusados, como
+as demais combinações, sem recalcular valores declarados. O gate transversal
+RTC foi consultado na tabela CFF: o par regular `000`/`000001` segue único
+aceito, e CST 200/`cClassTrib` 200003 (cesta básica nacional, alíquota zero —
+art. 199 da LC 214/2025) ficou registrado como pendência impeditiva. Fontes
+CONFAZ e CFF baixadas, datadas e hasheadas em
+[FONTES.md](evidence/retail-coverage/FONTES.md). Novo exemplo sintético
+[sale-exempt-crt1.json](../samples/preparation/sale-exempt-crt1.json)
+(três itens, CSOSN 103/300/400), 13 casos de teste novos e quarto `prepare`
+em `verify.ps1`.
+
+**Validação: 165/165 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, CLI `schemas`/`demo` e os quatro `prepare` (CRT 1, CRT 3,
+ST CRT 1 e isenções CRT 1) validados no XSD fixado. Evidências:
+`docker compose run --rm verify` local em 17/10/2026 (exit 0, Ubuntu/SDK
+10.0.401) e Actions
+[run 39081972979](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39081972979)
+(Windows 2025 + job `docker`, 17/10/2026) sobre o commit `265122c`. A contagem
+165/165 substitui 152/152 como estado atual; contagens anteriores permanecem
+como marcos históricos.
+
+Os códigos dos exemplos (NCM, CFOP 5102, CSOSN 103/300/400, PIS/COFINS CST
+06/08 via grupos NT) são hipóteses de teste declaradas; nenhuma isenção,
+imunidade ou benefício real foi aprovado e o enquadramento permanece com o
+responsável tributário do caso aprovado. Sem transmissão, credencial real,
+DANFE ou homologação fiscal; issues #2/#3 permanecem abertas.

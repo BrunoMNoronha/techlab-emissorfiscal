@@ -28,7 +28,7 @@ CRT efetivo, regras/grupos e casos tributários aprovados continuam `TBD`.
 | --- | --- | --- |
 | XML, XSD e assinatura | Concluído no recorte offline | Parser seguro, 11 XSDs oficiais, seis entrypoints, chave/CNPJ numéricos e alfanuméricos, A1 sintético em memória e assinatura após serialização/envelope/nfeProc. [Código e execução](VALIDATION.md). |
 | QR e mensagens | Concluído no recorte offline | QR 3 online DF, envio síncrono unitário, consulta e interpretação correlacionada de protocolos simulados. Não há cliente SOAP ou transmissão. |
-| Validação local e CI | **152/152 testes** aprovados no Actions em 17/10/2026 (run 39071294072, pós-P1); 70/70 foi o marco histórico da prova original | SDK 10.0.401/runtime 10.0.13 (atualização de 10.0.12 por advisories NuGet, commit `7c03c78`), build Release sem avisos/erros, CLI schemas/demo, três `prepare` e hashes dos XSDs/manifest aprovados. Job Linux adicional valida a containerização Docker. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências em [VALIDATION.md](VALIDATION.md). |
+| Validação local e CI | **165/165 testes** aprovados no Actions em 17/10/2026 (run 39081972979, pós-P2); 70/70 foi o marco histórico da prova original | SDK 10.0.401/runtime 10.0.13 (atualização de 10.0.12 por advisories NuGet, commit `7c03c78`), build Release sem avisos/erros, CLI schemas/demo, três `prepare` e hashes dos XSDs/manifest aprovados. Job Linux adicional valida a containerização Docker. Cenários negativos de restore/build/testes/schema propagaram falhas. Evidências em [VALIDATION.md](VALIDATION.md). |
 | Normas e schemas | Baseline fixada; cobertura fiscal parcial | Matriz com fontes e revisões em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md). Consulta com alertas é incompatível com o XSD fixado; anexo DF localizado integralmente; reconciliação das linhas e aplicação por operação permanecem pendentes. Ver [EF-05](EF05-NORMATIVE-MATRIX.md). |
 | Publicação e planejamento | Código, roadmap e CI entregues; issues vinculadas | Código offline em `d981b92`, revisão original em `ba17162`, CI/locks em `a00361b` e [PR #19](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/19). Sem API, banco ou transporte fiscal. |
 | API e confiabilidade operacional | Somente propostas documentadas | Autenticação, autorização, identidade canônica, banco, isolamento, reserva, idempotência, trabalhadores e reconciliação ainda não têm implementação. |
@@ -217,11 +217,14 @@ variantes por segmento, estado no preparador e priorização P1 (ST retido:
 `ICMSSN500`/`ICMS60` + CEST condicional), P2 (isenções/não incidência), P3
 (redução de base) e P4 (genéricos/`Outr`). **O P1 foi implementado em
 17/10/2026** pela issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)
-(commit `94fb267`, 152/152 testes no CI, Convênio 142/18 hasheado em
-`evidence/retail-coverage/`); P2–P4 seguem exigindo issue própria, matriz de
-validação do dicionário e fontes antes da implementação. A decisão de
-transmissão permanece a direta via SEFAZ/SVRS, já coberta por EF-14, sem
-mudança de aceite.
+(commit `94fb267`, Convênio 142/18 hasheado em `evidence/retail-coverage/`) e
+**o P2 em 17/10/2026** pela issue
+[#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)
+(CSOSN 103/300/400 e CST 40/41, 165/165 testes, fontes CONFAZ/CFF hasheadas;
+par RTC regular mantido com pendência impeditiva para CST 200/`cClassTrib`
+200003). P3–P4 seguem exigindo issue própria, matriz de validação do dicionário
+e fontes antes da implementação. A decisão de transmissão permanece a direta
+via SEFAZ/SVRS, já coberta por EF-14, sem mudança de aceite.
 
 A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
@@ -252,6 +255,7 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 17/10/2026 | Job Linux `docker` adicionado ao CI (commit `197da44`, run 39069877353): build da imagem com testes e smoke test da CLI. Job Windows segue a verificação oficial. |
 | 17/10/2026 | Incremento P1 entregue (issue #24, commit `94fb267`): `ICMSSN500`/`ICMS60` com CEST condicional no preparador, exemplo ST sintético e 152/152 testes no Actions (run 39071294072). Convênio 142/18 coletado e hasheado. Sem transmissão ou homologação. |
 | 17/10/2026 | Decisão de Bruno: NFS-e saúde vira trilha exploratória com interessado real (seção própria acima), fora do MVP NFC-e, sem issue ou compromisso de implementação. Documentação sincronizada com o estado real (contagens, matriz de varejo, decisões H18/H19). |
+| 17/10/2026 | Incremento P2 entregue (issue [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26), PR [#27](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/27), commit `265122c`): CSOSN 103/300/400 em `ICMSSN102` e `ICMS40`/CST 40-41 no preparador, com 165/165 testes no Actions (run 39081972979), fontes CONFAZ/CFF hasheadas e pendência impeditiva registrada para RTC CST 200/`cClassTrib` 200003. Sem transmissão ou homologação. |
 
 ### EF-05 — incremento documental e regressões
 

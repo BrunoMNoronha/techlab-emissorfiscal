@@ -100,9 +100,9 @@ internal static class PreparationValidation
         foreach (var item in sale.Items)
         {
             if (emitter.Crt == "1" && item.Taxes.Icms.Group is not ("ICMSSN102" or "ICMSSN500"))
-                Fail("CRT1: este subconjunto prepara somente ICMSSN102/CSOSN102 e ICMSSN500/CSOSN500.");
-            if (emitter.Crt == "3" && item.Taxes.Icms.Group is not ("ICMS00" or "ICMS60"))
-                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00 e ICMS60/CST60.");
+                Fail("CRT1: este subconjunto prepara somente ICMSSN102/CSOSN 102-103-300-400 e ICMSSN500/CSOSN500.");
+            if (emitter.Crt == "3" && item.Taxes.Icms.Group is not ("ICMS00" or "ICMS40" or "ICMS60"))
+                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00, ICMS40/CST 40-41 e ICMS60/CST60.");
             if (emitter.Crt == "3" && item.Taxes.IbsCbs is null)
                 Fail("CRT3: IBSCBS explícito é obrigatório neste recorte de homologação RTC.");
             if (emitter.Crt == "1" && item.Taxes.IbsCbs is not null)
@@ -277,8 +277,21 @@ internal static class PreparationValidation
         }
         else if (taxes.Icms.Group == "ICMSSN102")
         {
-            Equal(taxes.Icms.Csosn, "102", "CSOSN deste subconjunto");
+            // Anexo III-A do Convênio s/nº de 1970 (Ajuste SINIEF 39/23): 102 tributada
+            // sem crédito, 103 isenção por faixa de receita bruta, 300 imune, 400 não
+            // tributada pelo Simples. Os demais CSOSN exigem outro grupo do leiaute.
+            OneOf(taxes.Icms.Csosn, "CSOSN de ICMSSN102 neste subconjunto", "102", "103", "300", "400");
             Absent(taxes.Icms.Cst, "CST em ICMSSN102");
+            NoOwnTaxFields(taxes.Icms);
+            NoStRetainedFields(taxes.Icms);
+        }
+        else if (taxes.Icms.Group == "ICMS40")
+        {
+            // Tabela B do Convênio s/nº de 1970 (Ajuste SINIEF 39/23): 40 isenta,
+            // 41 não tributada/imune. CST 50 (suspensão) e a sequência opcional de
+            // desoneração (vICMSDeson/motDesICMS) ficam fora do recorte P2.
+            OneOf(taxes.Icms.Cst, "CST de ICMS40 neste subconjunto", "40", "41");
+            Absent(taxes.Icms.Csosn, "CSOSN em ICMS40");
             NoOwnTaxFields(taxes.Icms);
             NoStRetainedFields(taxes.Icms);
         }
@@ -317,7 +330,7 @@ internal static class PreparationValidation
         }
     }
 
-    // Campos próprios dos grupos tributados (ICMS00): fora de ICMSSN102/ICMSSN500/ICMS60.
+    // Campos próprios dos grupos tributados (ICMS00): fora de ICMSSN102/ICMS40/ICMSSN500/ICMS60.
     private static void NoOwnTaxFields(PreparationIcms icms)
     {
         Absent(icms.BaseMode, "modBC em " + icms.Group);
