@@ -118,7 +118,8 @@ public static class NfcePreparation
         // Ordem dos grupos ICMS no leiauteNFe_v4.00.xsd; as sequências ST retido
         // (retenção, FCP-ST, efetivos) existem apenas em ICMSSN500/ICMS60.
         Fields(document, icms, ("orig", taxes.Icms.Origin), ("CST", taxes.Icms.Cst), ("CSOSN", taxes.Icms.Csosn),
-            ("modBC", taxes.Icms.BaseMode), ("vBC", taxes.Icms.Base), ("pICMS", taxes.Icms.Rate),
+            ("modBC", taxes.Icms.BaseMode), ("pRedBC", taxes.Icms.BaseReductionRate),
+            ("vBC", taxes.Icms.Base), ("pICMS", taxes.Icms.Rate),
             ("vICMS", taxes.Icms.Value),
             ("vBCSTRet", taxes.Icms.StRetainedBase), ("pST", taxes.Icms.FinalConsumerRate),
             ("vICMSSubstituto", taxes.Icms.SubstituteValue), ("vICMSSTRet", taxes.Icms.StRetainedValue),

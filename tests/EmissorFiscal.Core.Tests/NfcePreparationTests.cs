@@ -566,6 +566,69 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
             saleExempt with { EmitterProfileId = emitter3.ProfileId }, emitter3, context));
     }
 
+    [Fact]
+    public void Icms20DeclaredReductionPreparesSignsAndValidatesAgainstPinnedXsd()
+    {
+        var (sale, emitter, context) = Models("red-crt3");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var icms = SafeXml.Child(SafeXml.Child(SafeXml.Child(
+            SafeXml.Children(Info(prepared.UnsignedXml), "det")[0], "imposto"), "ICMS"), "ICMS20");
+        Assert.Equal(new[] { "orig", "CST", "modBC", "pRedBC", "vBC", "pICMS", "vICMS" },
+            icms.ChildNodes.OfType<XmlElement>().Select(element => element.LocalName).ToArray());
+        var declared = sale.Items[0].Taxes.Icms;
+        Assert.Equal(declared.BaseReductionRate, SafeXml.Text(icms, "pRedBC"));
+        Assert.Equal(declared.Base, SafeXml.Text(icms, "vBC"));
+        Assert.Equal(declared.Rate, SafeXml.Text(icms, "pICMS"));
+        Assert.Equal(declared.Value, SafeXml.Text(icms, "vICMS"));
+        proof.Validator.RequireValid("nfe", Sign(prepared));
+        // Valores declarados preservados; FCP e desoneração ficam fora do recorte P3.
+    }
+
+    [Theory]
+    [InlineData("csosn-in-icms20")]
+    [InlineData("wrong-cst-in-icms20")]
+    [InlineData("missing-predbc")]
+    [InlineData("missing-modbc")]
+    [InlineData("one-decimal-predbc")]
+    [InlineData("comma-decimal-predbc")]
+    [InlineData("st-field-in-icms20")]
+    [InlineData("fcp-in-icms20")]
+    [InlineData("predbc-in-icms00")]
+    [InlineData("predbc-in-icms40")]
+    public void Icms20RepresentationViolationsAreRejected(string scenario)
+    {
+        var json = scenario switch
+        {
+            "predbc-in-icms00" => JsonNode.Parse(Sample("sale-crt3"))!.AsObject(),
+            "predbc-in-icms40" => Icms40Sale("40"),
+            _ => JsonNode.Parse(Sample("sale-red-crt3"))!.AsObject()
+        };
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        switch (scenario)
+        {
+            case "csosn-in-icms20": icms["CSOSN"] = "102"; break;
+            case "wrong-cst-in-icms20": icms["CST"] = "00"; break;
+            case "missing-predbc": icms.Remove("pRedBC"); break;
+            case "missing-modbc": icms.Remove("modBC"); break;
+            case "one-decimal-predbc": icms["pRedBC"] = "41.6"; break;
+            case "comma-decimal-predbc": icms["pRedBC"] = "41,67"; break;
+            case "st-field-in-icms20": icms["vBCSTRet"] = "10.00"; break;
+            case "fcp-in-icms20": icms["vBCFCP"] = "10.00"; break;
+            case "predbc-in-icms00": icms["pRedBC"] = "10.0000"; break;
+            case "predbc-in-icms40": icms["pRedBC"] = "10.0000"; break;
+        }
+        Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
+    }
+
+    [Fact]
+    public void Icms20RequiresCrt3WithoutSubstitution()
+    {
+        var (saleRed, _, context) = Models("red-crt3");
+        var (_, emitter1, _) = Models("crt1");
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            saleRed with { EmitterProfileId = emitter1.ProfileId }, emitter1, context));
+    }
+
     private static JsonObject Icms40Sale(string cst)
     {
         var json = JsonNode.Parse(Sample("sale-crt3"))!.AsObject();
@@ -600,6 +663,11 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
 
     private static (PreparationSale Sale, PreparationEmitterProfile Emitter, PreparationTestContext Context) Models(string scenario) =>
         (PreparationJson.ParseSale(Sample("sale-" + scenario)),
-         PreparationJson.ParseEmitter(Sample("emitter-" + (scenario is "st-crt1" or "exempt-crt1" ? "crt1" : scenario))),
+         PreparationJson.ParseEmitter(Sample("emitter-" + scenario switch
+         {
+             "st-crt1" or "exempt-crt1" => "crt1",
+             "red-crt3" => "crt3",
+             _ => scenario
+         })),
          PreparationJson.ParseContext(Sample("test-context")));
 }
