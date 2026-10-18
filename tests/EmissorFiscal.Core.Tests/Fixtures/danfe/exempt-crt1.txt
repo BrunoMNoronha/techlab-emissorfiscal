@@ -1,0 +1,61 @@
+================================================
+EMITENTE SINTETICO CRT1 PREPARACAO
+LABORATORIO LOCAL CRT1
+CNPJ 93.847.261/0001-22 IE 0734567800195
+VIA SINTETICA DE TESTE, 170, LABORATORIO OFFLINE
+SETOR DE TESTE - BRASILIA/DF - CEP 70040-999
+------------------------------------------------
+DANFE NFC-e - Documento Auxiliar da Nota Fiscal
+de Consumidor Eletronica
+Nao permite aproveitamento de credito de ICMS
+================================================
+EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR
+FISCAL
+================================================
+# CODIGO  DESCRICAO    QTD UN x V.UNIT = V.TOTAL
+------------------------------------------------
+001 SYN-FEIJAO-01 NOTA FISCAL EMITIDA EM
+    AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL
+    2,00 KG x 5,00                         10,00
+002 SYN-LIVRO-01 LIVRO SINTETICO DE TESTE
+    1,00 UN x 30,00                        30,00
+003 SYN-HORTIFRUTI-01 HORTIFRUTI SINTETICO DE
+    TESTE
+    1,00 KG x 8,00                          8,00
+------------------------------------------------
+QTD. TOTAL DE ITENS                            3
+VALOR TOTAL R$                             48,00
+VALOR A PAGAR R$                           48,00
+FORMA DE PAGAMENTO                 VALOR PAGO R$
+Dinheiro                                   50,00
+Troco R$                                    2,00
+------------------------------------------------
+EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR
+FISCAL
+------------------------------------------------
+Consulte pela Chave de Acesso em
+http://www.fazenda.df.gov.br/nfce/consulta
+CHAVE DE ACESSO
+5326 1093 8472 6100 0122 6501
+7000 0001 2318 7654 3214
+------------------------------------------------
+CONSUMIDOR - CPF 123.456.789-09
+NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM
+VALOR FISCAL
+RUA SINTETICA DO DESTINATARIO, 200, LABORATORIO
+OFFLINE
+SETOR DE TESTE - BRASILIA/DF - CEP 70040-999
+------------------------------------------------
+NFC-e n. 000000123 Serie 017 17/10/2026 16:45:00
+Protocolo de Autorizacao: 15326000000000001
+Data de Autorizacao: 04/10/2026 12:00:01
+------------------------------------------------
+QR CODE (imagem em arquivo separado):
+http://www.fazenda.df.gov.br/nfce/qrcode?p=53261
+093847261000122650170000001231876543214|3|2
+------------------------------------------------
+DADOS SINTETICOS. CSOSN 103 300 400 DECLARADOS
+COMO HIPOTESES DE TESTE, SEM ISENCAO OU
+IMUNIDADE REAL APROVADA E SEM AUTORIZACAO
+FISCAL.
+================================================
