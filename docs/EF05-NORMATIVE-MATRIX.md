@@ -24,6 +24,31 @@ Os PDFs da NT 2026.007 v1.10 e da NT 2026.008 v1.00 também foram obtidos novame
 
 Publicação, cronograma anunciado e ativação técnica são fatos diferentes: nenhum autorizador foi consultado. A aplicação de benefícios, CST/CSOSN, CEST e `cClassTrib` a mercadorias reais segue `TBD` por empresa, regime e operação aprovada. O suporte estrutural do preparador aos pares `000`/`000001` e `200`/`200003` não comprova enquadramento tributário nem cobertura integral. Fontes, status, URLs, hashes, limites e comparação por arquivo desta rodada: [review-2026-10-18.json](evidence/ef05/review-2026-10-18.json).
 
+### Impacto no ciclo de vida e no piloto
+
+A regressão `ConsultationWithAlertsOutsidePinnedSchemaKeepsEvidenceAndCannotResubmit`
+exercita a consulta sintética com alerta no ciclo de vida em memória: a resposta
+inválida para o XSD fixado é preservada no evento, deixa a operação `Unknown`,
+mantém a reserva, não produz `nfeProc` e não libera reenvio. Uma resposta sintética
+posterior compatível demonstra apenas que o fluxo local pode prosseguir; ela não
+comprova que a SEFAZ fornecerá tal resposta. O estado `Unknown` recomenda consulta,
+mas este núcleo não tem trabalhador, política de tentativas ou alerta operacional.
+A implementação durável da EF-12 deve evitar repetição indefinida de uma resposta
+incompatível e prever encaminhamento auditável, sem assumir autorização ou alterar
+o XSD. Essa prova não resolve a incompatibilidade da EF-05.
+
+Validação local em 18/10/2026: `docker compose run --build --rm verify`, SDK
+10.0.401, build sem avisos, 360/360 testes e doze entrypoints compilados; exemplos
+e DANFEs sintéticos passaram no roteiro. Evidências locais ignoradas em
+`TestResults/ci/0bc52ee842b3427fb0d98eba025342bd`. Nenhuma comunicação fiscal ou
+homologação real foi executada; o CI é uma verificação separada.
+
+Na EF-06, a escolha da empresa e a preparação dos casos podem continuar. O piloto
+completo depende de consulta e recuperação verificadas; uma consulta com alertas
+continua condicionada a uma solução oficial identificada e validada na EF-05. Os
+fatos da empresa e os casos tributários ainda são indispensáveis para concluir a
+EF-06 e para aplicar a matriz normativa ao piloto.
+
 ## 1. Resultado e recomendação
 
 1. **Não promover uma nova baseline agora.** Nos catálogos Nacional e SVRS consultados e nos nove ZIPs examinados, não foi identificado leiaute oficial de consulta que admita os alertas previstos na NT 2026.002. Isso delimita a pesquisa; não afirma inexistência em toda fonte possível.
