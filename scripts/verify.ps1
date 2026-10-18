@@ -170,9 +170,9 @@ try {
             $taskDanfe.fiscalHomologationObtained -ne $false -or
             @($taskDanfe.artifacts).Count -ne 3) { throw "DANFE $taskRegime incompatível com a prova offline." }
         $taskDanfeLines = @((Get-Content -LiteralPath (Join-Path $taskDanfeDir 'danfe.txt') -Raw) -split "`n")
-        if (($taskDanfeLines | Where-Object { $_.Length -gt 48 }).Count -ne 0 -or
-            ($taskDanfeLines | Where-Object { $_ -like '*SEM VALOR FISCAL*' }).Count -lt 1 -or
-            ($taskDanfeLines | Where-Object { $_ -eq "Protocolo de Autorizacao: $($taskDanfe.protocol)" }).Count -ne 1) {
+        if (@($taskDanfeLines | Where-Object { $_.Length -gt 48 }).Count -ne 0 -or
+            @($taskDanfeLines | Where-Object { $_ -like '*SEM VALOR FISCAL*' }).Count -lt 1 -or
+            @($taskDanfeLines | Where-Object { $_ -eq "Protocolo de Autorizacao: $($taskDanfe.protocol)" }).Count -ne 1) {
             throw "DANFE $taskRegime fora de 48 colunas, sem aviso de homologação ou sem protocolo."
         }
         if ((Get-Content -LiteralPath (Join-Path $taskDanfeDir 'danfe-qr.svg') -Raw) -notlike '<svg xmlns="http://www.w3.org/2000/svg"*viewBox="0 0 49 49"*</svg>') {
