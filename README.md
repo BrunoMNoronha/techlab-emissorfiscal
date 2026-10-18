@@ -3,14 +3,14 @@
 Primeiro incremento local em **.NET 10**, restrito a **modelo 65, DF (`cUF=53`),
 homologação (`tpAmb=2`), emissão normal (`tpEmis=1`)**. O núcleo lê XML de forma
 segura, valida schemas oficiais fixados, prepara assinatura A1/PKCS#12 em memória,
-QR Code 3 online, mensagens de envio/consulta e correlação de protocolos.
+QR Code 3 online, mensagens de envio/consulta, correlação de protocolos e núcleo
+offline de cancelamento e inutilização.
 
-**Estado em 17/10/2026: prova local, CI offline (Windows + Docker/Linux) e
-incremento P1 de ST retido concluídos — 152/152 testes aprovados no Actions.**
+**Estado em 18/10/2026: prova local e CI offline (Windows + Docker/Linux).**
 Na prova original de 04/10, após a instalação do SDK pelo usuário, restore,
 build Release, **70 testes** e CLI `schemas`/`demo` passaram; a suíte cresceu
 com EF-05 (84), o modelo de entrada (134) e o P1 (152). O build termina com
-zero avisos/erros. Os seis entrypoints compilaram em .NET, e a
+zero avisos/erros. Os entrypoints da prova original compilaram em .NET, e a
 assinatura/PKCS#12 sintética foi verificada após serialização, envelope e
 nfeProc, com restore bloqueado e locks NuGet versionados. Evidências e limites
 estão em `docs/VALIDATION.md`.
@@ -156,7 +156,7 @@ Caches, PFX/chaves, downloads e `.validation/` não são publicados. O relatóri
 de [validação](docs/VALIDATION.md) registra as execuções reais e seus limites.
 CI comprova a prova técnica offline; homologação fiscal continua pendente.
 
-`schemas` verifica o manifest, os 11 hashes/dependências e compila os seis entrypoints.
+`schemas` verifica o manifest, os 20 hashes/dependências e compila os 12 entrypoints.
 `demo` usa uma NFC-e sintética com CNPJ alfanumérico, gera/importa PFX em memória,
 assina, verifica após serialização/envelope/nfeProc e interpreta retornos simulados
 100 e 120 com protocolo de 17 posições. Escreve somente o resumo no console. Não
@@ -168,14 +168,14 @@ recebe A1 real, senha, CSC, endpoint, comando de transmissão ou parâmetros tri
 - `src/EmissorFiscal.Cli`: demonstração/verificação exclusivamente offline.
 - `tests/EmissorFiscal.Core.Tests`: casos positivos, negativos, adulteração e falhas de correlação.
 - `samples/OfflineFixtures.cs`: dados e certificados sintéticos compartilhados somente pela CLI e testes.
-- `schemas/nfe/4.00`: manifest e 11 arquivos XSD oficiais preservados byte a byte.
+- `schemas/nfe/4.00`: manifest e 20 arquivos XSD oficiais preservados byte a byte.
 - `docs/TECHNICAL-SCOPE.md`: matriz normativa, limites e contrato mínimo futuro.
 - `docs/VALIDATION.md`: evidências, comandos, pendências e relatório deste incremento.
 - `docs/ROADMAP.md`: andamento verificado e próximos incrementos com aceite e dependências.
 
 ## Atualizações de schemas
 
-Precedência explícita: **PL009n < PL010d v1.03/subárvore NFe < PL010f v1.04**.
+Precedência explícita: **PL009n < PL010d v1.03/Evento < PL010d v1.03/NFe < PL010f v1.04**.
 O manifest registra o hash de cada ZIP, origem, data do catálogo, entrada no arquivo,
 hash por XSD, dependências e versões sobrescritas. Nenhum XSD oficial foi editado.
 
@@ -192,5 +192,6 @@ deixa evidência em `.validation/materials.json`. Seus placeholders de assinatur
 são apenas estruturais, criados em memória; não são prova de assinatura.
 
 Não há API, banco, Windows Certificate Store, certificado de contribuinte,
-transporte fiscal, cancelamento, inutilização, DANFE renderizado, contingência
-operacional ou produção. Em eventual código Node, o gerenciador obrigatório é pnpm.
+transporte fiscal, cancelamento ou inutilização operacionais, contingência ou
+produção. DANFE e eventos existem somente como prova offline sintética. Em
+eventual código Node, o gerenciador obrigatório é pnpm.

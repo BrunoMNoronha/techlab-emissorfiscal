@@ -752,24 +752,31 @@ cancelamento 110111 (`cOrgao` 53, `tpAmb` 2, `nSeqEvento` 1–99, `xJust` 15–2
 demais `Unknown`) e monta `procEventoNFe`. `NfceInutilization` monta e assina
 `inutNFe` (Id de 43 posições, série sem zeros no elemento e com três na chave),
 interpreta `retInutNFe` exigindo UF 53, ambiente 2 e coincidência dos campos
-devolvidos com o pedido (102 homologado com `nProt` e faixa; 215/241/256/563
+devolvidos com o pedido (102 homologado com `nProt`, ano, CNPJ, modelo, série e faixa; 215/241/256/563
 rejeitados; demais `Unknown`) e monta `ProcInutNFe` (raiz com P maiúsculo, como
 no XSD oficial). `InutilizationIntervalRegistry` bloqueia faixas sobrepostas por
-pool, em memória. `NfceMessages.RequireScope` conhece a versão 1.00 dos
-entrypoints de evento e a raiz `ProcInutNFe`.
+pool, em memória, sem arbitrar reservas nem persistir bloqueios. O pool usa
+identidade opaca; sua vinculação ao CNPJ depende da futura camada de identidade.
+Antes de interpretar respostas, o pedido original também passa por XSD,
+assinatura e verificação de identidade, conteúdo e recorte. `NfceMessages.RequireScope`
+conhece a versão 1.00 dos entrypoints de evento, a raiz `ProcInutNFe` e recusa
+modelo 55 nas mensagens de inutilização.
 
-**Validação: 276/276 testes aprovados, zero ignorados, build Release sem
-avisos/erros** antes da integração com o incremento DANFE (PR #38); 29 casos
-novos em `EventsTests` (cancelamento assinado, validado e correlacionado em
+**Validação: 359/359 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, após integração e recompilação completa no Docker. A execução
+isolada anterior tinha 276/276 antes da integração com o DANFE (PR #38). Os casos
+em `EventsTests` cobrem cancelamento assinado, validado e correlacionado em
 `procEventoNFe`; mapeamento de códigos só quando conhecidos; retornos sem
 correlação, sem `nProt` ou com lote incompatível nunca registram; retorno
 truncado e evento adulterado; sequência como identidade; pedidos inválidos
 recusados antes de assinar; inutilização assinada, validada e correlacionada em
 `ProcInutNFe`; faixas e ambiente conferidos; faixas inválidas; bloqueio
-concorrente de intervalos; API da NFC-e inalterada). CLI `schemas`/`demo`
-compilam doze entrypoints. Execução oficial via `docker compose run verify`
-(Linux, SDK 10.0.401); sem SDK local nesta máquina. CI do Actions identificada
-no PR, já com o DANFE integrado.
+concorrente de intervalos e API da NFC-e inalterada. CLI `schemas`/`demo`
+compilam doze entrypoints. Execução via `docker compose run --rm verify`
+(Linux, SDK 10.0.401); sem SDK local nesta máquina. O resultado do CI do PR
+deve ser verificado separadamente. A execução usou `cb0f6d1` com as alterações
+locais deste incremento ainda não commitadas. Evidência local em
+`TestResults/ci/16ab306def474a2f8dbd0846636f043a` (ignorada pelo Git).
 
 Limites: nenhuma política de prazo, elegibilidade ou escolha de faixa — H13 e a
 ficha seção 2 continuam valendo; as listas de códigos conhecidos vêm do MOC 7

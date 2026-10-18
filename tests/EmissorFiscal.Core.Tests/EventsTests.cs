@@ -76,6 +76,15 @@ public sealed class EventsTests(OfflineProof proof) : IClassFixture<OfflineProof
             $"<dhRecbto>2026-10-18T10:00:05-03:00</dhRecbto>{protocol}</infInut></retInutNFe>";
     }
 
+    private static string Resign(string xml, string rootName, string infoName, string version, Action<XmlElement> mutate)
+    {
+        var document = SafeXml.Load(xml);
+        var root = document.DocumentElement!;
+        root.RemoveChild(SafeXml.Child(root, "Signature", A1Signer.DsNamespace));
+        mutate(SafeXml.Child(root, infoName));
+        return WithCertificate(certificate => A1Signer.SignElement(SafeXml.Serialize(document), certificate, rootName, infoName, version));
+    }
+
     [Fact]
     public void CancellationIsSignedValidatedAndCorrelatedIntoProcEventoNFe()
     {
@@ -156,6 +165,24 @@ public sealed class EventsTests(OfflineProof proof) : IClassFixture<OfflineProof
     }
 
     [Fact]
+    public void SignedEventOutsideCancellationScopeIsRefusedBeforeInterpretingResponse()
+    {
+        var signed = SignedCancellation();
+        var otherEvent = Resign(signed, "evento", "infEvento", NfceEvents.Version,
+            info => SafeXml.Child(info, "tpEvento").InnerText = "110110");
+        Assert.Throws<InvalidDataException>(() => NfceEvents.Interpret(otherEvent, EventResponse(signed), proof.Validator));
+    }
+
+    [Fact]
+    public void EventReturnFromDifferentAuthorityDoesNotRegister()
+    {
+        var signed = SignedCancellation();
+        var response = EventResponse(signed, mutate: info => SafeXml.Child(info, "cOrgao").InnerText = "35");
+        Assert.Equal(EventState.Unknown, NfceEvents.Interpret(signed, response, proof.Validator).State);
+        Assert.Throws<InvalidDataException>(() => NfceEvents.BuildProcessed(signed, response, proof.Validator));
+    }
+
+    [Fact]
     public void SequenceIsPartOfTheIdentityAndRepeatsDeterministically()
     {
         var first = SignedCancellation(1);
@@ -186,6 +213,20 @@ public sealed class EventsTests(OfflineProof proof) : IClassFixture<OfflineProof
         };
         Assert.Throws<InvalidDataException>(() => WithCertificate(certificate =>
             NfceEvents.BuildSignedCancellation(request, certificate, proof.Validator)));
+    }
+
+    [Theory]
+    [InlineData(15)]
+    [InlineData(255)]
+    public void JustificationBoundariesAreAcceptedForBothRequests(int length)
+    {
+        var justification = new string('a', length);
+        var cancellation = WithCertificate(certificate => NfceEvents.BuildSignedCancellation(
+            Request() with { Justification = justification }, certificate, proof.Validator));
+        var inutilization = WithCertificate(certificate => NfceInutilization.BuildSigned(
+            InutRequest() with { Justification = justification }, certificate, proof.Validator));
+        Assert.NotEmpty(cancellation);
+        Assert.NotEmpty(inutilization);
     }
 
     [Fact]
@@ -235,6 +276,51 @@ public sealed class EventsTests(OfflineProof proof) : IClassFixture<OfflineProof
     }
 
     [Theory]
+    [InlineData("ano")]
+    [InlineData("CNPJ")]
+    [InlineData("mod")]
+    [InlineData("serie")]
+    [InlineData("nNFIni")]
+    [InlineData("nNFFin")]
+    public void HomologationRequiresEveryIdentifyingField(string missingField)
+    {
+        var signed = SignedInutilization();
+        var document = SafeXml.Load(InutResponse(signed));
+        var info = SafeXml.Child(document.DocumentElement!, "infInut");
+        info.RemoveChild(SafeXml.Child(info, missingField));
+        var response = SafeXml.Serialize(document);
+        Assert.Equal(InutilizationState.Unknown, NfceInutilization.Interpret(signed, response, proof.Validator).State);
+        Assert.Throws<InvalidDataException>(() => NfceInutilization.BuildProcessed(signed, response, proof.Validator));
+    }
+
+    [Theory]
+    [InlineData("ano", "25")]
+    [InlineData("CNPJ", "87654321000198")]
+    [InlineData("mod", "55")]
+    [InlineData("serie", "2")]
+    [InlineData("nNFIni", "6")]
+    [InlineData("nNFFin", "8")]
+    public void HomologationRequiresAllIdentifiersToMatch(string field, string value)
+    {
+        var signed = SignedInutilization();
+        var document = SafeXml.Load(InutResponse(signed));
+        SafeXml.Child(SafeXml.Child(document.DocumentElement!, "infInut"), field).InnerText = value;
+        var response = SafeXml.Serialize(document);
+        Assert.Equal(field == "mod" ? InutilizationState.InvalidResponse : InutilizationState.Unknown,
+            NfceInutilization.Interpret(signed, response, proof.Validator).State);
+        Assert.Throws<InvalidDataException>(() => NfceInutilization.BuildProcessed(signed, response, proof.Validator));
+    }
+
+    [Fact]
+    public void SignedInutilizationOutsideModelScopeIsRefusedBeforeInterpretingResponse()
+    {
+        var signed = SignedInutilization();
+        var otherModel = Resign(signed, "inutNFe", "infInut", NfceInutilization.Version,
+            info => SafeXml.Child(info, "mod").InnerText = "55");
+        Assert.Throws<InvalidDataException>(() => NfceInutilization.Interpret(otherModel, InutResponse(signed), proof.Validator));
+    }
+
+    [Theory]
     [InlineData(0, 1)]
     [InlineData(7, 5)]
     [InlineData(1, 1_000_000_000)]
@@ -246,6 +332,7 @@ public sealed class EventsTests(OfflineProof proof) : IClassFixture<OfflineProof
     public async Task OverlappingIntervalsAreLockedOutPerPoolEvenUnderConcurrency()
     {
         var registry = new InutilizationIntervalRegistry();
+        Assert.Throws<InvalidDataException>(() => registry.Lock(Pool, 1, 1_000_000_000));
         registry.Lock(Pool, 5, 7);
         Assert.Throws<IntervalOverlapException>(() => registry.Lock(Pool, 7, 9));
         Assert.Throws<IntervalOverlapException>(() => registry.Lock(Pool, 1, 5));

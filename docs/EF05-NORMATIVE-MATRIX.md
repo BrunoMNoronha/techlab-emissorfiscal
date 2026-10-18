@@ -30,7 +30,7 @@ Baseline preservada: `nfe-4.00-offline-2026-10-04`; manifest SHA-256 `9a3d723f60
 **Provas atuais, distintas:**
 
 - **Proveniência:** todos os 20 XSDs locais são idênticos aos bytes de suas entradas nos ZIPs oficiais (`baseline-byte-verification.json`, regenerado em 18/10/2026 após novo download dos três ZIPs com os mesmos SHA-256; os 11 originais não mudaram de byte).
-- **Compilação .NET:** CLI `schemas` compilou separadamente os seis entrypoints, usando o loader/resolver existentes (`dotnet-schemas.json`). É a baseline atual, não uma candidata nova.
+- **Compilação .NET histórica:** CLI `schemas` compilou separadamente os seis entrypoints então existentes, usando o loader/resolver (`dotnet-schemas.json`). A ampliação para doze entrypoints está descrita em [VALIDATION](VALIDATION.md#incremento-ef-17ef-18-núcleo--cancelamento-e-inutilização-offline--18102026).
 - **Prova estrutural independente:** `probe.py`, lxml/libxml2, parser sem DTD/entidades/rede e resolver limitado aos bytes verificados. Seis conjuntos compilados; 150 avaliações com resultados esperados, além de bloqueios de DTD, truncamento e dependência externa (`probe-results.json`). Assinatura e digest são placeholders para estrutura; não são provas criptográficas.
 - **Regressão do núcleo atual:** 40/40 testes, zero falhas/ignorados, nas classes `ProtocolTests`, `ManifestTests` e `XsdAndWireTests`. TRX confirma `AlertExtensionMissingInPinnedConsultationSchemaFailsClosed=Passed`. Não é integração de schemas novos nem nova execução integral do CI.
 

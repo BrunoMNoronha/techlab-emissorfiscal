@@ -104,8 +104,7 @@ public static class NfceEvents
         ArgumentNullException.ThrowIfNull(signedEventXml);
         ArgumentNullException.ThrowIfNull(responseXml);
         // Evento original inválido é falha local do chamador, nunca um resultado fiscal.
-        A1Signer.VerifyElement(signedEventXml, "evento", "evento", "infEvento", Version);
-        var original = SafeXml.Child(SafeXml.Load(signedEventXml).DocumentElement!, "infEvento");
+        var original = RequireSignedCancellation(signedEventXml, validator);
         try
         {
             validator.RequireValid("retEnvEvento", responseXml);
@@ -124,7 +123,8 @@ public static class NfceEvents
             var info = SafeXml.Child(returns[0], "infEvento");
             var code = SafeXml.Text(info, "cStat");
             var reason = SafeXml.Text(info, "xMotivo");
-            if (SafeXml.Text(info, "tpAmb") != "2" || OptionalText(info, "chNFe") != SafeXml.Text(original, "chNFe") ||
+            if (SafeXml.Text(root, "cOrgao") != "53" || SafeXml.Text(info, "cOrgao") != "53" ||
+                SafeXml.Text(info, "tpAmb") != "2" || OptionalText(info, "chNFe") != SafeXml.Text(original, "chNFe") ||
                 OptionalText(info, "tpEvento") != CancellationType ||
                 OptionalText(info, "nSeqEvento") != SafeXml.Text(original, "nSeqEvento"))
                 return Unknown(code, reason, "Chave/ambiente/evento/sequência do retorno diferem do evento assinado.");
@@ -172,6 +172,29 @@ public static class NfceEvents
             throw new InvalidDataException("xJust deve ter de 15 a 255 caracteres, sem espaços nas pontas.");
         try { XmlConvert.VerifyXmlChars(value); }
         catch (XmlException exception) { throw new InvalidDataException("Caractere XML inválido em xJust.", exception); }
+    }
+
+    private static XmlElement RequireSignedCancellation(string xml, XsdValidator validator)
+    {
+        validator.RequireValid("envEvento", BuildBatch(xml, "1"));
+        A1Signer.VerifyElement(xml, "evento", "evento", "infEvento", Version);
+        var info = SafeXml.Child(SafeXml.Load(xml).DocumentElement!, "infEvento");
+        var key = AccessKey.Parse(SafeXml.Text(info, "chNFe"));
+        key.RequireOfflineScope();
+        var sequenceText = SafeXml.Text(info, "nSeqEvento");
+        if (!int.TryParse(sequenceText, NumberStyles.None, CultureInfo.InvariantCulture, out var sequence) ||
+            sequence is < 1 or > 99 || sequenceText != sequence.ToString(CultureInfo.InvariantCulture) ||
+            SafeXml.Text(info, "cOrgao") != "53" || SafeXml.Text(info, "tpAmb") != "2" ||
+            SafeXml.Text(info, "CNPJ") != key.Cnpj || SafeXml.Text(info, "tpEvento") != CancellationType ||
+            SafeXml.Text(info, "verEvento") != Version ||
+            info.GetAttribute("Id") != "ID" + CancellationType + key.Value + sequence.ToString("00", CultureInfo.InvariantCulture))
+            throw new InvalidDataException("Evento assinado não corresponde ao cancelamento NFC-e/DF em homologação.");
+        var detail = SafeXml.Child(info, "detEvento");
+        if (detail.GetAttribute("versao") != Version || SafeXml.Text(detail, "descEvento") != CancellationDescription ||
+            !Regex.IsMatch(SafeXml.Text(detail, "nProt"), "^(?:[0-9]{15}|[0-9]{17})$", RegexOptions.CultureInvariant))
+            throw new InvalidDataException("Detalhes do cancelamento assinado inválidos.");
+        Justification(SafeXml.Text(detail, "xJust"));
+        return info;
     }
 
     internal static XmlDocument NewDocument(string rootName, string version = Version)

@@ -14,7 +14,8 @@ namespace EmissorFiscal.Core.Events;
 
 // Pedido de inutilização de uma faixa de nNF nunca autorizada. Qual faixa
 // inutilizar, quando e com que justificativa é política aprovada fora daqui
-// (EF-18, ficha seção 2); nenhuma faixa é deduzida de lacunas.
+// (EF-18, ficha seção 2); nenhuma faixa é deduzida de lacunas. A camada de
+// identidade deve vincular o CNPJ ao pool opaco antes de uso operacional.
 public sealed record InutilizationRequest(NumberPoolKey Pool, string Cnpj, string Year, long From, long To, string Justification);
 
 public enum InutilizationState
@@ -80,8 +81,7 @@ public static class NfceInutilization
     {
         ArgumentNullException.ThrowIfNull(signedXml);
         ArgumentNullException.ThrowIfNull(responseXml);
-        A1Signer.VerifyElement(signedXml, "inutNFe", "inutNFe", "infInut", Version);
-        var original = SafeXml.Child(SafeXml.Load(signedXml).DocumentElement!, "infInut");
+        var original = RequireSignedRequest(signedXml, validator);
         try
         {
             validator.RequireValid("retInutNFe", responseXml);
@@ -102,8 +102,9 @@ public static class NfceInutilization
             {
                 var number = NfceEvents.OptionalText(info, "nProt");
                 if (number is null) return Unknown(code, reason, "Inutilização homologada sem nProt.");
-                if (NfceEvents.OptionalText(info, "nNFIni") is null || NfceEvents.OptionalText(info, "nNFFin") is null)
-                    return Unknown(code, reason, "Homologação sem a faixa confirmada.");
+                if (new[] { "ano", "CNPJ", "mod", "serie", "nNFIni", "nNFFin" }
+                    .Any(name => NfceEvents.OptionalText(info, name) is null))
+                    return Unknown(code, reason, "Homologação sem identificação completa do pedido.");
                 return new(InutilizationState.Homologated, code, reason, number, root.OuterXml, null);
             }
             return RejectionCodes.Contains(code)
@@ -135,11 +136,36 @@ public static class NfceInutilization
 
     private static InutilizationResult Unknown(string? code, string reason, string problem) =>
         new(InutilizationState.Unknown, code, reason, null, null, problem);
+
+    private static XmlElement RequireSignedRequest(string xml, XsdValidator validator)
+    {
+        validator.RequireValid("inutNFe", xml);
+        A1Signer.VerifyElement(xml, "inutNFe", "inutNFe", "infInut", Version);
+        var info = SafeXml.Child(SafeXml.Load(xml).DocumentElement!, "infInut");
+        var cnpj = SafeXml.Text(info, "CNPJ");
+        AccessKey.ValidateCnpj(cnpj);
+        var year = SafeXml.Text(info, "ano");
+        var series = SafeXml.Text(info, "serie");
+        var fromText = SafeXml.Text(info, "nNFIni");
+        var toText = SafeXml.Text(info, "nNFFin");
+        if (!Regex.IsMatch(year, "^[0-9]{2}$", RegexOptions.CultureInvariant) ||
+            !Regex.IsMatch(series, "^(0|[1-9][0-9]{0,2})$", RegexOptions.CultureInvariant) ||
+            !long.TryParse(fromText, NumberStyles.None, CultureInfo.InvariantCulture, out var from) ||
+            !long.TryParse(toText, NumberStyles.None, CultureInfo.InvariantCulture, out var to) ||
+            from < 1 || to < from || to > NumberReservation.MaxNumber ||
+            fromText != from.ToString(CultureInfo.InvariantCulture) || toText != to.ToString(CultureInfo.InvariantCulture) ||
+            SafeXml.Text(info, "tpAmb") != "2" || SafeXml.Text(info, "cUF") != "53" ||
+            SafeXml.Text(info, "mod") != NumberPoolKey.Model || SafeXml.Text(info, "xServ") != "INUTILIZAR" ||
+            info.GetAttribute("Id") != "ID53" + year + cnpj + NumberPoolKey.Model + series.PadLeft(3, '0') +
+                from.ToString("000000000", CultureInfo.InvariantCulture) + to.ToString("000000000", CultureInfo.InvariantCulture))
+            throw new InvalidDataException("Pedido de inutilização assinado inválido ou fora do recorte.");
+        NfceEvents.Justification(SafeXml.Text(info, "xJust"));
+        return info;
+    }
 }
 
-// Bloqueio concorrente de faixas por pool: duas inutilizações em andamento não
-// podem se sobrepor, e uma faixa já homologada nunca é reutilizada. Em memória,
-// como o pool; durabilidade é EF-09.
+// Bloqueio concorrente de faixas por pool nesta instância. Não arbitra reservas
+// de números nem persiste bloqueios; essas garantias operacionais são futuras.
 public sealed class InutilizationIntervalRegistry
 {
     private readonly object gate = new();
@@ -148,7 +174,7 @@ public sealed class InutilizationIntervalRegistry
     public void Lock(NumberPoolKey pool, long from, long to)
     {
         ArgumentNullException.ThrowIfNull(pool);
-        if (from < 1 || to < from) throw new InvalidDataException("Faixa inválida.");
+        if (from < 1 || to < from || to > NumberReservation.MaxNumber) throw new InvalidDataException("Faixa inválida.");
         lock (gate)
         {
             if (!intervals.TryGetValue(pool, out var list)) intervals[pool] = list = [];

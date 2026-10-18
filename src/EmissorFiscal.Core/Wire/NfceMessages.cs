@@ -128,6 +128,9 @@ public static class NfceMessages
                 throw new InvalidDataException("Ambiente fora de homologação.");
             if (element.LocalName == "cUF" && element.InnerText != "53")
                 throw new InvalidDataException("UF fora do DF.");
+            if ((entrypoint is "inutNFe" or "retInutNFe" or "procInutNFe") &&
+                element.LocalName == "mod" && element.InnerText != "65")
+                throw new InvalidDataException("Inutilização fora do modelo NFC-e 65.");
             if (element.LocalName == "chNFe") AccessKey.Parse(element.InnerText).RequireOfflineScope();
         }
     }
