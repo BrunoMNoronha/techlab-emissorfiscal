@@ -51,12 +51,13 @@ dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore --
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json .validation/preparation-crt1
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-crt3.json samples/preparation/emitter-crt3.json samples/preparation/test-context.json .validation/preparation-crt3
 dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- prepare samples/preparation/sale-st-crt1.json samples/preparation/emitter-crt1.json samples/preparation/test-context.json .validation/preparation-st-crt1
+dotnet run --project src/EmissorFiscal.Cli -c Release --no-build --no-restore -- danfe .validation/preparation-crt1/signed.xml .validation/danfe-crt1
 ```
 
 `prepare` exige um diretório de saída novo. Produz XML sem assinatura, XML assinado
 com certificado sintético, envelope de envio, consulta e resumo com hashes.
 Valida os XMLs no XSD e verifica a assinatura no envelope antes de gravar.
-Não transmite, não produz protocolo e não renderiza DANFE. O script de verificação
+Não transmite nem produz protocolo. O script de verificação
 também executa os três exemplos; as evidências publicadas no CI contêm apenas dados
 sintéticos públicos, sem certificado privado.
 

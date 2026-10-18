@@ -1,11 +1,12 @@
 services:
-  # CLI empacotada (schemas | demo | prepare). Exemplos:
+  # CLI empacotada (schemas | demo | prepare | danfe). Exemplos:
   #   docker compose run --rm cli schemas
   #   docker compose run --rm cli demo
   #   docker compose run --rm -v ./.validation:/out cli \
   #     prepare samples/preparation/sale-crt1.json samples/preparation/emitter-crt1.json \
   #             samples/preparation/test-context.json /out/docker-crt1
-  # (o diretório de saída do prepare não pode existir antes da execução)
+  #   docker compose run --rm -v ./.validation:/out cli \n  #     danfe /out/docker-crt1/signed.xml /out/docker-crt1-danfe
+  # (os diretórios de saída de prepare/danfe não podem existir antes da execução)
   cli:
     build:
       context: .

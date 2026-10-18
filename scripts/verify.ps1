@@ -31,6 +31,7 @@ $taskSummary = [ordered]@{
     schemaHashes = @()
     lockHashes = @()
     modelPreparations = @()
+    danfes = @()
     artifacts = @()
     error = $null
     fiscalIo = $false
@@ -153,6 +154,39 @@ try {
         $taskSummary.modelPreparations += [ordered]@{ regime = $taskRegime; key = $taskPreparation.key; signatureInSubmissionVerified = $taskPreparation.signatureInSubmissionVerified; fiscalIo = $taskPreparation.fiscalIo }
         foreach ($taskModelLog in @("prepare-$taskRegime.log", "preparation-$taskRegime/summary.json")) {
             $taskSummary.artifacts += [ordered]@{ name = $taskModelLog; sha256 = (Get-FileHash -LiteralPath (Join-Path $taskEvidence $taskModelLog) -Algorithm SHA256).Hash.ToLowerInvariant() }
+        }
+        # Sétimo passo: DANFE NFC-e offline (texto 48 colunas + QR SVG) sobre a NFe
+        # assinada do prepare, com protocolo sintético explícito. Sem transporte.
+        $taskDanfeDir = Join-Path $taskEvidence "danfe-$taskRegime"
+        Invoke-ValidationStep "danfe-$taskRegime" @('run', '--project', 'src/EmissorFiscal.Cli', '-c', 'Release', '--no-build', '--no-restore', '--', 'danfe', (Join-Path $taskPreparationDir 'signed.xml'), $taskDanfeDir)
+        $taskDanfe = Get-Content -LiteralPath (Join-Path $taskDanfeDir 'summary.json') -Raw | ConvertFrom-Json
+        if ($taskDanfe.kind -ne 'NFCE_DANFE_OFFLINE' -or $taskDanfe.key -ne $taskPreparation.key -or
+            $taskDanfe.environment -ne '2' -or $taskDanfe.model -ne '65' -or $taskDanfe.uf -ne '53' -or
+            $taskDanfe.fiscalState -ne 'Authorized' -or $taskDanfe.protocolCode -ne '100' -or
+            $taskDanfe.syntheticProtocol -ne $true -or $taskDanfe.columns -ne 48 -or
+            $taskDanfe.qrVersion -ne 6 -or $taskDanfe.qrSize -ne 41 -or $taskDanfe.qrErrorCorrection -ne 'M' -or
+            $taskDanfe.qrText -ne "http://www.fazenda.df.gov.br/nfce/qrcode?p=$($taskPreparation.key)|3|2" -or
+            $taskDanfe.fiscalIo -ne $false -or $taskDanfe.taxpayerCertificate -ne $false -or
+            $taskDanfe.fiscalHomologationObtained -ne $false -or
+            @($taskDanfe.artifacts).Count -ne 3) { throw "DANFE $taskRegime incompatível com a prova offline." }
+        $taskDanfeLines = @((Get-Content -LiteralPath (Join-Path $taskDanfeDir 'danfe.txt') -Raw) -split "`n")
+        if (($taskDanfeLines | Where-Object { $_.Length -gt 48 }).Count -ne 0 -or
+            ($taskDanfeLines | Where-Object { $_ -like '*SEM VALOR FISCAL*' }).Count -lt 1 -or
+            ($taskDanfeLines | Where-Object { $_ -eq "Protocolo de Autorizacao: $($taskDanfe.protocol)" }).Count -ne 1) {
+            throw "DANFE $taskRegime fora de 48 colunas, sem aviso de homologação ou sem protocolo."
+        }
+        if ((Get-Content -LiteralPath (Join-Path $taskDanfeDir 'danfe-qr.svg') -Raw) -notlike '<svg xmlns="http://www.w3.org/2000/svg"*viewBox="0 0 49 49"*</svg>') {
+            throw "QR SVG $taskRegime fora do formato esperado (41 módulos + zona de silêncio 4)."
+        }
+        foreach ($taskDanfeArtifact in $taskDanfe.artifacts) {
+            $taskDanfePath = Join-Path $taskDanfeDir $taskDanfeArtifact.name
+            $taskDanfeHash = (Get-FileHash -LiteralPath $taskDanfePath -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($taskDanfeHash -ne $taskDanfeArtifact.sha256) { throw "Hash de artefato incompatível: danfe-$taskRegime/$($taskDanfeArtifact.name)" }
+            $taskSummary.artifacts += [ordered]@{ name = "danfe-$taskRegime/$($taskDanfeArtifact.name)"; sha256 = $taskDanfeHash }
+        }
+        $taskSummary.danfes += [ordered]@{ regime = $taskRegime; key = $taskDanfe.key; protocol = $taskDanfe.protocol; fiscalState = $taskDanfe.fiscalState; qrVersion = $taskDanfe.qrVersion; qrSize = $taskDanfe.qrSize; textLines = $taskDanfe.textLines; syntheticProtocol = $taskDanfe.syntheticProtocol }
+        foreach ($taskDanfeLog in @("danfe-$taskRegime.log", "danfe-$taskRegime/summary.json")) {
+            $taskSummary.artifacts += [ordered]@{ name = $taskDanfeLog; sha256 = (Get-FileHash -LiteralPath (Join-Path $taskEvidence $taskDanfeLog) -Algorithm SHA256).Hash.ToLowerInvariant() }
         }
     }
     foreach ($taskArtifact in @('sdk.log', 'restore.log', 'build.log', 'test.log', 'schemas.log', 'demo.log', 'test-results.trx', 'cli-schemas.json', 'cli-demo.json')) {
