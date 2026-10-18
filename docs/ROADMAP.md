@@ -68,7 +68,7 @@ dependências e evidências ao atualizar ou concluir as issues.
 | EF-04 | CI da prova offline e reprodução das dependências | Concluído | EF-01 | Windows 2025/SDK fixado, três locks e restore bloqueado; build, 70 testes e CLI aprovados no Actions, artefatos/hashes conferidos e falha controlada reprovada com diagnósticos publicados. [Evidência](VALIDATION.md#ef-04--ci-offline-e-locks-nuget--05102026). Sem segredo/transmissão fiscal. | [#1](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/1) |
 | EF-05 | Revisão normativa e compatibilidade dos schemas para o próximo recorte | Parcial — pesquisa incorporada; compatibilidade bloqueada | EF-01 | Conferir fontes oficiais, versões, vigências por ambiente e regras aplicáveis ao piloto; reconciliar consulta com alertas por pacote oficial e regressões de envio/consulta/nfeProc. Nenhuma edição de XSD oficial ou troca silenciosa de baseline. Registrar limitações ainda sem solução. | [#2](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2) |
 | EF-06 | Definir o contrato e as decisões do piloto NFC-e/DF | Parcial — contrato documental 0.2; fatos/casos reais pendentes | Ficha, autoridades, cadastro/série/casos comprovados | [Contrato 0.2](PILOT-CONTRACT.md), [ficha](PILOT-REGISTRATION.md) e [dicionário](PILOT-DATA-DICTIONARY.md): presencial/retirada/consumo próprio, regime da empresa escolhida, série exclusiva validada, conteúdo próprio por cliente e operador central delegado. Preencher fatos/tributação/autoridades indispensáveis; publicar 0.2 não encerra. Correção/eventos/contingência adiados; DANFE/QR no aceite futuro. | [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3) |
-| EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | Decidir autenticação, banco/transações, armazenamento de artefatos e segredos, execução dos trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e como validar cada componente antes de implementar a base operacional. | [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) |
+| EF-07 | Definir arquitetura operacional e política de dados/credenciais | Bloqueado | EF-06; decisões de infraestrutura/custódia `TBD` | PostgreSQL próprio em Docker escolhido como referência; versão, operação e provas pendentes. Decidir autenticação, transações, armazenamento de artefatos e segredos, trabalhadores, ambientes, auditoria, retenção, backup/restauração e custódia do A1. Registrar custos/restrições e validações antes da implementação. | [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4) |
 
 EF-04 está concluído. A pesquisa de EF-05 e o levantamento de EF-06
 podem avançar agora; o fechamento das regras aplicáveis depende dessas
@@ -77,7 +77,7 @@ regimes ou custódia para a operação fiscal.
 
 Em 18/10/2026, Bruno informou que ainda não há empresa definida. O [roteiro de
 seleção](PILOT-SELECTION.md) prepara a EF-06, e a [comparação de opções](ARCHITECTURE-OPTIONS.md)
-antecipa a análise da EF-07 sem escolher infraestrutura. EF-06 permanece parcial;
+antecipou a análise da EF-07; posteriormente PostgreSQL próprio em Docker foi escolhido como referência. EF-06 permanece parcial;
 EF-07 permanece bloqueada até os fatos e decisões indispensáveis.
 
 ### Etapa 2 — base operacional antes de I/O fiscal
@@ -299,4 +299,6 @@ Decisões humanas H08–H16 incorporadas, ficha obrigatória e dicionário fisca
 O [blueprint operacional](EF07-OPERATIONAL-BLUEPRINT.md) detalha o vínculo entre
 identidade e XML, as fronteiras de autorização, requisitos de atomicidade e
 reconciliação, custódia e provas de restauração. É proposta para as issues
-dependentes: não escolhe serviço, não resolve fatos reais e não conclui EF-07.
+dependentes. PostgreSQL próprio em Docker foi escolhido como referência; versão,
+hospedagem e demais decisões continuam pendentes. O desenho não resolve fatos
+reais nem conclui EF-07.

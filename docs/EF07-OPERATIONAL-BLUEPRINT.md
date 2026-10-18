@@ -1,6 +1,10 @@
 # EF-07 — contrato arquitetural para avaliação
 
 Preparado em 18/10/2026 para a [issue #4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4).
+Bruno escolheu **PostgreSQL próprio em contêiner Docker**, gerenciável via Docker,
+como referência da arquitetura nessa data.
+Versão, hospedagem, responsáveis, topologia, acesso e política de recuperação
+permanecem a definir; esta escolha não provisiona serviço nem inicia operação.
 Este desenho especifica invariantes e alternativas para implementação posterior;
 não comprova disponibilidade de empresa ou série, não cria infraestrutura, não
 aprova custódia e não autoriza emissão. O piloto e os fatos indispensáveis da
@@ -45,7 +49,7 @@ transacional. Ver [políticas de autorização da Microsoft](https://learn.micro
 
 ## Modelo lógico e restrições
 
-Nomes abaixo representam conceitos, não tabelas migradas ou uma escolha de banco.
+Nomes abaixo representam conceitos, não tabelas migradas.
 IDs internos, CNPJ e chaves devem preservar a forma textual suportada; não
 converter CNPJ alfanumérico, chave ou protocolo para número.
 
@@ -66,8 +70,8 @@ um contrato de replay durável com escopo de cliente implementado.
 
 ## Transações, falhas e recuperação
 
-O armazenamento transacional é ainda uma escolha pendente. Um desenho candidato
-deve implementar e testar as propriedades abaixo com conexões independentes:
+O desenho para PostgreSQL próprio deve implementar e testar as propriedades abaixo
+com conexões independentes. A versão e a configuração permanecem pendentes:
 
 1. Autenticar/autorizar e identificar o escopo antes da gravação. Uma transação
    resolve ou cria a referência idempotente sob restrição única; serializa o
@@ -96,14 +100,51 @@ deve implementar e testar as propriedades abaixo com conexões independentes:
    provar também tamanho, recuperação e desempenho; nenhuma alternativa foi
    aprovada apenas por esta descrição.
 
-PostgreSQL é um candidato, não uma escolha aprovada. Sua documentação descreve
+Para a referência PostgreSQL escolhida, a documentação descreve
 [restrições de integridade](https://www.postgresql.org/docs/current/ddl-constraints.html),
 [bloqueios de linha](https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-ROWS)
 e [isolamento transacional](https://www.postgresql.org/docs/current/transaction-iso.html).
 Esses mecanismos não demonstram a correção da aplicação: projeto de transação,
-ordem de bloqueios, tratamento de erros e testes devem ser próprios. A
-[documentação SQLite](https://www.sqlite.org/whentouse.html) descreve limites
-de escrita concorrente que também devem ser considerados em uma comparação.
+ordem de bloqueios, tratamento de erros e testes devem ser próprios. A opção
+SQLite permanece referência comparativa, sem substituir os testes no PostgreSQL
+escolhido.
+
+## Referência operacional: PostgreSQL em Docker
+
+O banco será operado em contêiner Docker próprio. Docker Compose é uma opção
+para descrever o ambiente e seus serviços, ainda sem decisão de topologia ou
+ferramenta de orquestração. A implantação concreta depende de versão, imagem,
+host, recursos, responsáveis e controles ainda não definidos.
+
+- Fixar uma versão suportada e uma imagem identificável; planejar atualizações e
+  migrações entre versões principais com backup e restauração testados. Conferir
+  `PGDATA` e o destino do volume na documentação da imagem escolhida: o layout
+  varia entre versões. Não presumir que trocar a imagem atualiza os dados.
+- Usar armazenamento persistente separado da camada gravável do contêiner,
+  preferencialmente volume nomeado gerenciado pelo Docker. Verificar sua montagem,
+  permissões, espaço disponível e persistência após recriação do contêiner.
+  Volume não é backup e comandos que removem volumes exigem cuidado operacional.
+- Restringir rede e credenciais ao mínimo necessário; não publicar o banco
+  indiscriminadamente nem registrar senhas em Git, imagens ou logs. Definir
+  mecanismo de entrega e rotação de segredos e contas distintas conforme funções.
+- Definir verificação de saúde e reconexão da aplicação. Se Compose for adotado,
+  a dependência por serviço saudável organiza a inicialização, mas não substitui
+  tratamento de perda posterior de conexão ou provas de disponibilidade.
+- Definir cópias independentes do host e do volume, com criptografia e acesso
+  controlado, frequência, retenção e responsáveis. Considerar backup lógico e,
+  conforme RPO/RTO, backup físico e arquivamento de WAL; `pg_dump` de um banco
+  não inclui objetos globais como papéis. Validar também artefatos externos e
+  segredos necessários, sem presumir que estejam no banco.
+- Em ambiente de teste e com dados sintéticos, demonstrar reinício/recriação com
+  dados preservados, falha e recuperação da conexão, backup e restauração em
+  ambiente isolado, integridade e acesso restrito. Medir tempo e perda recuperável
+  contra metas definidas antes do aceite; nenhum desses testes foi executado aqui.
+
+Fontes: [volumes Docker](https://docs.docker.com/engine/storage/volumes/),
+[ordem e saúde no Compose](https://docs.docker.com/compose/how-tos/startup-order/),
+[imagem oficial PostgreSQL](https://github.com/docker-library/docs/blob/master/postgres/README.md),
+[backup e restauração PostgreSQL](https://www.postgresql.org/docs/current/backup.html)
+e [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html).
 
 ## Credenciais, auditoria e recuperação de dados
 
@@ -130,7 +171,7 @@ de escrita concorrente que também devem ser considerados em uma comparação.
 
 ## Decisões pendentes para concluir EF-07
 
-- Banco, serviço/versão, topologia e ambiente; armazenamento de bytes; autenticação,
+- Versão do PostgreSQL, hospedagem, topologia, operação e ambiente; armazenamento de bytes; autenticação,
   execução de trabalhadores, custódia e provedor de segredos.
 - Empresa, CNPJ/CRT, cliente e delegações; série e histórico; autoridade e
   aprovação tributária do caso de referência, conforme EF-06.
@@ -138,6 +179,6 @@ de escrita concorrente que também devem ser considerados em uma comparação.
 - Política de revogação em trabalho já iniciado, preservação de resposta tardia,
   critérios de alerta e reconciliação e evidências de backup/restauração.
 
-Nenhum destes itens foi decidido pelo documento. Preencher com fonte, data,
+Além da escolha de PostgreSQL próprio em Docker, estes itens não foram decididos. Preencher com fonte, data,
 autoridade e consequência; depois revisar componentes, custos e provas. A issue
 permanece aberta enquanto escolhas e dependências indispensáveis não forem resolvidas.

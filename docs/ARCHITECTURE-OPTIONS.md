@@ -2,8 +2,9 @@
 
 Preparação para decisão em 18/10/2026. A issue [#4](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/4)
 continua **bloqueada** pelo aceite da EF-06 e por escolhas de infraestrutura e
-custódia. Este documento compara alternativas; não escolhe fornecedor, banco,
-ambiente, política de retenção ou uso real de A1 e não autoriza provisionamento.
+custódia. Bruno escolheu PostgreSQL próprio em Docker como referência em 18/10/2026;
+versão, hospedagem, responsáveis e topologia continuam TBD. Este documento
+não escolhe fornecedor, política de retenção ou uso real de A1 e não autoriza provisionamento.
 Fontes técnicas consultadas ao final; custos e volumes permanecem `TBD`.
 
 ## Restrições já conhecidas
@@ -22,7 +23,7 @@ assinada. Estas são decisões de produto registradas no
 | Decisão | Alternativas e condições | Proposta para avaliação, não aprovada |
 | --- | --- | --- |
 | Autenticação | Provedor de identidade externo pode concentrar ciclo de credenciais; solução própria exige operar emissão, revogação, rotação e auditoria. Em ambos os casos, identidade autenticada não equivale a permissão sobre um emitente. | Avaliar provedor existente e políticas do ASP.NET Core; provar autorização no servidor por cliente, ação, emitente e ambiente, inclusive worker. Nenhum fornecedor selecionado. |
-| Banco | Relacional cliente/servidor com constraints e transações, ou SQLite local com menor complexidade operacional e um escritor por arquivo. O cenário multiempresa e múltiplos trabalhadores precisa de prova de concorrência, independentemente da escolha. | Avaliar PostgreSQL como candidato para prova com transações e bloqueios; SQLite é útil como opção de teste local, não evidência automática de equivalência operacional. Versão, serviço e implantação `TBD`. |
+| Banco | Relacional cliente/servidor com constraints e transações; múltiplos trabalhadores exigem prova de concorrência. SQLite tem limites de escrita e serve apenas como referência comparativa. | Bruno escolheu PostgreSQL próprio em Docker para a arquitetura. Versão, hospedagem, topologia, operação e implantação `TBD`; provar transações e bloqueios no PostgreSQL escolhido. |
 | Artefatos | Bytes XML no banco transacional, ou armazenamento de objetos com metadados no banco. No banco há uma transação de dados mais simples, mas tamanho, backup e desempenho precisam ser medidos. Em objetos há duas falhas independentes e necessidade de reconciliação de gravação/remoção. | Comparar ambos com cargas sintéticas; definir integridade, versionamento, acesso, consistência e restauração antes de escolher. Não presumir que um nome de objeto é prova de conteúdo ou isolamento. |
 | Segredos e A1 | Serviço dedicado de segredos sob identidade controlada, ou custódia externa ao serviço com operação explicitamente delegada. Não presumir que um cofre aceite assinatura não exportável ou que o serviço possa operar sem acesso a material privado; validar a capacidade efetiva e a política do emitente. | Avaliar custódia com acesso mínimo, registro por emitente/ambiente, ciclo de revogação e rotação; modelo, localização e responsável `TBD`. Autorização e validação de certificado real pertencem também à EF-13. |
 | Trabalhadores | Processo separado ou executado junto à API; em ambos, estado e intenção duráveis são necessários e uma fila isolada não substitui histórico no banco. | Começar avaliação com poucos componentes, sem fixar topologia; provar dois trabalhadores, perda de lease e recuperação após falha. |
@@ -90,5 +91,5 @@ e dependências resolvidas. Esta preparação não altera o estado da issue.
 
 O [contrato arquitetural para avaliação](EF07-OPERATIONAL-BLUEPRINT.md) detalha
 as fronteiras de confiança, invariantes de dados, transações, falhas, custódia e
-provas para as issues dependentes. É uma proposta; as escolhas e condições de
-aceite acima continuam pendentes.
+provas para as issues dependentes. Além da referência PostgreSQL própria em Docker escolhida
+por Bruno, as demais escolhas e condições de aceite acima continuam pendentes.
