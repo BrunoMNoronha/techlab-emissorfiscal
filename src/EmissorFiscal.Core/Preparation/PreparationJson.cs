@@ -330,20 +330,46 @@ internal static class PreparationValidation
         Contribution(taxes.Pis.Group, "PIS", taxes.Pis.Cst, taxes.Pis.Base, taxes.Pis.Rate, taxes.Pis.Value);
         Contribution(taxes.Cofins.Group, "COFINS", taxes.Cofins.Cst, taxes.Cofins.Base, taxes.Cofins.Rate, taxes.Cofins.Value);
         if (taxes.TotalTaxes is not null) Money(taxes.TotalTaxes, "vTotTrib");
-        if (taxes.IbsCbs is not null)
+        if (taxes.IbsCbs is not null) Rtc(taxes.IbsCbs);
+    }
+
+    // Pares RTC deste subconjunto, conferidos na tabela CFF (FONTES.md):
+    // 000/000001 regular sem gRed; 200/200003 cesta básica nacional com alíquota
+    // reduzida a zero (art. 199 da LC 214/2025), que exige o grupo gRed declarado
+    // em gIBSUF/gIBSMun/gCBS. Percentuais e valores permanecem declarados, nunca
+    // recalculados; nenhuma consistência aritmética entre eles é imposta.
+    private static void Rtc(PreparationIbsCbs ibsCbs)
+    {
+        var rtc = ibsCbs.Tax;
+        var reductions = new[] { rtc.Uf.Reduction, rtc.Municipality.Reduction, rtc.Cbs.Reduction };
+        if (ibsCbs.Cst == "000" && ibsCbs.Classification == "000001")
         {
-            Equal(taxes.IbsCbs.Cst, "000", "CST IBS/CBS suportado");
-            Equal(taxes.IbsCbs.Classification, "000001", "cClassTrib suportado como hipótese de teste");
-            var rtc = taxes.IbsCbs.Tax;
-            Money(rtc.Base, "IBSCBS/vBC");
-            Rate(rtc.Uf.Rate, "pIBSUF");
-            Money(rtc.Uf.Value, "vIBSUF");
-            Rate(rtc.Municipality.Rate, "pIBSMun");
-            Money(rtc.Municipality.Value, "vIBSMun");
-            Money(rtc.Ibs, "vIBS");
-            Rate(rtc.Cbs.Rate, "pCBS");
-            Money(rtc.Cbs.Value, "vCBS");
+            if (reductions.Any(reduction => reduction is not null))
+                Fail("gRed não é suportado no par regular 000/000001.");
         }
+        else if (ibsCbs.Cst == "200" && ibsCbs.Classification == "200003")
+        {
+            if (reductions.Any(reduction => reduction is null))
+                Fail("O par 200/200003 exige gRed declarado em gIBSUF, gIBSMun e gCBS.");
+        }
+        else Fail("Par CST/cClassTrib IBS/CBS não mapeado: " + ibsCbs.Cst + "/" + ibsCbs.Classification);
+        Money(rtc.Base, "IBSCBS/vBC");
+        Rate(rtc.Uf.Rate, "pIBSUF");
+        Money(rtc.Uf.Value, "vIBSUF");
+        Rate(rtc.Municipality.Rate, "pIBSMun");
+        Money(rtc.Municipality.Value, "vIBSMun");
+        Money(rtc.Ibs, "vIBS");
+        Rate(rtc.Cbs.Rate, "pCBS");
+        Money(rtc.Cbs.Value, "vCBS");
+        foreach (var (reduction, name) in new[]
+        {
+            (rtc.Uf.Reduction, "gIBSUF"), (rtc.Municipality.Reduction, "gIBSMun"), (rtc.Cbs.Reduction, "gCBS")
+        })
+            if (reduction is not null)
+            {
+                Rate(reduction.Rate, name + "/gRed/pRedAliq");
+                Rate(reduction.EffectiveRate, name + "/gRed/pAliqEfet");
+            }
     }
 
     // Campos próprios dos grupos tributados (ICMS00/ICMS20): fora de ICMSSN102/ICMS40/ICMSSN500/ICMS60.

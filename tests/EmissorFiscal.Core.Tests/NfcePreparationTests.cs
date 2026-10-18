@@ -36,6 +36,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [InlineData("crt3")]
     [InlineData("st-crt1")]
     [InlineData("exempt-crt1")]
+    [InlineData("basket-crt3")]
     public void DeclaredModelsProduceNewSignedNfeSubmissionAndConsultationValidatedByPinnedXsd(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -62,6 +63,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [InlineData("crt3")]
     [InlineData("st-crt1")]
     [InlineData("exempt-crt1")]
+    [InlineData("basket-crt3")]
     public void DeclaredValuesGroupsUnitsDiscountsPaymentsAndEmitterArePreserved(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -629,6 +631,82 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
             saleRed with { EmitterProfileId = emitter1.ProfileId }, emitter1, context));
     }
 
+    [Fact]
+    public void BasketRtcDeclaredReductionsPrepareSignAndValidateAgainstPinnedXsd()
+    {
+        var (sale, emitter, context) = Models("basket-crt3");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var ibsCbs = SafeXml.Child(SafeXml.Child(
+            SafeXml.Children(Info(prepared.UnsignedXml), "det")[0], "imposto"), "IBSCBS");
+        Assert.Equal("200", SafeXml.Text(ibsCbs, "CST"));
+        Assert.Equal("200003", SafeXml.Text(ibsCbs, "cClassTrib"));
+        var rtc = SafeXml.Child(ibsCbs, "gIBSCBS");
+        var declared = sale.Items[0].Taxes.IbsCbs!.Tax;
+        foreach (var (group, rate, value, reduction) in new[]
+        {
+            ("gIBSUF", "pIBSUF", "vIBSUF", declared.Uf.Reduction),
+            ("gIBSMun", "pIBSMun", "vIBSMun", declared.Municipality.Reduction),
+            ("gCBS", "pCBS", "vCBS", declared.Cbs.Reduction)
+        })
+        {
+            var element = SafeXml.Child(rtc, group);
+            Assert.Equal(new[] { rate, "gRed", value }, element.ChildNodes.OfType<XmlElement>()
+                .Select(child => child.LocalName).ToArray());
+            var red = SafeXml.Child(element, "gRed");
+            Assert.Equal(new[] { "pRedAliq", "pAliqEfet" }, red.ChildNodes.OfType<XmlElement>()
+                .Select(child => child.LocalName).ToArray());
+            Assert.Equal(reduction!.Rate, SafeXml.Text(red, "pRedAliq"));
+            Assert.Equal(reduction.EffectiveRate, SafeXml.Text(red, "pAliqEfet"));
+        }
+        proof.Validator.RequireValid("nfe", Sign(prepared));
+        // Valores declarados preservados; percentuais de redução são hipóteses de teste.
+    }
+
+    [Theory]
+    [InlineData("cst-000-with-basket-class")]
+    [InlineData("class-000001-with-cst-200")]
+    [InlineData("unmapped-basket-class")]
+    [InlineData("missing-red-uf")]
+    [InlineData("missing-red-mun")]
+    [InlineData("missing-red-cbs")]
+    [InlineData("partial-red")]
+    [InlineData("red-in-regular")]
+    [InlineData("comma-decimal-red")]
+    [InlineData("five-decimals-red")]
+    [InlineData("unknown-red-field")]
+    public void RtcPairRepresentationViolationsAreRejected(string scenario)
+    {
+        var json = JsonNode.Parse(Sample(scenario == "red-in-regular" ? "sale-crt3" : "sale-basket-crt3"))!.AsObject();
+        var ibsCbs = json["items"]![0]!["taxes"]!["IBSCBS"]!.AsObject();
+        var group = ibsCbs["gIBSCBS"]!.AsObject();
+        switch (scenario)
+        {
+            case "cst-000-with-basket-class": ibsCbs["CST"] = "000"; break;
+            case "class-000001-with-cst-200": ibsCbs["cClassTrib"] = "000001"; break;
+            case "unmapped-basket-class": ibsCbs["cClassTrib"] = "200001"; break;
+            case "missing-red-uf": group["gIBSUF"]!.AsObject().Remove("gRed"); break;
+            case "missing-red-mun": group["gIBSMun"]!.AsObject().Remove("gRed"); break;
+            case "missing-red-cbs": group["gCBS"]!.AsObject().Remove("gRed"); break;
+            case "partial-red": group["gIBSUF"]!["gRed"]!.AsObject().Remove("pAliqEfet"); break;
+            case "red-in-regular":
+                group["gIBSUF"]!["gRed"] = new JsonObject { ["pRedAliq"] = "100.00", ["pAliqEfet"] = "0.00" };
+                break;
+            case "comma-decimal-red": group["gIBSUF"]!["gRed"]!["pRedAliq"] = "100,00"; break;
+            case "five-decimals-red": group["gCBS"]!["gRed"]!["pAliqEfet"] = "0.00000"; break;
+            case "unknown-red-field": group["gCBS"]!["gRed"]!["pRed"] = "1.00"; break;
+        }
+        Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
+    }
+
+    [Fact]
+    public void BasketRtcRequiresCrt3WithoutSubstitution()
+    {
+        var (saleBasket, _, context) = Models("basket-crt3");
+        var (_, emitter1, _) = Models("crt1");
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            saleBasket with { EmitterProfileId = emitter1.ProfileId }, emitter1, context));
+    }
+
     private static JsonObject Icms40Sale(string cst)
     {
         var json = JsonNode.Parse(Sample("sale-crt3"))!.AsObject();
@@ -666,7 +744,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
          PreparationJson.ParseEmitter(Sample("emitter-" + scenario switch
          {
              "st-crt1" or "exempt-crt1" => "crt1",
-             "red-crt3" => "crt3",
+             "red-crt3" or "basket-crt3" => "crt3",
              _ => scenario
          })),
          PreparationJson.ParseContext(Sample("test-context")));

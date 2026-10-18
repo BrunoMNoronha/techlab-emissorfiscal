@@ -494,3 +494,42 @@ declaradas; nenhum benefício real foi aprovado, a aplicabilidade no DF depende
 do RICMS-DF (pendência da matriz) e o enquadramento permanece com o responsável
 tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
 homologação fiscal; issues #2/#3 permanecem abertas.
+
+## Incremento RTC cesta básica — CST 200/cClassTrib 200003 — 17/10/2026
+
+Issue [#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30),
+resolução da pendência impeditiva RTC registrada no incremento P2: o grupo
+opcional `gRed` do leiaute (tipo `TRed`: `pRedAliq`+`pAliqEfet`, ambos
+`TDec_0302_04RTC`) passa a ser representado nos três subgrupos de `gIBSCBS`
+(`gIBSUF`, `gIBSMun`, `gCBS`), serializado na ordem do XSD fixado, e o par RTC
+CST `200`/`cClassTrib` `200003` (cesta básica nacional, alíquota reduzida a
+zero — art. 199 da LC 214/2025) é aceito **exigindo `gRed` declarado nos três
+subgrupos**. O par regular `000`/`000001` segue exigindo `gRed` ausente e
+qualquer outro par CST/`cClassTrib` segue recusado; valores e percentuais
+permanecem declarados, nunca recalculados, sem consistência aritmética imposta.
+O registro `200003` foi conferido no JSON embutido da tabela CFF
+(`PercRedIbs`/`PercRedCbs` 100, indicador NFC-e, CST 200 "Alíquota reduzida"
+com `IndReducaoAliq`) e hasheado em
+[FONTES.md](evidence/retail-coverage/FONTES.md). Novo exemplo sintético
+[sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json)
+(ICMS40/CST 40, PIS/COFINS CST 06, RTC 200/200003 com redução declarada),
+15 casos de teste novos e sexto `prepare` em `verify.ps1`.
+
+**Validação: 192/192 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, CLI `schemas`/`demo` e os seis `prepare` (CRT 1, CRT 3,
+ST CRT 1, isenções CRT 1, redução CRT 3 e cesta básica CRT 3) validados no XSD
+fixado. Evidências: `docker compose run --rm verify` local em 17/10/2026
+(exit 0, Ubuntu/SDK 10.0.401, evidência
+`TestResults/ci/e39a211ec4714d0fb02b2918d6d95609`, execução sobre clone local
+do commit da branch) e Actions
+[run 39084993566](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39084993566)
+(Windows 2025 + job `docker`, 17/10/2026, PR
+[#31](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/31)) sobre o
+commit `44ba9a4`. A contagem 192/192 substitui 177/177 como estado atual;
+contagens anteriores permanecem como marcos históricos.
+
+NCM, CFOP, CST/CSOSN e os percentuais de redução do exemplo são hipóteses de
+teste declaradas; nenhum enquadramento real nos NCM do Anexo I da LC 214/2025
+foi aprovado e a classificação de cada mercadoria real segue com o responsável
+tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
+homologação fiscal; issues #2/#3 permanecem abertas.

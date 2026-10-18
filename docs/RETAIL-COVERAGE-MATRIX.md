@@ -28,7 +28,10 @@ seção 3 do dicionário preenchida e fontes conferidas para o caso aprovado.
 **Atualização de 17/10/2026 (3):** o incremento P3 (redução de base de
 cálculo) foi implementado pela issue
 [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28); ver
-seções 3 e 4-B.
+seções 3 e 4-B. **Atualização de 17/10/2026 (4):** a pendência impeditiva RTC
+da cesta básica nacional (CST 200/`cClassTrib` 200003) foi resolvida pela issue
+[#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30); ver
+seções 3 e 4-C.
 
 ## 1. Estado do preparador no levantamento original
 
@@ -86,7 +89,7 @@ exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
 | **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Implementado em 17/10/2026 ([#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)): campos obrigatórios representados, validados e serializados; FCP e desoneração recusados; exemplo [sale-red-crt3.json](../samples/preparation/sale-red-crt3.json) | Entregue; percentual real por caso segue exigindo fonte (RICMS-DF pendente) |
 | **P4** | CST 90 / CSOSN 900 (outros) | `ICMS90`/`ICMSSN900`: combinações amplas de campos opcionais | Sem representação; grupos recusados | Genéricos; implementar somente com caso aprovado que os exija |
 | **P4** | PIS/COFINS `Outr` (CST 49+) e `Qtde` | `PISOutr`/`PISQtde` e equivalentes COFINS | Sem representação | Conforme caso; monofásico de bebidas (CST 04) já é representável via `PISNT`/`COFINSNT` |
-| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular; consulta CFF do P2 (17/10/2026) confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410, e que cesta básica nacional é CST 200/`cClassTrib` 200003 (alíquota zero, art. 199 da LC 214/2025) — grupo não representado, **pendência impeditiva** registrada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
+| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações; cesta básica usa o grupo opcional `gRed` (`pRedAliq`+`pAliqEfet`) em `gIBSUF`/`gIBSMun`/`gCBS` | Pares aceitos: `000`/`000001` (regular, sem `gRed`) e, desde 17/10/2026 ([#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30)), `200`/`200003` (cesta básica nacional, alíquota reduzida a zero — art. 199 da LC 214/2025) com `gRed` declarado nos três subgrupos; exemplo [sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json). A consulta CFF do P2 (17/10/2026) confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410; demais pares seguem recusados, com fontes em [FONTES.md](evidence/retail-coverage/FONTES.md) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
 
 Gate comum a todas as linhas: preencher a matriz de validação (seção 3 do
 [dicionário](PILOT-DATA-DICTIONARY.md)) com fonte oficial, regra, equações e
@@ -161,6 +164,35 @@ seguindo a convenção dos incrementos P1/P2:
 Nenhum percentual de redução real foi aprovado; a aplicabilidade no DF depende
 do RICMS-DF (pendência da seção 5) e do responsável tributário do caso aprovado.
 
+## 4-C. Incremento RTC cesta básica — entregue
+
+Escopo implementado em 17/10/2026 pela issue
+[#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30),
+resolvendo a pendência impeditiva registrada no P2 e seguindo a convenção dos
+incrementos P1/P2/P3:
+
+- Grupo opcional `gRed` do leiaute (tipo `TRed`: `pRedAliq`+`pAliqEfet`)
+  representado nos três subgrupos de `gIBSCBS` (`gIBSUF`, `gIBSMun`, `gCBS`),
+  serializado na ordem do XSD fixado (entre a alíquota e o valor de cada
+  subgrupo).
+- Par RTC `200`/`200003` (cesta básica nacional, alíquota reduzida a zero —
+  art. 199 da LC 214/2025) aceito **exigindo `gRed` declarado nos três
+  subgrupos**; o par regular `000`/`000001` segue exigindo `gRed` ausente, e
+  qualquer outro par CST/`cClassTrib` segue recusado. Valores e percentuais
+  declarados, nunca recalculados; nenhuma consistência aritmética imposta.
+- Registro `200003` conferido no JSON da tabela CFF (`PercRedIbs`/`PercRedCbs`
+  100, indicador NFC-e, CST 200 com `IndReducaoAliq`) e campos `gRed`/`TRed`
+  conferidos no XSD local, com fonte hasheada em
+  [FONTES.md](evidence/retail-coverage/FONTES.md).
+- Exemplo sintético [sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json)
+  (ICMS40/CST 40 + PIS/COFINS CST 06 + RTC 200/200003 com redução declarada,
+  tudo hipótese de teste); validação XSD via CLI `prepare` incluída em
+  `scripts/verify.ps1` (sexto caso).
+
+Nenhum enquadramento real nos NCM do Anexo I da LC 214/2025 foi aprovado; a
+classificação de cada mercadoria real segue com o responsável tributário do
+caso aprovado.
+
 ## 5. Fontes a levantar
 
 Na entrega original da matriz nenhuma fonte externa havia sido baixada. O
@@ -181,10 +213,12 @@ as demais fontes seguem pendentes e devem ser registradas no mesmo padrão
 
 - Documento de priorização: não escolhe enquadramento de mercadoria real nem
   altera contratos existentes. Na entrega original não habilitava variantes no
-  código; P1, P2 e P3 foram implementados depois, com issues próprias
+  código; P1, P2, P3 e o incremento RTC cesta básica foram implementados
+  depois, com issues próprias
   ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24),
   [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26),
-  [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)),
+  [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28),
+  [#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30)),
   conforme a convenção. P4 continua exigindo issue, matriz de validação do
   dicionário e fontes antes de qualquer implementação.
 - As frequências por segmento são hipóteses de produto; a cobertura efetiva do

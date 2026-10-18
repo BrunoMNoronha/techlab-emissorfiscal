@@ -109,11 +109,55 @@ redução aplicável ou enquadramento de mercadoria real no DF, que seguem com o
 responsável tributário (RICMS-DF permanece pendente abaixo). Nenhum benefício
 real foi aprovado; o percentual do exemplo sintético é valor de teste.
 
+## Coleta de 17/10/2026 — incremento RTC cesta básica (CST 200/cClassTrib 200003)
+
+Recoleta da tabela CFF, com bytes idênticos aos das coletas P2/P3 (mesmo
+SHA-256), feita para conferir os campos do registro `200003` no JSON embutido
+(`var dadosOriginais`) antes de resolver a pendência impeditiva do P2:
+
+| Arquivo local | Origem consultada (URL final) | Data/hora UTC | SHA-256 dos bytes | Resultado |
+| --- | --- | --- | --- | --- |
+| cff-page.html (não versionado; apenas hash) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | 2026-10-18T00:51:04Z | `0c2d7b19379f605e9d9a98b1045984e2da8c2ce7a57ba677e4057b401207cace` | Obtido (HTTP 200, 4.189.528 bytes; idêntico às coletas P2/P3) |
+
+Fatos conferidos no registro `"CodClassTrib":"200003"` do JSON embutido, usados
+por este incremento (issue [#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30)):
+
+- **CST `200` "Alíquota reduzida"** (`CstNavigation`): `IndReducaoAliq: true` e
+  `IndReducaoBc: false` — o mecanismo do CST 200 é redução de **alíquota**, não
+  de base, o que no leiaute corresponde ao grupo `gRed`, não a um campo de base
+  reduzida.
+- **`cClassTrib` `200003`**: "Vendas de produtos destinados à alimentação humana
+  relacionados no Anexo I da LC 214/2025 […] que compõem a Cesta Básica Nacional
+  de Alimentos"; `PercRedIbs: 100.00000` e `PercRedCbs: 100.00000` (redução de
+  100% — alíquota reduzida a zero); `IndNfce: true` (admitido no modelo 65);
+  `TexRegIbs`/`TexRegCbs` transcrevem o **art. 199 da LC 214/2025** ("Fica
+  reduzida a zero a alíquota…"); `IndTribRegular: false`,
+  `IndPermiteCredPres: false` e `IndEstornoCred: false` (sem `gTribRegular`,
+  crédito presumido ou estorno associados).
+- **Campos no XSD local** (baseline `nfe-4.00-offline-2026-10-04`): o elemento
+  `IBSCBS` do [leiauteNFe_v4.00.xsd](../../../schemas/nfe/4.00/files/leiauteNFe_v4.00.xsd)
+  usa o tipo `TTribNFe` de
+  [DFeTiposBasicos_v1.00.xsd](../../../schemas/nfe/4.00/files/DFeTiposBasicos_v1.00.xsd),
+  cujo `gIBSCBS` (tipo `TCIBS_NFe`) traz em `gIBSUF`, `gIBSMun` e `gCBS` o grupo
+  **opcional `gRed`** (tipo `TRed`: `pRedAliq` + `pAliqEfet`, ambos
+  `TDec_0302_04RTC`, que admite zero), posicionado entre a alíquota e o valor de
+  cada subgrupo. Conclusão aplicada: o par `200`/`200003` é representado com
+  `gRed` declarado nos três subgrupos; os demais grupos da choice (`gIBSCBSMono`,
+  `gTransfCred`, `gAjusteCompet`) e opcionais (`gDif`, `gDevTrib`,
+  `gTribRegular`, `gTribCompraGov`, `gEstornoCred`, créditos presumidos,
+  `gALCZFMCBS`, `indDoacao`) seguem fora do recorte.
+
+Limitações: a página consolida dados dinâmicos; o hash identifica os bytes na
+data da coleta, não certifica vigência nem enquadramento de mercadoria real nos
+NCM do Anexo I da LC 214/2025, que seguem com o responsável tributário. Os
+percentuais do exemplo sintético são hipóteses de teste; nenhum enquadramento
+real foi aprovado.
+
 | Fonte externa | URL de partida | Status |
 | --- | --- | --- |
 | Convênio ICMS 142/18 + tabela CEST | <https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18> | Obtido em 17/10/2026 (P1) |
 | Convênio s/nº de 1970 (Tabela B CST e Anexo III-A CSOSN) | <https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70> | Obtido em 17/10/2026 (P2; reconferido no P3, tabela acima) |
-| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2; reconferido no P3 para redução de base) |
+| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2; reconferido no P3 para redução de base e no incremento RTC cesta básica para o registro 200003) |
 | Regulamento do ICMS do DF e anexos ST/benefícios | A identificar (ato vigente) | Pendente |
 | Base legal do monofásico PIS/COFINS de bebidas frias | A identificar | Pendente |
 | Convênio ICMS 100/97 (insumos agropecuários) | <https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97> | Pendente |

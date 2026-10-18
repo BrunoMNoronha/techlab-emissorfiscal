@@ -307,6 +307,8 @@ public sealed record PreparationIbsUf
 {
     [JsonPropertyName("pIBSUF")]
     public required string Rate { get; init; }
+    [JsonPropertyName("gRed")]
+    public PreparationIbsCbsReduction? Reduction { get; init; }
     [JsonPropertyName("vIBSUF")]
     public required string Value { get; init; }
 }
@@ -315,6 +317,8 @@ public sealed record PreparationIbsMunicipality
 {
     [JsonPropertyName("pIBSMun")]
     public required string Rate { get; init; }
+    [JsonPropertyName("gRed")]
+    public PreparationIbsCbsReduction? Reduction { get; init; }
     [JsonPropertyName("vIBSMun")]
     public required string Value { get; init; }
 }
@@ -323,8 +327,21 @@ public sealed record PreparationCbs
 {
     [JsonPropertyName("pCBS")]
     public required string Rate { get; init; }
+    [JsonPropertyName("gRed")]
+    public PreparationIbsCbsReduction? Reduction { get; init; }
     [JsonPropertyName("vCBS")]
     public required string Value { get; init; }
+}
+
+// Grupo opcional gRed (tipo TRed do DFeTiposBasicos_v1.00.xsd) de gIBSUF,
+// gIBSMun e gCBS: redução de alíquota do cClassTrib com alíquota efetiva,
+// ambas declaradas pelo cliente.
+public sealed record PreparationIbsCbsReduction
+{
+    [JsonPropertyName("pRedAliq")]
+    public required string Rate { get; init; }
+    [JsonPropertyName("pAliqEfet")]
+    public required string EffectiveRate { get; init; }
 }
 
 public sealed record PreparationTotals

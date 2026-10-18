@@ -140,12 +140,30 @@ public static class NfcePreparation
             var rtc = taxes.IbsCbs.Tax;
             var group = Element(document, ibsCbs, "gIBSCBS");
             Fields(document, group, ("vBC", rtc.Base));
-            Fields(document, Element(document, group, "gIBSUF"), ("pIBSUF", rtc.Uf.Rate), ("vIBSUF", rtc.Uf.Value));
-            Fields(document, Element(document, group, "gIBSMun"),
-                ("pIBSMun", rtc.Municipality.Rate), ("vIBSMun", rtc.Municipality.Value));
+            // Ordem de TCIBS_NFe no DFeTiposBasicos_v1.00.xsd: o grupo opcional
+            // gRed (pRedAliq, pAliqEfet) fica entre a alíquota e o valor de cada
+            // subgrupo gIBSUF/gIBSMun/gCBS.
+            var uf = Element(document, group, "gIBSUF");
+            Fields(document, uf, ("pIBSUF", rtc.Uf.Rate));
+            Reduction(document, uf, rtc.Uf.Reduction);
+            Fields(document, uf, ("vIBSUF", rtc.Uf.Value));
+            var municipality = Element(document, group, "gIBSMun");
+            Fields(document, municipality, ("pIBSMun", rtc.Municipality.Rate));
+            Reduction(document, municipality, rtc.Municipality.Reduction);
+            Fields(document, municipality, ("vIBSMun", rtc.Municipality.Value));
             Fields(document, group, ("vIBS", rtc.Ibs));
-            Fields(document, Element(document, group, "gCBS"), ("pCBS", rtc.Cbs.Rate), ("vCBS", rtc.Cbs.Value));
+            var cbs = Element(document, group, "gCBS");
+            Fields(document, cbs, ("pCBS", rtc.Cbs.Rate));
+            Reduction(document, cbs, rtc.Cbs.Reduction);
+            Fields(document, cbs, ("vCBS", rtc.Cbs.Value));
         }
+    }
+
+    private static void Reduction(XmlDocument document, XmlElement parent, PreparationIbsCbsReduction? reduction)
+    {
+        if (reduction is null) return;
+        Fields(document, Element(document, parent, "gRed"),
+            ("pRedAliq", reduction.Rate), ("pAliqEfet", reduction.EffectiveRate));
     }
 
     private static void RtcTotals(XmlDocument document, XmlElement parent, PreparationIbsCbsTotals totals)
