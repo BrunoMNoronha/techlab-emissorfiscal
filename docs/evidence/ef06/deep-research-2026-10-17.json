@@ -1,0 +1,268 @@
+{
+  "collectedAt": "2026-10-17",
+  "timezone": "America/Sao_Paulo",
+  "method": "deep-research workflow (5 angulos, 19 fontes, verificacao adversarial 3 votos por afirmacao)",
+  "stats": {
+    "angles": 5,
+    "sourcesFetched": 19,
+    "claimsExtracted": 87,
+    "claimsVerified": 25,
+    "confirmed": 21,
+    "killed": 4,
+    "unverified": 0,
+    "afterSynthesis": 10,
+    "urlDupes": 4,
+    "budgetDropped": 7,
+    "agentCalls": 101
+  },
+  "findings": [
+    {
+      "claim": "Item 1 – Credenciamento no DF: para emitir NFC-e, o contribuinte precisa estar credenciado antes na Administração Tributária do DF. O credenciamento é feito com o certificado digital da própria empresa, na área restrita do portal da Receita DF (DF-e/Credenciamento), e só vale para quem tem inscrição no CNPJ e no CF/DF (Portaria SEEC 387/2019, arts. 2º e 3º). A versão vigente da portaria inclui a alteração da Portaria nº 998, de 15/12/2025 (DODF de 16/12/2025, Seção I). Essa alteração mexeu nos arts. 1º §1º V, 5º e 7º, não nos arts. 2º e 3º. Depende da empresa: ter certificado ICP-Brasil da própria empresa, inscrição no CF/DF e escolher os estabelecimentos a credenciar.",
+      "confidence": "high",
+      "sources": [
+        "https://www.normasbrasil.com.br/norma/portaria-387-2019-df_387872.html",
+        "https://www.legisweb.com.br/legislacao/?id=387872",
+        "https://vlex.com.br/vid/portaria-n-998-15-1098905142"
+      ],
+      "evidence": "Os votos foram 3-0 nas afirmações [4] e [6]. O texto do art. 2º diz que o contribuinte 'deverá estar previamente credenciado pela Administração Tributária do Distrito Federal', e o do art. 3º diz que o credenciamento se faz 'mediante a utilização de certificação digital da empresa'. O texto consolidado do LegisWeb lista as alterações SEEC 331/2020, SEF 8/2022, SEEC 108/2022, SEFAZ 227/2023 e SEEC 998/2025, sem nenhuma de 2026. Todas as fontes são agregadoras; o texto não foi conferido no DODF nem no SINJ-DF.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 1 – CSC no DF: ao concluir o credenciamento, a SEFAZ-DF fornece dois CSC, um para produção e outro para homologação. Segundo a Oobj, esses CSC valem para todas as unidades da empresa no DF. O ID do token (idCSC) e o valor do CSC são dados da empresa e só se obtêm no portal após o credenciamento. A afirmação de que o CSC se obtém especificamente pelo portal DEC (dec.fazenda.df.gov.br) foi refutada como fonte insuficiente e precisa ser confirmada.",
+      "confidence": "medium",
+      "sources": [
+        "https://ajuda.alterdata.com.br/shopbase/como-gerar-codigo-csc-token-por-estado-86698373.html",
+        "https://oobj.com.br/bc/como-gerar-csc-distrito-federal/"
+      ],
+      "evidence": "O voto foi 2-1. A frase da Alterdata, na seção do DF, é 'Terminado o credenciamento serão informados os CSC a utilizar, sendo um para produção e outro para homologação'. A Oobj, de forma independente, descreve dois CSC gerados para todas as unidades do DF. Não se obteve nenhuma página oficial da SEFAZ-DF.",
+      "vote": "2-1"
+    },
+    {
+      "claim": "Item 1 – Responsável técnico (grupo ZD/infRespTec, NT 2018.005): o responsável técnico é a empresa que desenvolve o software emissor ou que responde tecnicamente por ele. O grupo informa CNPJ, contato, e-mail e telefone dessa empresa, e também idCSRT e hashCSRT quando a UF exige CSRT. Cada UF decide se o envio é obrigatório e se exige CSRT. A situação atual no DF (rejeição 972 ativa ou não, exigência de CSRT) não foi confirmada e deve ser verificada com a SEFAZ-DF. Depende da empresa: os dados da software house ou do responsável técnico, e o idCSRT/CSRT, se o DF fornecer.",
+      "confidence": "medium",
+      "sources": [
+        "https://blog.tecnospeed.com.br/nota-tecnica-2018-005/",
+        "https://nfe.io/docs/release-notes/2026-9-responsavel-tecnico-infresptec/"
+      ],
+      "evidence": "Os votos foram 3-0 nas afirmações [19] e [20], mas a fonte é um blog de fornecedor de 2018 que repete a NT 2018.005. A frase-chave é 'A obrigatoriedade do envio dessas informações segue a critério de cada Unidade Federativa (UF)'. A regra 975_ZD07-10 (CSRT) é facultativa por UF. Foi refutada a afirmação de que a Rejeição 974 (CNPJ do infRespTec diferente do fornecedor cadastrado) vale para os modelos 55 e 65.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Itens 2 e 3 – Vedações e dispensas no DF: a NFC-e não pode ser usada quando a NF-e modelo 55 for obrigatória (art. 1º, §2º, I) nem no transporte intermunicipal, interestadual e internacional de passageiros (§2º, II). Estão dispensados o MEI (§3º, I) e os emissores de NF-e cujos serviços estejam exclusivamente sujeitos ao ISS (§3º, II). O Subsecretário da Receita pode criar outras dispensas ou obrigações por ato próprio (§4º). As alterações de 2023 e 2025 não mexeram nos §§2º e 3º.",
+      "confidence": "medium",
+      "sources": [
+        "https://www.normasbrasil.com.br/norma/portaria-387-2019-df_387872.html",
+        "https://www.legisweb.com.br/legislacao/?id=387872"
+      ],
+      "evidence": "O voto foi 3-0 na afirmação [7]. O texto confere com o consolidado do LegisWeb. Pesou para baixo o fato de as fontes serem agregadoras, sem conferência no DODF ou SINJ-DF.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 3 – Limite sem identificação do consumidor (regra W16-40, NT 2026.002 v1.00): a regra passou a deixar cada UF definir o valor-limite para emitir NFC-e sem identificar o destinatário, por meio de uma tabela de limites por UF. Se a UF não definir, vale R$ 10.000,00. Acima do limite, a nota é rejeitada (rejeições 750–752). A implantação foi em teste em 01/06/2026 e em produção em 15/06/2026. O valor específico do DF não foi encontrado; é preciso consultar a tabela por UF ou ato da SEFAZ-DF.",
+      "confidence": "high",
+      "sources": [
+        "https://www.reformatributaria.com/wp-content/uploads/2026/05/NT_2026.002_v1.00.pdf"
+      ],
+      "evidence": "O voto foi 3-0 na afirmação [18], conferida no texto da NT (cronograma: 'Na ausência de definição, mantém-se o limite de R$ 10.000,00 01/06/2026 15/06/2026'). O arquivo é uma cópia literal da NT oficial hospedada em site secundário. A v1.10 e a v1.11 não alteram a W16-40, segundo as fontes encontradas.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 3 – Destinatário com CNPJ irregular (regra 5E17-65, só modelo 65): se o CNPJ do destinatário estiver Bloqueado (cSitCNPJ=2) ou Vedado (cSitCNPJ=3) no CCC, a NFC-e é autorizada com o alerta 172 ('Situação do CNPJ destinatário inabilitado no momento da autorização') e não é rejeitada. Ou seja, nesse caso a NT trata a venda para CNPJ irregular como alerta, e não como vedação técnica. Nenhuma fonte verificada confirmou Ajuste SINIEF de 2023 a 2026 que proíba NFC-e para destinatário contribuinte/CNPJ.",
+      "confidence": "high",
+      "sources": [
+        "https://www.reformatributaria.com/wp-content/uploads/2026/05/NT_2026.002_v1.00.pdf",
+        "https://documentacao.senior.com.br/exigenciaslegais/noticias/federal/2026/2026-10-02-nf-e-nfc-e-nota-tecnica-no-2026-002-v-1-11-operacoes-de-vendas-presenciais-e-nao-presenciais-com-impressao-do-danfe-simp"
+      ],
+      "evidence": "Os votos foram 3-0 nas afirmações [14] e [17]. A regra está na tabela 'Banco de Dados: Destinatário' da NT, com efeito 'Alerta'. O texto é: 'previsão de autorização de documentos fiscais eletrônicos com alerta na NFC-e, modelo 65, nos casos em que o destinatário identificado por CNPJ apresente situação irregular'. Se outra regra falhar na mesma nota, ela continua sendo rejeitada.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 2 – Numeração e contingência (nacional, Ajuste SINIEF 19/16, aplicável ao DF): (a) a NFC-e em contingência off-line deve seguir a ordem sequencial; (b) não se pode reutilizar em contingência um número já transmitido com tpEmis Normal (cl. 11ª, §2º, I); (c) não se pode inutilizar numeração de NFC-e emitida em contingência (cl. 11ª, §2º, II); (d) depois da falha, o emitente deve pedir a inutilização das NFC-e que não foram autorizadas, nos termos da cláusula 16ª (cl. 12ª, II, com redação do Ajuste SINIEF 10/23, efeitos a partir de 04/09/2023); (e) não existe série obrigatória reservada à contingência na NFC-e, pois o Ajuste SINIEF 26/19 revogou o §4º (série 890–989). Pelo §5º, uma quebra de sequência sem inutilização a partir do 11º dia do mês seguinte é presumida como contingência não transmitida. Em Goiás, a SEFAZ-GO confirma que não é preciso adotar série específica.",
+      "confidence": "high",
+      "sources": [
+        "https://www.confaz.fazenda.gov.br/legislacao/ajustes/2016/AJ_019_16",
+        "https://www.normasbrasil.com.br/norma/ajuste-10-2023_444356.html",
+        "https://goias.gov.br/economia/ocorrencia-de-problemas-tecnicos-3/"
+      ],
+      "evidence": "Votos: [0] 3-0, [1] 2-1, [2] 3-0, [8] 3-0. O texto consolidado do CONFAZ confirma a cl. 11ª §2º II e a cl. 12ª II (Ajuste 10/23). A página da SEFAZ-GO é de 2019, mas repete o MOC/Anexo IV nacional. Não houve confirmação específica da SEFAZ-DF. Um relato do fórum ACBr (SEFAZ-MG) informa rejeição 266 para as séries 890–989 na NFC-e.",
+      "vote": "3-0 / 2-1"
+    },
+    {
+      "claim": "Item 4 – RTC/grupo IBSCBS: o Ato Técnico Conjunto RFB/CGIBS nº 1, de 31/07/2026 (DOU de 03/08/2026), aprovou para a NF-e (55) e a NFC-e (65), com efeitos para CBS e IBS, a NT 2026.002 v1.10, a NT 2025.002 v1.51 (leiautes RTC) e a NT 2026.007 v1.00. O mesmo ato ratificou a NT 2025.002-RTC v1.40/v1.50 e a NT 2026.001 v1.02b. Essas versões são as aprovadas na data do ato; versões posteriores, como a NT 2026.002 v1.11, já existem.",
+      "confidence": "high",
+      "sources": [
+        "https://www.cgibs.gov.br/upload/arquivos/202608/01153321-am-ato-tecnico-conjunto-rfb-e-cgibs-ratificacao-nts-dfes-revisao-assinado.pdf",
+        "https://www.legisweb.com.br/legislacao/?id=498816",
+        "https://www.machadomeyer.com.br/pt/inteligencia-juridica/publicacoes-ij/tributario-ij/ato-tecnico-conjunto-rfb-cgibs-1-26-aprovacao-e-ratificacao-de-notas-tecnicas-de-documentos-fiscais-eletronicos-com-ibs-e-cbs"
+      ],
+      "evidence": "Votos 3-0 nas afirmações [3], [9] e [12]. O PDF oficial assinado está no site do CGIBS e foi conferido literalmente: 'b) Nota Técnica 2025.002 - versão 1.51; e c) Nota Técnica 2026.007 - versão 1.00'. Foi refutada (0-3) a ideia de que a v1.10 da NT 2026.002 seja a versão vigente, porque já existe a v1.11.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 4 – Cronograma do IBSCBS na NFC-e: pela NT 2025.002 v1.51, a regra UB12-10 (IBS/CBS não informado, rejeição 1115) passou a ter 'implementação futura' em produção, sem data. Antes, as datas eram 03/08/2026 para CRT 3 e 04/01/2027 para Simples/MEI. Em homologação, a regra já vale para o regime normal (CRT 3) em documentos emitidos a partir de 01/07/2026. Em produção, notas sem IBS/CBS não são rejeitadas de forma automática durante a transição, mas a obrigação acessória de informar continua (Ato Conjunto RFB/CGIBS nº 4/2026, a partir de 03/08/2026), com possibilidade de penalidade. Se os campos forem preenchidos, as validações de consistência da NT 2025.002 (CST/cClassTrib, diferimento, redução etc.), em produção desde 05/10/2026, podem rejeitar a nota. Para o Simples Nacional, a data informada é 01/01/2027. Depende da empresa: CRT de cada varejista e cClassTrib/CST de cada item.",
+      "confidence": "medium",
+      "sources": [
+        "https://www.machadomeyer.com.br/pt/inteligencia-juridica/publicacoes-ij/tributario-ij/ato-tecnico-conjunto-rfb-cgibs-1-26-aprovacao-e-ratificacao-de-notas-tecnicas-de-documentos-fiscais-eletronicos-com-ibs-e-cbs",
+        "https://reformatributaria.sefin.ro.gov.br",
+        "https://notagateway.com.br"
+      ],
+      "evidence": "Votos 3-0 nas afirmações [10] e [11], mas todas as fontes são secundárias (o Machado Meyer retornou 403), mais uma notícia da SEFIN-RO. A frase é: 'Para os contribuintes do regime normal, a regra já é obrigatória em ambiente de homologação desde julho de 2026'. A aplicação ao modelo 65 é deduzida do fato de a NT abranger os dois modelos.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Item 5 – Alertas (NT 2026.002): a v1.00 (maio/2026) criou o resultado 'Autorizado o uso da NF-e, com alerta' (cStat 120), inicialmente só para a NFC-e. A estrutura de alertas e a regra 5E17-65 tinham teste em 01/09/2026 e produção em 05/10/2026. Os alertas voltam no grupo PR13 de protNFe (PR14 cMsg e PR15 xMsg, até 5 ocorrências). A seção 2.3 cobre NfeAutorizacao, NFeRetAutorizacao e NFeConsultaProtocolo. A NT não indica nenhum pacote de schemas (PL). Os campos PR13, cMsg e xMsg existem desde a NT 2018.005, mas a cardinalidade 0-5 pode exigir XSD atualizado (isso é inferência). A v1.11, publicada em 01/10/2026, adiou só as regras I08-180, BA02-35 e VC02-40 de 05/10/2026 para 14/12/2026. Segundo fontes secundárias, os alertas mantiveram a produção em 05/10/2026.",
+      "confidence": "medium",
+      "sources": [
+        "https://www.reformatributaria.com/wp-content/uploads/2026/05/NT_2026.002_v1.00.pdf",
+        "https://documentacao.senior.com.br/exigenciaslegais/noticias/federal/2026/2026-10-02-nf-e-nfc-e-nota-tecnica-no-2026-002-v-1-11-operacoes-de-vendas-presenciais-e-nao-presenciais-com-impressao-do-danfe-simp"
+      ],
+      "evidence": "Votos 3-0 nas afirmações [13], [15] e [16]. O texto da v1.00 foi extraído e conferido: 'PR13 Sequência XML G PR03 0-5 ... (Criado na NT 2018.005)'; a busca por 'PL_', 'pacote' e 'xsd' não encontrou nada. A v1.11 foi confirmada só pela Senior ('de 05/10/2026 para 14/12/2026'); o PDF oficial da v1.11 não foi aberto. A confiança é média porque não se confirmou um PL posterior a 05/10/2026 nem a situação atual dos alertas em produção.",
+      "vote": "3-0"
+    }
+  ],
+  "refuted": [
+    {
+      "claim": "O Ato Técnico Conjunto RFB/CGIBS nº 1/2026 aprova, para NF-e (modelo 55) e NFC-e (modelo 65), com efeitos para CBS e IBS, a NT 2026.002 versão 1.10. Essa é a NT que trata dos alertas na consulta de protocolo. Assim, a versão vigente aprovada da NT 2026.002 para o modelo 65 é a 1.10.",
+      "vote": "0-3",
+      "source": "https://www.cgibs.gov.br/upload/arquivos/202608/01153321-am-ato-tecnico-conjunto-rfb-e-cgibs-ratificacao-nts-dfes-revisao-assinado.pdf"
+    },
+    {
+      "claim": "No DF, o credenciamento para NFC-e (e a obtenção do CSC) é solicitado no portal DEC da Fazenda DF (dec.fazenda.df.gov.br) e exige certificado digital ICP-Brasil instalado.",
+      "vote": "1-2",
+      "source": "https://ajuda.alterdata.com.br/shopbase/como-gerar-codigo-csc-token-por-estado-86698373.html"
+    },
+    {
+      "claim": "Para gerar o CSC, o contribuinte precisa estar credenciado como emissor de NFC-e e ter certificado digital A1 ou A3. No DF, o CSC é obtido pelo portal dec.fazenda.df.gov.br. A página não detalha o passo a passo do DF.",
+      "vote": "0-3",
+      "source": "https://notagateway.com.br/blog/csc-na-nfc-e-guia-2025-2026-para-gerar-usar-e-acompanhar-o-fim-do-codigo-de-seguranca-do-contribuinte/"
+    },
+    {
+      "claim": "A NT 2018.005 prevê a Rejeição 974 quando o CNPJ informado no grupo infRespTec diverge do fornecedor de sistema cadastrado na SEFAZ para o emitente. A regra vale tanto para NF-e (55) quanto para NFC-e (65).",
+      "vote": "0-3",
+      "source": "https://nfe.io/docs/release-notes/2026-9-responsavel-tecnico-infresptec/index.md"
+    }
+  ],
+  "openQuestions": [
+    "Existe pacote de schemas (PL_009_V4 ou sucessor) publicado depois de 05/10/2026 em que o protNFe retornado em retConsSitNFe (NFeConsultaProtocolo) aceite PR13 com até 5 ocorrências de cMsg/xMsg? E os alertas 120/172 já estão ativos em produção para o modelo 65 no SVRS, autorizador do DF?",
+    "Qual valor-limite o DF definiu na tabela por UF da regra W16-40 para NFC-e sem identificar o consumidor? Ou o DF mantém o padrão de R$ 10.000,00?",
+    "O DF exige o grupo infRespTec (rejeição 972) e CSRT/hashCSRT para NFC-e? E como um prestador central pode transmitir por várias empresas: certificado de cada emitente, procuração eletrônica no portal da Receita DF ou cadastro como software house?",
+    "Quais regras de série e numeração da NFC-e o DF define (faixa permitida, série por caixa ou estabelecimento, uso por mais de um sistema), e há consulta oficial do último número usado em homologação?"
+  ],
+  "caveats": "1) A maior parte das evidências sobre o DF vem de agregadores (NormasBrasil, LegisWeb, vLex) e de fornecedores (Alterdata, Oobj, Tecnospeed). Nenhuma página oficial da SEFAZ-DF/Receita DF nem o DODF/SINJ-DF foi lida diretamente. A Portaria 387/2019 consolidada com a 998/2025 deve ser conferida no SINJ-DF. 2) As NTs foram lidas em cópias hospedadas em reformatributaria.com. O Portal Nacional da NF-e não abriu (loop de redirecionamento), então as versões v1.10 e v1.11 da NT 2026.002 e a v1.51 da NT 2025.002 não foram conferidas no portal oficial. 3) Os dados mudam rápido. Hoje é 17/10/2026; há NTs revisadas a cada poucas semanas e prazos adiados (UB12-10 sem data; I08-180/BA02-35/VC02-40 para 14/12/2026). Qualquer data deve ser revalidada antes de ir para produção. 4) Partes da pergunta ficaram sem achado verificado: (a) se um prestador terceiro pode transmitir em nome do emitente e com qual certificado ou procuração (pela regra geral da NF-e, a assinatura digital é do emitente ou de certificado do mesmo CNPJ raiz, mas isso não foi verificado para o DF); (b) a faixa de séries permitida no DF e a regra de série por sistema ou estabelecimento; (c) o valor-limite do DF na tabela W16-40; (d) CRT Simples vs regime normal, benefícios do RICMS-DF (Decreto 18.955/1997), ST/CEST no DF e as tabelas cClassTrib do CGIBS; (e) a exigência de infRespTec/CSRT no DF. 5) As regras de contingência e inutilização são nacionais (Ajuste SINIEF 19/16) e valem para o DF, mas os detalhes de procedimento vieram de Goiás (2019). 6) Dependem da empresa e não se encontram por pesquisa: certificado A1/A3 de cada CNPJ, inscrição no CF/DF, CSC e idCSC de homologação e produção de cada empresa, último número usado por série (só se apura pela consulta de protocolo e situação de cada chave, ou pelo histórico do sistema anterior), CRT, NCM/CEST e cClassTrib dos itens, e quais benefícios fiscais cada varejista usa.",
+  "sources": [
+    {
+      "url": "https://blog.tecnospeed.com.br/nota-tecnica-2018-005/",
+      "quality": "blog",
+      "angle": "Credenciamento NFC-e DF, CSC e terceiros",
+      "claimCount": 5
+    },
+    {
+      "url": "https://vlex.com.br/vid/portaria-n-998-15-1098905142",
+      "quality": "secondary",
+      "angle": "Credenciamento NFC-e DF, CSC e terceiros",
+      "claimCount": 4
+    },
+    {
+      "url": "https://ajuda.alterdata.com.br/shopbase/como-gerar-codigo-csc-token-por-estado-86698373.html",
+      "quality": "secondary",
+      "angle": "Credenciamento NFC-e DF, CSC e terceiros",
+      "claimCount": 3
+    },
+    {
+      "url": "https://notagateway.com.br/blog/csc-na-nfc-e-guia-2025-2026-para-gerar-usar-e-acompanhar-o-fim-do-codigo-de-seguranca-do-contribuinte/",
+      "quality": "blog",
+      "angle": "Credenciamento NFC-e DF, CSC e terceiros",
+      "claimCount": 4
+    },
+    {
+      "url": "https://nfe.io/docs/release-notes/2026-9-responsavel-tecnico-infresptec/index.md",
+      "quality": "blog",
+      "angle": "Credenciamento NFC-e DF, CSC e terceiros",
+      "claimCount": 4
+    },
+    {
+      "url": "https://www.normasbrasil.com.br/norma/portaria-387-2019-df_387872.html",
+      "quality": "secondary",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.normasbrasil.com.br/norma/ajuste-10-2023_444356.html",
+      "quality": "secondary",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.projetoacbr.com.br/forum/topic/55916-nfc-e-com-s%C3%A9rie-espec%C3%ADfica-para-conting%C3%AAncia-n%C3%A3o-precisa-mais-fazer/",
+      "quality": "forum",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://inventti.com.br/ajuste-altera-cenario-nfce",
+      "quality": "blog",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://legislacao.fazenda.sp.gov.br/Paginas/RC18881_2018.aspx",
+      "quality": "primary",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 4
+    },
+    {
+      "url": "https://goias.gov.br/economia/ocorrencia-de-problemas-tecnicos-3/",
+      "quality": "primary",
+      "angle": "Série, numeração e inutilização NFC-e (MOC/Ajuste SINIEF 19/16)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.projetoacbr.com.br/forum/topic/91721-revogado-o-fim-da-nfc-e-para-cnpj-com-novo-ajuste-sinief/",
+      "quality": "forum",
+      "angle": "Identificação do consumidor e vedações NFC-e",
+      "claimCount": 4
+    },
+    {
+      "url": "https://portalspedbrasil.com.br/forum/nfc-e-revogacao-do-ajuste-sinief-11-25-nada-muda-ajuste-sinief-no-12-de-6-de-abril-de-2026/",
+      "quality": "forum",
+      "angle": "Identificação do consumidor e vedações NFC-e",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.cgibs.gov.br/upload/arquivos/202608/01153321-am-ato-tecnico-conjunto-rfb-e-cgibs-ratificacao-nts-dfes-revisao-assinado.pdf",
+      "quality": "primary",
+      "angle": "Varejo DF: ST, benefícios, Simples e cronograma IBS/CBS",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.projetoacbr.com.br/forum/topic/93915-reforma-tribut%C3%A1ria-nt-2025002-v151-suspende-data-fixa-de-obrigatoriedade-do-ibscbs-na-nf-e-e-adia-exig%C3%AAncia-em-produ%C3%A7%C3%A3o/",
+      "quality": "forum",
+      "angle": "Varejo DF: ST, benefícios, Simples e cronograma IBS/CBS",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.machadomeyer.com.br/pt/inteligencia-juridica/publicacoes-ij/tributario-ij/ato-tecnico-conjunto-rfb-cgibs-1-26-aprovacao-e-ratificacao-de-notas-tecnicas-de-documentos-fiscais-eletronicos-com-ibs-e-cbs",
+      "quality": "secondary",
+      "angle": "Varejo DF: ST, benefícios, Simples e cronograma IBS/CBS",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.legisweb.com.br/legislacao/?id=498816",
+      "quality": "secondary",
+      "angle": "Varejo DF: ST, benefícios, Simples e cronograma IBS/CBS",
+      "claimCount": 4
+    },
+    {
+      "url": "https://documentacao.senior.com.br/exigenciaslegais/noticias/federal/2026/2026-10-02-nf-e-nfc-e-nota-tecnica-no-2026-002-v-1-11-operacoes-de-vendas-presenciais-e-nao-presenciais-com-impressao-do-danfe-simp",
+      "quality": "secondary",
+      "angle": "NT 2026.002 alertas na consulta de protocolo",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.reformatributaria.com/wp-content/uploads/2026/05/NT_2026.002_v1.00.pdf",
+      "quality": "secondary",
+      "angle": "NT 2026.002 alertas na consulta de protocolo",
+      "claimCount": 5
+    }
+  ]
+}
