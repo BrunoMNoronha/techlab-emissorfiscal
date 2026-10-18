@@ -62,7 +62,9 @@ public static class PreparationJson
 
     private const int SafeLimit = 1024 * 1024;
 
-    private static void RejectAmbiguity(JsonElement element)
+    // Compartilhado com a canonicalização de Idempotency: as mesmas ambiguidades
+    // que o parser recusa não podem produzir requestHash.
+    internal static void RejectAmbiguity(JsonElement element)
     {
         if (element.ValueKind == JsonValueKind.Null)
             throw new InvalidDataException("Null explícito não é suportado; omita apenas campos opcionais.");
