@@ -1,0 +1,599 @@
+{
+  "checkedAt": "2026-10-18T02:30:12.830120-03:00",
+  "checkout": "9656b6d6b4c4dae9bf3591746a8ea74aff2af544",
+  "snapshotScope": "11 XSDs and 6 entrypoints before EF-17/18 expanded the manifest to 20 XSDs and 12 entrypoints.",
+  "baselineId": "nfe-4.00-offline-2026-10-04",
+  "manifestSha256": "9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c",
+  "sources": [
+    {
+      "name": "national-schemas.html",
+      "url": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+      "checkedAt": "2026-10-18T02:30:10.819176-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "national-nts.html",
+      "url": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=04BIflQt1aY%3D",
+      "checkedAt": "2026-10-18T02:30:10.829848-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "svrs-nfe.html",
+      "url": "https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos",
+      "checkedAt": "2026-10-18T02:30:10.841931-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 157911,
+      "sha256": "970bdaec079e52e6f484c1d402c51dddb0e6e5a1eb88623dd5da86a7b52f44fa",
+      "matchesHistoricalSha256": false
+    },
+    {
+      "name": "svrs-nfce.html",
+      "url": "https://dfe-portal.svrs.rs.gov.br/Nfce/Documentos",
+      "checkedAt": "2026-10-18T02:30:10.890402-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/Nfce/Documentos",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 84974,
+      "sha256": "fbb5b4c9bdd24c8be29897cc8a40f7d7f28ef8201917419c0365fdea65b54577",
+      "matchesHistoricalSha256": false
+    },
+    {
+      "name": "nt2026.007.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=fpJlwzhffcQ%3D",
+      "checkedAt": "2026-10-18T02:30:10.950568-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "nt2026.008.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=qAoMot6VyiY%3D",
+      "checkedAt": "2026-10-18T02:30:10.978226-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "nt2026.002.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=m8aACnFLK%2FY%3D",
+      "checkedAt": "2026-10-18T02:30:11.456557-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "nt2025.002.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=HXPO8VLbh4o%3D",
+      "checkedAt": "2026-10-18T02:30:11.456891-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "NT_2026.002_v1.10a_DANFE_Simpl_Tp2_Emi_Offline_Autoriz_Alerta_v2.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.002_v1.10a_DANFE_Simpl_Tp2_Emi_Offline_Autoriz_Alerta_v2.pdf",
+      "checkedAt": "2026-10-18T02:30:11.508575-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.002_v1.10a_DANFE_Simpl_Tp2_Emi_Offline_Autoriz_Alerta_v2.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 767698,
+      "sha256": "705f771830565c209d815659347ac4ea251901c77064cc163ce5c93f311e6e64",
+      "matchesHistoricalSha256": true
+    },
+    {
+      "name": "df-regras-adotadas.pdf",
+      "url": "http://static.fazenda.df.gov.br//arquivos/servico-771/Nota_Tecnica_2019.001_regras_adotadas_pelo_DF.pdf",
+      "checkedAt": "2026-10-18T02:30:11.508908-03:00",
+      "status": 200,
+      "finalUrl": "http://static.fazenda.df.gov.br//arquivos/servico-771/Nota_Tecnica_2019.001_regras_adotadas_pelo_DF.pdf",
+      "contentType": "application/pdf",
+      "bytes": 349123,
+      "sha256": "e755bbaf6ce4b44e0ea2c4a3e34003250af80ac46c35cd8bd63f64f0b9b92851",
+      "matchesHistoricalSha256": true
+    },
+    {
+      "name": "it2025.002-v170.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=h9o7idH%2BOcI%3D",
+      "checkedAt": "2026-10-18T02:30:11.560799-03:00",
+      "status": 302,
+      "error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nFound"
+    },
+    {
+      "name": "dodf-182-2026-09-30.pdf",
+      "url": "https://www.dodf.df.gov.br/dodf/jornal/visualizar-pdf?pasta=2026%7C09_Setembro%7CDODF%20182%2030-09-2026%7C&arquivo=DODF%20182%2030-09-2026%20INTEGRA.pdf",
+      "checkedAt": "2026-10-18T02:30:11.586624-03:00",
+      "status": null,
+      "error": "response over 30 MB"
+    }
+  ],
+  "localArchives": [
+    {
+      "id": "PL009n",
+      "origin": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "publishedOn": "2024-03-19",
+      "sha256": "8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62",
+      "matchesManifest": true,
+      "sourceOfBytes": "previously downloaded tmp/official, not newly fetched",
+      "entries": [
+        {
+          "name": "enviNFe_v4.00.xsd",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/enviNFe_v4.00.xsd",
+          "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "procNFe_v4.00.xsd",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/procNFe_v4.00.xsd",
+          "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "retEnviNFe_v4.00.xsd",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retEnviNFe_v4.00.xsd",
+          "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        }
+      ]
+    },
+    {
+      "id": "PL010d",
+      "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
+      "publishedOn": "2026-07-10",
+      "sha256": "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+      "matchesManifest": true,
+      "sourceOfBytes": "previously downloaded tmp/official, not newly fetched",
+      "entries": [
+        {
+          "name": "consSitNFe_v4.00.xsd",
+          "archiveEntry": "PL_010d_v1.03/NFe/consSitNFe_v4.00.xsd",
+          "sha256": "44d816a725553a0c53508be919629c9235b42c5d41c358a05be8fdf61945f5c1",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "leiauteConsSitNFe_v4.00.xsd",
+          "archiveEntry": "PL_010d_v1.03/NFe/leiauteConsSitNFe_v4.00.xsd",
+          "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "retConsSitNFe_v4.00.xsd",
+          "archiveEntry": "PL_010d_v1.03/NFe/retConsSitNFe_v4.00.xsd",
+          "sha256": "8b7188d6fe9e879ca057bfb68600746c7491d2e092e3dc5121a6cd5aa79272d5",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        }
+      ]
+    },
+    {
+      "id": "PL010f",
+      "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D",
+      "publishedOn": "2026-08-31",
+      "sha256": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998",
+      "matchesManifest": true,
+      "sourceOfBytes": "previously downloaded tmp/official, not newly fetched",
+      "entries": [
+        {
+          "name": "DFeTiposBasicos_v1.00.xsd",
+          "archiveEntry": "PL_010f_v1.04/DFeTiposBasicos_v1.00.xsd",
+          "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "leiauteNFe_v4.00.xsd",
+          "archiveEntry": "PL_010f_v1.04/leiauteNFe_v4.00.xsd",
+          "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "nfe_v4.00.xsd",
+          "archiveEntry": "PL_010f_v1.04/nfe_v4.00.xsd",
+          "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "tiposBasico_v4.00.xsd",
+          "archiveEntry": "PL_010f_v1.04/tiposBasico_v4.00.xsd",
+          "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        },
+        {
+          "name": "xmldsig-core-schema_v1.01.xsd",
+          "archiveEntry": "PL_010f_v1.04/xmldsig-core-schema_v1.01.xsd",
+          "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+          "matchesManifest": true,
+          "matchesLocalBytes": true
+        }
+      ]
+    }
+  ],
+  "protocolLayouts": {
+    "leiauteConsSitNFe_v4.00.xsd": {
+      "sha256": "646e3a6bd26720b12a1322d5d25181504d82175c3650e14a1120dfb65895b618",
+      "TProtNFeContainsCMsg": false,
+      "TProtNFeContainsXMsg": false
+    },
+    "leiauteNFe_v4.00.xsd": {
+      "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542",
+      "TProtNFeContainsCMsg": true,
+      "TProtNFeContainsXMsg": true
+    }
+  },
+  "limitations": [
+    "Source accessibility and catalog visibility do not prove technical activation.",
+    "The initial local archive comparison used previously downloaded files; the three archives were subsequently re-downloaded and verified in cookieRetry.",
+    "Failed requests are not proof of absence of new documents."
+  ],
+  "svrsDirectDocuments": [
+    {
+      "name": "nt2026.002-v111.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.002_v1.11_DANFE_Simpl_Tp2_Emi_Offline_Autoriz_Alerta.pdf",
+      "checkedAt": "2026-10-18T02:30:59.955696-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.002_v1.11_DANFE_Simpl_Tp2_Emi_Offline_Autoriz_Alerta.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 752233,
+      "sha256": "72c033b2c7490710f61488a14d0bb3d7bb54e5345aa8d33d6ff2c270c228f046",
+      "historicalSource": "nt2026.002.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2025.002-v152.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2025.002_v1.52_RTC_NF-e_IBS_CBS_IS.pdf",
+      "checkedAt": "2026-10-18T02:30:59.957842-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2025.002_v1.52_RTC_NF-e_IBS_CBS_IS.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 2102849,
+      "sha256": "54ed893327040a20a4a3c0562d342953542a1dc98e55d73dbe607d6c13d3d416",
+      "historicalSource": "nt2025.002.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.007-v110.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT2026.007_v1.10+-+Emiss%C3%A3o+NF-e+sem+IE+e+RV+LCC.pdf",
+      "checkedAt": "2026-10-18T02:30:59.959139-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT2026.007_v1.10+-+Emiss%C3%A3o+NF-e+sem+IE+e+RV+LCC.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 775351,
+      "sha256": "4a9d9de64504f4091c55e3e8a2d499116d4bac1a2009a874a7b9ce26d9fe8b10",
+      "historicalSource": "nt2026.007.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.008-v100.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.008_v1.00_RTC_ValorLiquidoProduto.pdf",
+      "checkedAt": "2026-10-18T02:30:59.960231-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT_2026.008_v1.00_RTC_ValorLiquidoProduto.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 461635,
+      "sha256": "bc56e76ae5f3354f7ae636d87908840c5c685284f0f8f32bb29579f8124e44cd",
+      "historicalSource": "nt2026.008.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.009-v100.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT2026.009_v1.00_Alteracao_RV_CFOP.pdf",
+      "checkedAt": "2026-10-18T02:30:59.961273-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NT2026.009_v1.00_Alteracao_RV_CFOP.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 310342,
+      "sha256": "50b7dec40bba8928b4d544feb4fdbd8c8bac16e37c99d926ddb2834cf246f15d",
+      "historicalSource": "nt2026.009.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.010-v100.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NFe_NT_2026.010_v1_00_DANFE_RTC.pdf",
+      "checkedAt": "2026-10-18T02:30:59.962324-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=3&nomeArquivo=NFe_NT_2026.010_v1_00_DANFE_RTC.pdf",
+      "contentType": "application/octet-stream",
+      "bytes": 712823,
+      "sha256": "eadc5246235f37a55f8140ddcf84595c8ce77f2d760f111f7b85ddf389b8f484",
+      "historicalSource": "nt2026.010.pdf",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "it2025.002-v170-svrs.pdf",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=16&nomeArquivo=IT+2025.002+v.1.70+-+Tabelas+de+Classifica%C3%A7%C3%A3o+do+IBS+e+da+CBS.pdf",
+      "checkedAt": "2026-10-18T02:31:00.764840-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=16&nomeArquivo=IT+2025.002+v.1.70+-+Tabelas+de+Classifica%C3%A7%C3%A3o+do+IBS+e+da+CBS.pdf",
+      "contentType": null,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "historicalSource": "it2025.002-v170.pdf",
+      "matchesHistoricalSha256": false,
+      "usableDownload": false,
+      "error": "HTTP response has empty body; no document was obtained."
+    },
+    {
+      "name": "cclasstrib-v170.xlsx",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=12&nomeArquivo=IT+2025.002+v.1.70+-+cClassTrib.xlsx",
+      "checkedAt": "2026-10-18T02:31:00.770891-03:00",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=DFE&tipoArquivo=12&nomeArquivo=IT+2025.002+v.1.70+-+cClassTrib.xlsx",
+      "contentType": null,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usableDownload": false,
+      "error": "HTTP response has empty body; no document was obtained."
+    }
+  ],
+  "dfPublicLegislation": [
+    {
+      "name": "df-portaria387",
+      "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "method": "POST public legislation lookup",
+      "requestBody": {
+        "Ano": 2019,
+        "Numero": 387,
+        "CodigoTipo": "7",
+        "Parte": ".",
+        "Setor": null
+      },
+      "checkedAt": "2026-10-18T02:31:31.900137-03:00",
+      "status": 200,
+      "bytes": 101248,
+      "sha256": "dbce45f53da8c4bae899a508505e0e37cdbe55912637c993e1871012533d4613",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "df-ad1-2026",
+      "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "method": "POST public legislation lookup",
+      "requestBody": {
+        "Ano": 2026,
+        "Numero": 1,
+        "CodigoTipo": "734",
+        "Parte": ".",
+        "Setor": null
+      },
+      "checkedAt": "2026-10-18T02:31:32.191844-03:00",
+      "status": 200,
+      "bytes": 63009,
+      "sha256": "7f9c6a91d851ba2c0e9d32ad42d1f093bb9334a3bab00e532ee522cadf774d8e",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "df-ad2-2025",
+      "url": "https://ww1.receita.fazenda.df.gov.br/WPI/api/legislacao/obter-legislacao",
+      "method": "POST public legislation lookup",
+      "requestBody": {
+        "Ano": 2025,
+        "Numero": 2,
+        "CodigoTipo": "734",
+        "Parte": ".",
+        "Setor": null
+      },
+      "checkedAt": "2026-10-18T02:31:32.387980-03:00",
+      "status": 200,
+      "bytes": 2111490,
+      "sha256": "7f72919b068944913baad970e3fb4c09a3c08a4cf5ee970949cef434dedbef59",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    }
+  ],
+  "dodfRetry": {
+    "name": "dodf-182-2026-09-30.pdf",
+    "url": "https://www.dodf.df.gov.br/dodf/jornal/visualizar-pdf?pasta=2026%7C09_Setembro%7CDODF%20182%2030-09-2026%7C&arquivo=DODF%20182%2030-09-2026%20INTEGRA.pdf",
+    "checkedAt": "2026-10-18T02:32:14.599730-03:00",
+    "retry": "Raised transfer cap to 100 MB after the 30 MB attempt.",
+    "status": 200,
+    "bytes": 69728256,
+    "sha256": "5751bdac761ddf79a9fa46c7c258f164a252e2999a99704e3eeec596b0e8981a",
+    "contentType": "application/pdf",
+    "matchesHistoricalSha256": true
+  },
+  "cookieRetry": [
+    {
+      "name": "national-schemas.html",
+      "url": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+      "checkedAt": "2026-10-18T02:32:58.187955-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 58596,
+      "sha256": "5eb8e5a8f65d0f9e4ebc34b1fcab97e445b3416e95b75392e1d475d7520a16b9",
+      "matchesHistoricalSha256": false,
+      "usableDownload": true
+    },
+    {
+      "name": "national-nts.html",
+      "url": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=04BIflQt1aY%3D",
+      "checkedAt": "2026-10-18T02:32:58.189503-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=04BIflQt1aY%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 118213,
+      "sha256": "28adb9857fccb3c758e1959283150fb5f402f1d231c0bacb4017687acebc2b89",
+      "matchesHistoricalSha256": false,
+      "usableDownload": true
+    },
+    {
+      "name": "PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "checkedAt": "2026-10-18T02:32:58.190620-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
+      "contentType": "application/octet-stream",
+      "bytes": 46686,
+      "sha256": "8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "PL_010d_v1.03.zip",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
+      "checkedAt": "2026-10-18T02:32:58.191885-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/zip",
+      "bytes": 67813,
+      "sha256": "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "PL_010f_v1.04.zip",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D",
+      "checkedAt": "2026-10-18T02:32:58.192743-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/zip",
+      "bytes": 41682,
+      "sha256": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.007.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=fpJlwzhffcQ%3D",
+      "checkedAt": "2026-10-18T02:32:58.727205-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=fpJlwzhffcQ%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 775351,
+      "sha256": "4a9d9de64504f4091c55e3e8a2d499116d4bac1a2009a874a7b9ce26d9fe8b10",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.008.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=qAoMot6VyiY%3D",
+      "checkedAt": "2026-10-18T02:32:58.745862-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=qAoMot6VyiY%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 461635,
+      "sha256": "bc56e76ae5f3354f7ae636d87908840c5c685284f0f8f32bb29579f8124e44cd",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.002.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=m8aACnFLK%2FY%3D",
+      "checkedAt": "2026-10-18T02:32:58.781781-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=m8aACnFLK%2FY%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 752233,
+      "sha256": "72c033b2c7490710f61488a14d0bb3d7bb54e5345aa8d33d6ff2c270c228f046",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2025.002.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=HXPO8VLbh4o%3D",
+      "checkedAt": "2026-10-18T02:32:58.800480-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=HXPO8VLbh4o%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 2102849,
+      "sha256": "54ed893327040a20a4a3c0562d342953542a1dc98e55d73dbe607d6c13d3d416",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.010.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=ugn4MYF5PLg%3D",
+      "checkedAt": "2026-10-18T02:32:58.948775-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=ugn4MYF5PLg%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 712823,
+      "sha256": "eadc5246235f37a55f8140ddcf84595c8ce77f2d760f111f7b85ddf389b8f484",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "nt2026.009.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=ADlgg2xjMZI%3D",
+      "checkedAt": "2026-10-18T02:32:59.335970-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=ADlgg2xjMZI%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 310342,
+      "sha256": "50b7dec40bba8928b4d544feb4fdbd8c8bac16e37c99d926ddb2834cf246f15d",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    },
+    {
+      "name": "it2025.002-v170.pdf",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=h9o7idH%2BOcI%3D",
+      "checkedAt": "2026-10-18T02:32:59.400056-03:00",
+      "retry": "HTTP cookie jar enabled",
+      "status": 200,
+      "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=h9o7idH%2BOcI%3D&AspxAutoDetectCookieSupport=1",
+      "contentType": "application/pdf",
+      "bytes": 4684152,
+      "sha256": "cbf61d15fce46101df9c17737a68fc577b058b3b81c0d9b78382f831ed56d83f",
+      "matchesHistoricalSha256": true,
+      "usableDownload": true
+    }
+  ],
+  "currentCatalogPackage010e": {
+    "name": "national-current-PL010e-v102",
+    "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=c14derMqb2Y%3D",
+    "checkedAt": "2026-10-18T02:33:11.707857-03:00",
+    "status": 200,
+    "bytes": 41335,
+    "sha256": "d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1",
+    "finalUrl": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=c14derMqb2Y%3D&AspxAutoDetectCookieSupport=1",
+    "contentType": "application/zip",
+    "entries": [
+      {
+        "name": "PL_010e_v1.02/NFe/DFeTiposBasicos_v1.00.xsd",
+        "sha256": "7fe1dbd89a1dd80826c5134c2406b7eb5df4fa7a9177c5aa6e72319caba7c6d2"
+      },
+      {
+        "name": "PL_010e_v1.02/NFe/leiauteNFe_v4.00.xsd",
+        "sha256": "598c71780cbc6b54f170464bd6d5538c2d01a99d987a1666b662d4e166b84bf7"
+      },
+      {
+        "name": "PL_010e_v1.02/NFe/nfe_v4.00.xsd",
+        "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df"
+      },
+      {
+        "name": "PL_010e_v1.02/NFe/tiposBasico_v4.00.xsd",
+        "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047"
+      },
+      {
+        "name": "PL_010e_v1.02/NFe/xmldsig-core-schema_v1.01.xsd",
+        "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac"
+      }
+    ],
+    "consultationFiles": []
+  }
+}

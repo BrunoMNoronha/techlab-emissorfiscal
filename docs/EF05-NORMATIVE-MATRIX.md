@@ -6,6 +6,24 @@ Pesquisa de 05/10/2026, sobre main 4a475c4edc96b7b262b5087145b3bdfd99b3dd89. Inc
 
 Evidências compactas: [fontes](evidence/ef05/FONTES.md), [índice](evidence/ef05/source-index.json), [inventário](evidence/ef05/zip-inventory.json), [bytes](evidence/ef05/baseline-byte-verification.json), [dependências](evidence/ef05/dependency-closures.json). Scripts, PDFs, XMLs placeholder, TRX e logs citados como históricos permanecem em tmp/ef05-research e não são requisitos para executar a suíte versionada.
 
+## Reconferência — 18/10/2026
+
+**Decisão: manter a baseline atual e a issue #2 aberta.** Os catálogos [Nacional](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D), [SVRS NF-e](https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos) e [SVRS NFC-e](https://dfe-portal.svrs.rs.gov.br/Nfce/Documentos) foram obtidos novamente. Após uma tentativa inicial em ciclo HTTP 302, o portal nacional foi acessado com cookies de sessão. Ele lista PL010f, PL010e v1.02 e PL010d v1.03 entre versões oficiais; o PL010f continua sendo o pacote geral mais recente listado, de 31/08/2026. Na SVRS, o schema mais recente listado para NF-e é o do evento 211110 (23/07/2026), e para NFC-e é o pacote 009n (19/03/2024). Nenhuma dessas listagens fornece uma nova solução de consulta com alertas; isso não prova inexistência em outra fonte.
+
+Os três ZIPs preservados em `tmp/official` foram reexaminados e também baixados novamente dos portais oficiais: seus hashes coincidem com o manifest de `9656b6d` e com a obtenção de 05/10, e as 11 entradas então selecionadas são idênticas aos XSDs locais. A ampliação posterior para 20 XSDs de evento e inutilização é documentada em [VALIDATION](VALIDATION.md); o diagnóstico de consulta refere-se aos 11 arquivos originais. O PL010e v1.02 foi baixado pelo endereço da listagem atual: hash `d44ae5aa6a0d1cabf6235d2d2d47b75be5dd87bc6b90a7ec3dcec99c3d41bda1`, igual ao pacote já examinado, e não contém arquivos de consulta. A comparação do `TProtNFe` confirma que `leiauteConsSitNFe` não contém `cMsg`/`xMsg`, enquanto `leiauteNFe` contém ambos. Os [fechamentos de dependências](evidence/ef05/dependency-closures.json) dos seis entrypoints originais seguem válidos; o teste de limitação continua obrigatório. Não foi identificada composição candidata oficialmente comprovada.
+
+| Fonte reconferida | Publicação e cronograma informado | Triagem para 65/DF |
+| --- | --- | --- |
+| NT 2026.002 v1.11, PDF obtido pela SVRS, hash idêntico ao de 05/10 | Catálogo 01/10; alertas anunciados para teste em 01/09 e produção em 05/10; apenas I08-180, BA02-35 e VC02-40 adiadas para 14/12 | Seção 2.3 inclui consulta e até cinco alertas. O PDF não resolve a divergência com o XSD de consulta. A regra 5E17-65 prevê alerta 172; ativação no autorizador não foi comprovada. |
+| NT 2025.002 v1.52, PDF SVRS idêntico ao de 05/10 | Catálogo 01/10; correção VC02-50 até 05/10 em teste e até 03/11 em produção; VC02-14 em 03/11 em produção | Esses deltas de devolução são modelo 55; a NT acumulada também contém regras 65. CST/`cClassTrib`, vigência e aplicação por item/regime seguem condicionados aos casos da EF-06. |
+| IT 2025.002 v1.70, PDF nacional idêntico ao de 05/10 | Catálogo 01/10; atualização das tabelas anunciada até 16/10 para homologação e produção | A publicação da IT não prova implantação da tabela no autorizador; seus códigos e indicadores precisam ser conferidos por item e data. A planilha de classificação não foi obtida nesta rodada. |
+| NT 2026.009 v1.00 e NT 2026.010 v1.00, PDFs SVRS idênticos aos de 05/10 | Catálogo em 09/09 e 01/10, respectivamente | Os deltas examinados são para modelo 55: CFOP na 2026.009 e DANFE na 2026.010. Não alteram o recorte 65 nem resolvem a consulta. |
+| AD DF 1/2026, AD DF 2/2025 e Portaria DF 387/2019, consulta pública | As três respostas são idênticas, por hash, às de 05/10 | O HTML do AD 2/2025 continua não conciliado com o anexo do DODF identificado abaixo; não selecionar `cBenef` por inferência. A divergência N12-90 entre a NT nacional v1.70 e o PDF DF v1.20 permanece pendente de confirmação oficial. |
+
+Os PDFs da NT 2026.007 v1.10 e da NT 2026.008 v1.00 também foram obtidos novamente e coincidem com os hashes históricos. A IT 2025.002 v1.70 foi baixada do portal nacional e coincide com o hash histórico; o download direto da planilha `cClassTrib` pela SVRS retornou HTTP 200 **com corpo vazio**, portanto a planilha não foi reconferida nesta rodada. O PDF integral do DODF, após uma segunda tentativa com limite maior, também coincide com o hash de 05/10; a conferência visual das páginas abaixo continua sendo a evidência histórica, não uma nova transcrição integral. Tabela RTC por item, situação atual dos atos e ativação em cada ambiente continuam a verificar antes do uso real.
+
+Publicação, cronograma anunciado e ativação técnica são fatos diferentes: nenhum autorizador foi consultado. A aplicação de benefícios, CST/CSOSN, CEST e `cClassTrib` a mercadorias reais segue `TBD` por empresa, regime e operação aprovada. O suporte estrutural do preparador aos pares `000`/`000001` e `200`/`200003` não comprova enquadramento tributário nem cobertura integral. Fontes, status, URLs, hashes, limites e comparação por arquivo desta rodada: [review-2026-10-18.json](evidence/ef05/review-2026-10-18.json).
+
 ## 1. Resultado e recomendação
 
 1. **Não promover uma nova baseline agora.** Nos catálogos Nacional e SVRS consultados e nos nove ZIPs examinados, não foi identificado leiaute oficial de consulta que admita os alertas previstos na NT 2026.002. Isso delimita a pesquisa; não afirma inexistência em toda fonte possível.
@@ -16,7 +34,7 @@ Evidências compactas: [fontes](evidence/ef05/FONTES.md), [índice](evidence/ef0
 
 ## 2. Diagnóstico reproduzível
 
-Baseline preservada: `nfe-4.00-offline-2026-10-04`; manifest SHA-256 `9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c`.
+Diagnóstico histórico sobre a baseline `nfe-4.00-offline-2026-10-04` antes da ampliação EF-17/18: manifest SHA-256 `9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c`.
 
 | Aspecto | Norma/documento | Bytes oficiais na baseline | Consequência |
 | --- | --- | --- | --- |
