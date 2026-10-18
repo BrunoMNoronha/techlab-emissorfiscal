@@ -670,6 +670,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [InlineData("missing-red-mun")]
     [InlineData("missing-red-cbs")]
     [InlineData("partial-red")]
+    [InlineData("partial-red-effective-only")]
     [InlineData("red-in-regular")]
     [InlineData("comma-decimal-red")]
     [InlineData("five-decimals-red")]
@@ -688,6 +689,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
             case "missing-red-mun": group["gIBSMun"]!.AsObject().Remove("gRed"); break;
             case "missing-red-cbs": group["gCBS"]!.AsObject().Remove("gRed"); break;
             case "partial-red": group["gIBSUF"]!["gRed"]!.AsObject().Remove("pAliqEfet"); break;
+            case "partial-red-effective-only": group["gCBS"]!["gRed"]!.AsObject().Remove("pRedAliq"); break;
             case "red-in-regular":
                 group["gIBSUF"]!["gRed"] = new JsonObject { ["pRedAliq"] = "100.00", ["pAliqEfet"] = "0.00" };
                 break;
@@ -696,6 +698,14 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
             case "unknown-red-field": group["gCBS"]!["gRed"]!["pRed"] = "1.00"; break;
         }
         Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
+    }
+
+    [Fact]
+    public void RegularRtcPairStillSerializesWithoutReduction()
+    {
+        var (sale, emitter, context) = Models("crt3");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        Assert.DoesNotContain("<gRed", prepared.UnsignedXml, StringComparison.Ordinal);
     }
 
     [Fact]
