@@ -60,6 +60,10 @@ Cada caso precisa do regime comprovado, finalidade, destinatário/crédito, iten
 
 Os treze cenários são **documentais**; nenhum foi executado em homologação nesta entrega. `Previsto` é aceite futuro, `adiado` é capacidade indisponível com recusa esperada, `regressão existente` é prova offline restrita. O [registro de validação](VALIDATION.md) e a simulação local separada não são execuções destes casos reais.
 
+A [rastreabilidade dos cenários](PILOT-SCENARIO-COVERAGE.md) identifica as provas
+offline atuais e o que falta para o aceite, inclusive o vínculo entre identidade
+fiscal e XML a definir na arquitetura. Ela não altera os estados abaixo.
+
 | ID | Cenário / resultado esperado | Estado e dependência |
 | --- | --- | --- |
 | C01 | Caso real validado, CRT comprovado, presencial/retirada/consumo próprio; preservar tributação, obter emissão/consulta/XML/protocolo/DANFE/QR coerentes | Previsto; ficha/casos, EF-05/07–15/16. Simples/normal separados |
