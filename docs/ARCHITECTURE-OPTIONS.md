@@ -87,3 +87,8 @@ e cenário de crescimento. Sem esses dados não há comparação financeira vál
 
 O aceite da EF-07 exige decisões efetivas, fonte e autoridade, provas planejadas
 e dependências resolvidas. Esta preparação não altera o estado da issue.
+
+O [contrato arquitetural para avaliação](EF07-OPERATIONAL-BLUEPRINT.md) detalha
+as fronteiras de confiança, invariantes de dados, transações, falhas, custódia e
+provas para as issues dependentes. É uma proposta; as escolhas e condições de
+aceite acima continuam pendentes.

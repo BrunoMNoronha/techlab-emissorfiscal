@@ -293,3 +293,10 @@ Decisões humanas H08–H16 incorporadas, ficha obrigatória e dicionário fisca
 ### Modelo de entrada — pedido posterior em 05/10/2026
 
 [Levantamento oficial](evidence/input-model/FONTES.md) e modelo separado da simulação, com grupos tributários explícitos e exemplos sintéticos de dois regimes. Parser estrito e preparação XML, QR, assinatura sintética, envio/consulta locais; testes e CI registrados separadamente em [VALIDATION](VALIDATION.md). Empresa/CRT/autoridades/série/casos reais continuam pendentes e os aceites DANFE/QR, A1 real, transporte e homologação permanecem nas respectivas issues.
+
+### EF-07 — contrato arquitetural para avaliação em 18/10/2026
+
+O [blueprint operacional](EF07-OPERATIONAL-BLUEPRINT.md) detalha o vínculo entre
+identidade e XML, as fronteiras de autorização, requisitos de atomicidade e
+reconciliação, custódia e provas de restauração. É proposta para as issues
+dependentes: não escolhe serviço, não resolve fatos reais e não conclui EF-07.
