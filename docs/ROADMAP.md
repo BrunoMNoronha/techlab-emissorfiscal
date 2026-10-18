@@ -80,6 +80,10 @@ seleção](PILOT-SELECTION.md) prepara a EF-06, e a [comparação de opções](A
 antecipou a análise da EF-07; posteriormente PostgreSQL próprio em Docker foi escolhido como referência. EF-06 permanece parcial;
 EF-07 permanece bloqueada até os fatos e decisões indispensáveis.
 
+A [rastreabilidade C01–C13](PILOT-SCENARIO-COVERAGE.md) distingue os testes
+sintéticos existentes dos aceites pendentes e aponta o vínculo ainda não
+demonstrado entre identidade fiscal do pool e CNPJ do XML para decisão na EF-07.
+
 ### Etapa 2 — base operacional antes de I/O fiscal
 
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |

@@ -18,6 +18,11 @@ fornecida pelo cliente; alterações em normas não alteram bytes de uma revisã
 assinada. Estas são decisões de produto registradas no
 [contrato 0.2](PILOT-CONTRACT.md), sujeitas à comprovação dos fatos da EF-06.
 
+A [rastreabilidade dos cenários do piloto](PILOT-SCENARIO-COVERAGE.md) registra
+um vínculo ainda não demonstrado no núcleo em memória: a identidade opaca do
+pool não é comparada ao CNPJ do XML ao congelar uma operação. O desenho futuro
+precisa definir e testar essa relação usando uma origem de identidade confiável.
+
 ## Alternativas a comparar
 
 | Decisão | Alternativas e condições | Proposta para avaliação, não aprovada |
