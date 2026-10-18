@@ -127,7 +127,8 @@ try {
         @{ regime = 'crt3'; sale = 'sale-crt3'; emitter = 'emitter-crt3' },
         @{ regime = 'st-crt1'; sale = 'sale-st-crt1'; emitter = 'emitter-crt1' },
         @{ regime = 'exempt-crt1'; sale = 'sale-exempt-crt1'; emitter = 'emitter-crt1' },
-        @{ regime = 'red-crt3'; sale = 'sale-red-crt3'; emitter = 'emitter-crt3' }
+        @{ regime = 'red-crt3'; sale = 'sale-red-crt3'; emitter = 'emitter-crt3' },
+        @{ regime = 'basket-crt3'; sale = 'sale-basket-crt3'; emitter = 'emitter-crt3' }
     )) {
         $taskRegime = $taskCase.regime
         $taskPreparationDir = Join-Path $taskEvidence "preparation-$taskRegime"
