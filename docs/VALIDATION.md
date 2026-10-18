@@ -518,9 +518,15 @@ com `IndReducaoAliq`) e hasheado em
 **Validação: 192/192 testes aprovados, zero ignorados, build Release sem
 avisos/erros**, CLI `schemas`/`demo` e os seis `prepare` (CRT 1, CRT 3,
 ST CRT 1, isenções CRT 1, redução CRT 3 e cesta básica CRT 3) validados no XSD
-fixado. Evidências: `docker compose run --rm verify` local em 17/10/2026 e
-Actions (run a registrar antes do merge). A contagem 192/192 substitui 177/177
-como estado atual; contagens anteriores permanecem como marcos históricos.
+fixado. Evidências: `docker compose run --rm verify` local em 17/10/2026
+(exit 0, Ubuntu/SDK 10.0.401, evidência
+`TestResults/ci/e39a211ec4714d0fb02b2918d6d95609`, execução sobre clone local
+do commit da branch) e Actions
+[run 39084993566](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39084993566)
+(Windows 2025 + job `docker`, 17/10/2026, PR
+[#31](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/31)) sobre o
+commit `44ba9a4`. A contagem 192/192 substitui 177/177 como estado atual;
+contagens anteriores permanecem como marcos históricos.
 
 NCM, CFOP, CST/CSOSN e os percentuais de redução do exemplo são hipóteses de
 teste declaradas; nenhum enquadramento real nos NCM do Anexo I da LC 214/2025
