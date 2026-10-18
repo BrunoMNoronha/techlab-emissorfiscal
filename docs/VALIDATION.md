@@ -600,3 +600,44 @@ persistência da EF-09; concorrência "real no banco", crash/rollback durável e
 replay após atualização normativa (aceites de #7) continuam pendentes de
 EF-07/EF-09. Nenhuma série, número inicial ou identidade real foi escolhida;
 nenhuma transmissão, credencial real ou homologação.
+
+## Incremento EF-12 (núcleo) — ciclo de vida da operação e reconciliação offline — 18/10/2026
+
+Issue [#9](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/9),
+segundo incremento de núcleo da sequência aprovada em 18/10/2026. Novo
+`Core/Operations`: histórico **append-only** de eventos imutáveis
+(`IntentRecorded` com reserva e baseline, `XmlFrozen` com XML assinado,
+SHA-256, digest e chave, `SubmissionRecorded` gravado **antes** de qualquer
+I/O, `ResponseRecorded` e `ConsultationRecorded` com o XML bruto e o
+`ProtocolResult`), visão derivada `Operation` com `State`/`NextAction`,
+porta `IOperationStore` (`Load`/`Append` com versão esperada — controle
+otimista) e `InMemoryOperationStore`; `ILeaseRegistry`/`InMemoryLeaseRegistry`
+com token de fencing monotônico por operação e `IClock` injetável
+(`SystemClock` fora dos testes). `OperationLifecycle` é o único caminho de
+escrita: exige lease atual, valida a transição e grava um evento. O estado
+fiscal vem exclusivamente de `NfceProtocol.Interpret`; o XML congelado é
+conferido contra a série/nNF da reserva pela chave do `Id` antes de qualquer
+criptografia, e uma segunda revisão é recusada (H13). Após o primeiro envio
+não há reenvio: `Submitted`, `Processing` e `Unknown` levam a `Consult`;
+`NotFound` (217 isolado) leva a `ManualReconciliation` sem nova reserva;
+autorizado/rejeitado são terminais e o número permanece consumido.
+
+**Validação: 247/247 testes aprovados, zero ignorados, build Release sem
+avisos/erros** (14 casos novos em `OperationLifecycleTests`, dirigidos pelos
+cenários do aceite EF-12 com respostas sintéticas de `OfflineFixtures`: caminho
+feliz com protocolo de 17 posições e histórico de quatro eventos; 120 com
+mensagens preservadas; rejeição terminal mantendo o número consumido; crash
+antes do envio retomado por novo lease com token antigo recusado; timeout após
+envio resolvido só por consulta; 105 → consulta → 100; resposta tardia de
+trabalhador que perdeu o lease recusada com store inalterado; 204/539 em
+`Unknown` exigindo consulta; 217 isolado em reconciliação manual e localização
+posterior; XML com nNF divergente ou segunda revisão recusados; eventos fora de
+ordem recusados; store append-only com conflito de versão; leases exclusivos
+com tokens crescentes). Execução oficial via `docker compose run verify`
+(Linux, SDK 10.0.401); sem SDK local nesta máquina. CI do Actions identificada
+no PR.
+
+Limites: em memória, sem durabilidade, fila ou trabalhador real; o lease não
+cancela I/O em voo na SEFAZ, só impede que seu resultado tardio seja gravado.
+Política de reenvio manual após 217 confirmado, prazos e eventos (cancelamento)
+permanecem TBD/EF-17. Nenhuma transmissão, credencial real ou homologação.
