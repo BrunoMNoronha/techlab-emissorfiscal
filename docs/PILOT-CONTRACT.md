@@ -33,7 +33,7 @@ Registrar separadamente finalidade, destinatário, condição de contribuinte, d
 | [Portaria DF 387/2019](https://www.sinj.df.gov.br/sinj/Norma/3efbac69483f4b74b65ffd53ba901b0a/Portaria_387_20_12_2019.html), arts. 1º/5º | Varejo/consumidor final, sem substituir modelo 55 obrigatório; condições de apresentação do DANFE | Retirada não dispensa DANFE; entrega futura deve observar representação em trânsito e permanece adiada |
 | [Matriz EF-05](EF05-NORMATIVE-MATRIX.md) e [manifest fixado](../schemas/nfe/4.00/manifest.json) | Leiaute, dependências, precisão e regras/grupos; consulta com alertas incompatível com a baseline | XSD válido não comprova enquadramento, ativação de regra ou origem SEFAZ |
 
-Pesquisa desta versão: [FONTES-v0.2](evidence/ef06/FONTES-v0.2.md) e [registro de acessos](evidence/ef06/source-review-v0.2.json). A [tentativa anterior](evidence/ef06/source-status.json) permanece histórica. Distinguir publicação, efeitos legais, cronograma técnico e ativação comprovada; falha de acesso não prova inexistência de norma.
+Pesquisa desta versão: [FONTES-v0.2](evidence/ef06/FONTES-v0.2.md) e [registro de acessos](evidence/ef06/source-review-v0.2.json). A [tentativa anterior](evidence/ef06/source-status.json) permanece histórica. Distinguir publicação, efeitos legais, cronograma técnico e ativação comprovada; falha de acesso não prova inexistência de norma. A [pesquisa de 17/10/2026](evidence/ef06/PESQUISA-2026-10-17.md) complementa esta tabela por seção da ficha, com nível de confiança por afirmação; fontes secundárias ali listadas não substituem o texto oficial e não alteram o contrato 0.2.
 
 ## 3. Contrato de dados e políticas
 

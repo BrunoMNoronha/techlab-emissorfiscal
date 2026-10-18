@@ -533,3 +533,26 @@ teste declaradas; nenhum enquadramento real nos NCM do Anexo I da LC 214/2025
 foi aprovado e a classificação de cada mercadoria real segue com o responsável
 tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
 homologação fiscal; issues #2/#3 permanecem abertas.
+
+## EF-06 — pesquisa regulatória dirigida à ficha — 17/10/2026
+
+Incremento exclusivamente documental da issue #3, ainda aberta e parcial. A
+[pesquisa](evidence/ef06/PESQUISA-2026-10-17.md) e o
+[resultado estruturado](evidence/ef06/deep-research-2026-10-17.json) entraram
+na `main` pelo PR [#34](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/34)
+(commit `f285447`), com os dois checks do Actions aprovados. Método: cinco
+frentes de busca, 19 fontes lidas, 87 afirmações extraídas e 25 verificadas por
+três revisores independentes cada — 21 confirmadas, 4 refutadas (CSC pelo portal
+DEC; rejeição 974 aplicável ao 65; "NT 2026.002 v1.10 é a vigente"). Os seis
+links relativos do relatório foram conferidos.
+
+Limites: nenhuma página da SEFAZ-DF/Receita DF, DODF ou SINJ-DF foi lida
+diretamente nesta rodada (a Portaria 387/2019 compilada já tem hash na
+[pesquisa 0.2](evidence/ef06/FONTES-v0.2.md)); as NTs foram lidas em cópias
+hospedadas em `reformatributaria.com`; nenhum corpo foi hasheado. Fonte que
+entrar em decisão deve ser reconferida com hash. Não é teste executado: código,
+fixtures, schemas, manifesto, SDK, locks, scripts e workflow não mudaram;
+192/192 do run 39084993566 permanece o estado vigente. Para a EF-05, nenhum
+pacote oficial de consulta com alertas posterior a 05/10/2026 foi confirmado e o
+bloqueio de `AlertExtensionMissingInPinnedConsultationSchemaFailsClosed`
+permanece. Sem transmissão, credencial real ou homologação.
