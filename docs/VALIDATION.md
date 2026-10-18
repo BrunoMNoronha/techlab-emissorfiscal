@@ -534,6 +534,88 @@ foi aprovado e a classificação de cada mercadoria real segue com o responsáve
 tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
 homologação fiscal; issues #2/#3 permanecem abertas.
 
+## Incremento DANFE NFC-e offline — EF-16 — 18/10/2026
+
+Incremento 3 da sequência de núcleo aprovada por Bruno em 18/10/2026 (issue
+[#13](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/13), PR
+[#38](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/38)). O novo
+diretório `Core/Danfe` extrai de um `nfeProc` **autorizado** o modelo do DANFE
+(`DanfeModel.FromProcessed`): a NFe embutida é reinterpretada contra o próprio
+protocolo por `NfceProtocol.Interpret` (assinatura, XSD, chave, `tpAmb` 2,
+`nProt`, `digVal`, cStat 100/120/150) e só então são lidos emitente, itens,
+totais, pagamentos/troco, destinatário, número/série/`dhEmi`, protocolo
+(`nProt`/`dhRecbto`), alertas (`cMsg`/`xMsg`) e o QR v3 já presente em
+`infNFeSupl`, conferido contra `QrCode3.Online` e `QrCode3.DfKeyConsultation`.
+Nenhum valor é recalculado. `DanfeText.Render` produz texto ASCII de 48 colunas
+(bobina de 80 mm) com as divisões do Manual de Padrões Técnicos do
+DANFE-NFC-e/QR Code 6.0 fixado em [TECHNICAL-SCOPE.md](TECHNICAL-SCOPE.md):
+cabeçalho do emitente, detalhe dos itens, totais e pagamentos, mensagem fiscal
+com **"EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"**, consulta por
+chave (URL DF e chave em 11 blocos de 4), consumidor ou "CONSUMIDOR NAO
+IDENTIFICADO", identificação/protocolo (com cStat e alertas impressos quando
+120/150), URL do QR e `infCpl`. O texto de homologação do primeiro item
+(`NfcePreparation.HomologationProduct`) passa íntegro. `QrEncoder` é um
+codificador QR Code próprio (ISO/IEC 18004: modo byte, nível M, versão
+automática 1–40, Reed-Solomon GF(2^8), intercalação, padrões de função, bits
+de formato/versão, máscara por penalidade) e `QrMatrix.ToSvg` gera SVG com
+zona de silêncio de 4 módulos; a URL do QR v3 (91 bytes) cai na versão 6
+(41×41). Nenhum NuGet novo; `OfflineBoundaryTests` segue provando ausência de
+`System.Net.*` no Core. Estado não autorizado (203, 110, 301, 204), protocolo de
+outra chave ou de ambiente 1 e XML adulterado são recusados com
+`InvalidDataException`.
+
+CLI: `danfe <nfeProc.xml | NFe-assinada.xml> <diretorio-novo>` grava
+`danfe.txt`, `danfe-qr.svg` e `summary.json`; com uma NFe assinada (o
+`signed.xml` do `prepare`) simula o protocolo sintético de `OfflineFixtures`
+(cStat 100) e grava `processed.xml`, com `syntheticProtocol: true`.
+`scripts/verify.ps1` ganhou o sétimo passo `danfe-<regime>` para os seis
+exemplos (chave, ambiente, estado, versão/tamanho do QR, 48 colunas, aviso de
+homologação, protocolo e hashes dos artefatos em `danfes`/`artifacts`).
+
+Testes novos: snapshots do texto dos seis exemplos
+(`tests/EmissorFiscal.Core.Tests/Fixtures/danfe/*.txt`, gerados por
+`NfcePreparation` + autorização simulada), conteúdo obrigatório e largura,
+vínculo chave/ambiente/protocolo/valores com o mesmo XML, 120 com as duas
+mensagens, 150, recusas, consumidor não identificado e formatação; para o QR,
+vetores conhecidos do padrão (Reed-Solomon 1-M, bits de formato nível M para
+as 8 máscaras, bits de versão 7/8/40, posições de alinhamento, totais de
+codewords das 40 versões e capacidades) e um decodificador mínimo
+independente no projeto de testes (leitura de formato, desmascaramento,
+zigue-zague, desintercalação, síndromes Reed-Solomon nulas e modo byte) que
+recupera o payload nas versões 1, 5, 6, 8, 13 e 40.
+
+**Validação: 260/260 testes aprovados, zero ignorados, build Release sem
+avisos/erros** (194/194 antes do incremento), CLI `schemas`/`demo`, seis
+`prepare` e seis `danfe` aprovados. Evidências: `docker compose run --rm
+--build verify` local em 18/10/2026 (exit 0, Ubuntu/SDK 10.0.401, evidência
+`TestResults/ci/4b4e980f64b14754a48a5bc211337e1b`, execução sobre clone local do commit `5a824b5`
+da branch, porque esta máquina não tem SDK .NET instalado e o `.git` do
+worktree não é visível no contêiner) e Actions
+[run 39095734952](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39095734952)
+(Windows 2025 + job `docker`, 18/10/2026, PR #38) sobre o mesmo commit. Uma
+primeira execução sobre o commit `93475e1` passou nos 260 testes e falhou no
+próprio passo `danfe` do script (`Count` sob `Set-StrictMode`), corrigido em
+`5a824b5`. Leitura externa do QR: o `danfe-qr.svg` do exemplo CRT 1 foi
+rasterizado em canvas no navegador integrado e decodificado pelo jsQR 1.4.0
+(jsdelivr) com a string exata
+`http://www.fazenda.df.gov.br/nfce/qrcode?p=<chave>|3|2`, versão 6, 91 bytes:
+prova manual, não automatizada. A contagem 260/260 vale para a branch isolada
+(sobre 194/194 após o PR #33); após o merge de `main` com os incrementos 1 e 2
+(PRs #36 e #37) no PR #38, a suíte combinada passou com **313/313** no
+contêiner SDK 10.0.401 local, e o run do Actions sobre o commit de merge fica
+registrado no próprio PR.
+
+Decisão técnica reversível (H20 em
+[DECISIONS.md](evidence/ef06/DECISIONS.md)): texto + SVG é a saída mínima;
+PDF, impressora térmica, DANFE simplificado tipo 2 e contingência ficam para
+quando houver cliente/hardware definidos. Limites: o `nfeProc` de prova tem
+protocolo sintético (não há autorização real nem EF-15); o leiaute não foi
+conferido em impressora nem com o manual lado a lado por terceiro; os rótulos
+são ASCII sem acentos por escolha de compatibilidade com bobinas; a issue #13
+permanece aberta até homologação e prova de impressão/leitura em dispositivo.
+Sem transmissão, credencial real ou homologação fiscal; issues #2/#3
+permanecem abertas.
+
 ## EF-06 — pesquisa regulatória dirigida à ficha — 17/10/2026
 
 Incremento exclusivamente documental da issue #3, ainda aberta e parcial. A

@@ -1,0 +1,56 @@
+================================================
+EMITENTE SINTETICO CRT3 PREPARACAO
+LABORATORIO LOCAL CRT3
+CNPJ 87.654.321/0001-98 IE 0745678900196
+AVENIDA SINTETICA DE TESTE, 180, LABORATORIO
+OFFLINE
+SETOR DE TESTE - BRASILIA/DF - CEP 70040-999
+------------------------------------------------
+DANFE NFC-e - Documento Auxiliar da Nota Fiscal
+de Consumidor Eletronica
+Nao permite aproveitamento de credito de ICMS
+================================================
+EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR
+FISCAL
+================================================
+# CODIGO  DESCRICAO    QTD UN x V.UNIT = V.TOTAL
+------------------------------------------------
+001 SYN-RED-01 NOTA FISCAL EMITIDA EM AMBIENTE
+    DE HOMOLOGACAO - SEM VALOR FISCAL
+    2,00 CX x 50,00                       100,00
+------------------------------------------------
+QTD. TOTAL DE ITENS                            1
+VALOR TOTAL R$                            100,00
+VALOR A PAGAR R$                          100,00
+FORMA DE PAGAMENTO                 VALOR PAGO R$
+Dinheiro                                  100,00
+------------------------------------------------
+EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR
+FISCAL
+------------------------------------------------
+Consulte pela Chave de Acesso em
+http://www.fazenda.df.gov.br/nfce/consulta
+CHAVE DE ACESSO
+5326 1087 6543 2100 0198 6501
+8000 0001 2318 7654 3217
+------------------------------------------------
+CONSUMIDOR - CNPJ 33.445.566/0001-86
+NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM
+VALOR FISCAL
+RUA SINTETICA DO DESTINATARIO, 300, LABORATORIO
+OFFLINE
+SETOR DE TESTE - BRASILIA/DF - CEP 70040-999
+------------------------------------------------
+NFC-e n. 000000123 Serie 018 17/10/2026 15:16:17
+Protocolo de Autorizacao: 15326000000000001
+Data de Autorizacao: 04/10/2026 12:00:01
+------------------------------------------------
+QR CODE (imagem em arquivo separado):
+http://www.fazenda.df.gov.br/nfce/qrcode?p=53261
+087654321000198650180000001231876543217|3|2
+------------------------------------------------
+DADOS SINTETICOS. HIPOTESES DE TESTE CRT3
+REDUCAO DE BASE CST20 RTC2026. PERCENTUAL DE
+REDUCAO E VALOR DE TESTE, NAO COMPROVA
+ENQUADRAMENTO OU HOMOLOGACAO FISCAL.
+================================================
