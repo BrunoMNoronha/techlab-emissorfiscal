@@ -635,3 +635,88 @@ fixtures, schemas, manifesto, SDK, locks, scripts e workflow não mudaram;
 pacote oficial de consulta com alertas posterior a 05/10/2026 foi confirmado e o
 bloqueio de `AlertExtensionMissingInPinnedConsultationSchemaFailsClosed`
 permanece. Sem transmissão, credencial real ou homologação.
+
+## Incremento EF-10 (núcleo) — numeração e idempotência em memória — 18/10/2026
+
+Issue [#7](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/7),
+primeiro de quatro incrementos de núcleo aprovados em 18/10/2026 para avançar
+sem depender da empresa do piloto (EF-06) nem da arquitetura (EF-07). Novo
+`Core/Numbering`: `NumberPoolKey` (identidade fiscal canônica opaca + modelo 65
++ ambiente 2 + série normalizada em três dígitos), porta `INumberPool`
+(`Initialize`/`Reserve`/`Find`, sem liberação de número — H13) e
+`InMemoryNumberPool` com reserva atômica sob `lock` por pool. O próximo número
+aprovado é **entrada obrigatória** da inicialização e nunca é inferido do maior
+número conhecido; reinicializar um pool é recusado porque permitiria reutilizar
+numeração. Novo `Core/Idempotency`: `CanonicalJson` (propriedades ordenadas por
+código UTF-16 como no JCS/RFC 8785, sem espaços, escapes de string normalizados,
+literais numéricos preservados, mesmas ambiguidades recusadas pelo parser de
+preparação — `PreparationJson.RejectAmbiguity` passou a `internal`) e
+`RequestHash` versionado `rh1:<sha-256>` sobre o envelope
+`{"emitter":…,"sale":…}`; o contexto de numeração (nNF/cNF) fica fora do hash
+porque é resultado da reserva. Mesma operação com o mesmo `requestHash` devolve
+a mesma reserva, inclusive sob concorrência; conteúdo diferente na mesma
+operação lança `IdempotencyConflictException` sem consumir número. Séries,
+ambientes e identidades distintas não compartilham pool; `"1"` e `"001"` são a
+mesma série.
+
+**Validação: 233/233 testes aprovados, zero ignorados, build Release sem
+avisos/erros** (41 casos novos em `NumberingTests` e `RequestHashTests`:
+sequência a partir do número aprovado, 500 reservas concorrentes únicas e sem
+lacunas, 64 replays concorrentes da mesma operação consumindo um só número,
+conflito de conteúdo, segregação de pools, normalização de série, chaves e
+operações inválidas, ausência de método de liberação na porta, encaixe da
+reserva no contexto de preparação e na chave de acesso; canonicalização
+independente de ordem/espaços, ordem de array como conteúdo, escapes Unicode,
+literais numéricos, recusa de duplicatas/null/comentários/vírgula final/raiz
+não objeto, posições fixas do envelope, determinismo nos exemplos versionados,
+`Parse` estrito e limite de tamanho). Execução oficial via
+`docker compose run verify` (Linux, SDK 10.0.401); a máquina de desenvolvimento
+desta rodada não tem o SDK instalado, por isso não houve execução local do
+`verify.ps1` fora do contêiner. CI do Actions identificada no PR.
+
+Limites: implementação em memória não sobrevive ao processo e não é a
+persistência da EF-09; concorrência "real no banco", crash/rollback durável e
+replay após atualização normativa (aceites de #7) continuam pendentes de
+EF-07/EF-09. Nenhuma série, número inicial ou identidade real foi escolhida;
+nenhuma transmissão, credencial real ou homologação.
+
+## Incremento EF-12 (núcleo) — ciclo de vida da operação e reconciliação offline — 18/10/2026
+
+Issue [#9](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/9),
+segundo incremento de núcleo da sequência aprovada em 18/10/2026. Novo
+`Core/Operations`: histórico **append-only** de eventos imutáveis
+(`IntentRecorded` com reserva e baseline, `XmlFrozen` com XML assinado,
+SHA-256, digest e chave, `SubmissionRecorded` gravado **antes** de qualquer
+I/O, `ResponseRecorded` e `ConsultationRecorded` com o XML bruto e o
+`ProtocolResult`), visão derivada `Operation` com `State`/`NextAction`,
+porta `IOperationStore` (`Load`/`Append` com versão esperada — controle
+otimista) e `InMemoryOperationStore`; `ILeaseRegistry`/`InMemoryLeaseRegistry`
+com token de fencing monotônico por operação e `IClock` injetável
+(`SystemClock` fora dos testes). `OperationLifecycle` é o único caminho de
+escrita: exige lease atual, valida a transição e grava um evento. O estado
+fiscal vem exclusivamente de `NfceProtocol.Interpret`; o XML congelado é
+conferido contra a série/nNF da reserva pela chave do `Id` antes de qualquer
+criptografia, e uma segunda revisão é recusada (H13). Após o primeiro envio
+não há reenvio: `Submitted`, `Processing` e `Unknown` levam a `Consult`;
+`NotFound` (217 isolado) leva a `ManualReconciliation` sem nova reserva;
+autorizado/rejeitado são terminais e o número permanece consumido.
+
+**Validação: 247/247 testes aprovados, zero ignorados, build Release sem
+avisos/erros** (14 casos novos em `OperationLifecycleTests`, dirigidos pelos
+cenários do aceite EF-12 com respostas sintéticas de `OfflineFixtures`: caminho
+feliz com protocolo de 17 posições e histórico de quatro eventos; 120 com
+mensagens preservadas; rejeição terminal mantendo o número consumido; crash
+antes do envio retomado por novo lease com token antigo recusado; timeout após
+envio resolvido só por consulta; 105 → consulta → 100; resposta tardia de
+trabalhador que perdeu o lease recusada com store inalterado; 204/539 em
+`Unknown` exigindo consulta; 217 isolado em reconciliação manual e localização
+posterior; XML com nNF divergente ou segunda revisão recusados; eventos fora de
+ordem recusados; store append-only com conflito de versão; leases exclusivos
+com tokens crescentes). Execução oficial via `docker compose run verify`
+(Linux, SDK 10.0.401); sem SDK local nesta máquina. CI do Actions identificada
+no PR.
+
+Limites: em memória, sem durabilidade, fila ou trabalhador real; o lease não
+cancela I/O em voo na SEFAZ, só impede que seu resultado tardio seja gravado.
+Política de reenvio manual após 217 confirmado, prazos e eventos (cancelamento)
+permanecem TBD/EF-17. Nenhuma transmissão, credencial real ou homologação.
