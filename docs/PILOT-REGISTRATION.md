@@ -2,6 +2,8 @@
 
 Modelo ligado ao contrato documental [nfce-df-homologacao/0.2](PILOT-CONTRACT.md). Data: 05/10/2026. **Não preenchido: empresa e responsáveis ainda não selecionados.** `TBD` não tem valor padrão. Regime, série e códigos da simulação não preenchem esta ficha.
 
+Em 18/10/2026, Bruno confirmou que ainda não há empresa definida. O [roteiro de seleção](PILOT-SELECTION.md) organiza a triagem e os próximos passos sem preencher fatos por suposição.
+
 Durante a seleção EF-06, as evidências ficam sob guarda do emitente em registro privado já autorizado, com acesso aprovado aos revisores e referência publicável sem conteúdo privado. Identificar esse meio na ficha, sem provisionar armazenamento do serviço; a custódia operacional fiscal será decidida na EF-07 depois. Versionar somente o modelo/referências publicáveis; documentos privados, dados de compradores, PFX/senhas/tokens e connection strings ficam fora do Git/chat. Preenchimento cadastral não autoriza credencial/transmissão.
 
 ## 1. Identificação, papéis e delegação

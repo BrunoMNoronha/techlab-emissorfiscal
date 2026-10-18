@@ -41,6 +41,8 @@ T01 — A seleção EF-06 utiliza registro privado já autorizado, sob guarda do
 
 H17 — Após reafirmar que o objetivo é emitir notas fiscais, o usuário pediu levantamento dos dados necessários, pesquisa e estruturação do modelo com dados de teste. Autoriza o modelo executável local `nfce-preparation/0.1`, exemplos completos e prova JSON → XML/assinatura/XSD, em incremento posterior à entrega documental 0.2. A empresa ainda não foi indicada: exemplos identificados como sintéticos não preenchem a ficha nem substituem cadastro, responsável tributário ou A1 reais. Fontes, capacidade e limites em [NFCE-INPUT-MODEL.md](../../NFCE-INPUT-MODEL.md). Nenhuma autorização de transmissão ou produção é inferida desse pedido.
 
+**18/10/2026 — estado da seleção:** Bruno informou neste chat que ainda não há empresa definida. É um fato sobre o estado da seleção, não uma escolha de emitente, regime, responsável ou autoridade. O [roteiro de seleção](../../PILOT-SELECTION.md) organiza a preparação; EF-06 permanece parcial e aberta.
+
 ## Decisões de 17/10/2026 — varejo amplo e trilha NFS-e
 
 | ID | Fonte e evidência | Alcance / limites |
