@@ -78,6 +78,13 @@ embora o leiaute do PL010f de autorização admita até cinco pares. Esta prova 
 de consulta incompatível. Não editar XSD oficial para contornar isso. Uma baseline
 futura deve resolver essa diferença com pacote oficial revisado e testes de regressão.
 
+**Reconferência EF-05 em 18/10/2026:** os 11 XSDs da baseline anterior ao
+incremento de evento/inutilização são idênticos às entradas dos três ZIPs oficiais
+com hashes conferidos; a NT 2026.002 v1.11 obtida pela SVRS
+continua descrevendo alertas também para consulta. Os catálogos nacional e SVRS
+foram acessados, sem solução oficial comprovada para a consulta. Fontes,
+cronogramas e limites em [EF-05](EF05-NORMATIVE-MATRIX.md#reconferência--18102026).
+
 ## Contrato local do núcleo
 
 - `SafeXml.Load`: parsing com DTD proibido, resolver nulo, preservação de whitespace e limite de tamanho.

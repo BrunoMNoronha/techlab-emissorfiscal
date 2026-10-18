@@ -1,5 +1,27 @@
 # Relatório do incremento NFC-e offline
 
+## Reconferência EF-05 — 18/10/2026
+
+`docker compose run --rm verify` executou `scripts/verify.ps1` no Linux, com
+checkout `9656b6d6b4c4dae9bf3591746a8ea74aff2af544` e alterações documentais
+locais: exit 0, restore bloqueado, build Release sem avisos ou erros e **313/313
+testes aprovados**, nenhum ignorado. SDK 10.0.401 e runtime 10.0.12 foram os
+observados nesta execução. `schemas` compilou os seis entrypoints; `demo`, seis
+preparações e seis renderizações DANFE sintéticas passaram. Manifest SHA-256:
+`9a3d723f602816bc5188ea9b5e01fe324fbc8165f479d06dac8261a6d570e72c`.
+Resumo e TRX locais estão em `TestResults/ci/3defa1f24be2466eb29a378ae411ebca/`
+(diretório ignorado, não resultado de CI remoto).
+
+Os três ZIPs baixados novamente coincidiram com os hashes registrados e as 11
+entradas então selecionadas coincidiram com os XSDs locais. Esta execução precede
+a ampliação para 20 XSDs e doze entrypoints em EF-17/18; detalhes em
+[review-2026-10-18.json](evidence/ef05/review-2026-10-18.json). A suíte manteve
+o teste que rejeita consulta com alertas incompatível. Os catálogos nacional e
+SVRS foram acessados; a planilha RTC da SVRS retornou corpo vazio. A
+[matriz EF-05](EF05-NORMATIVE-MATRIX.md#reconferência--18102026)
+registra a evidência e os limites; não houve mudança de baseline, transmissão,
+certificado de contribuinte ou homologação fiscal. A issue #2 permanece aberta.
+
 O relatório de 04/10/2026 abaixo é histórico. As entregas posteriores (EF-04,
 EF-05, EF-06, modelo de entrada, containerização Docker, job Linux de CI e
 incremento P1 de ST retido) estão registradas em seções datadas ao final deste

@@ -2,6 +2,8 @@
 
 Consultas em 05/10/2026; horários UTC completos e URLs finais em source-index.json. Hashes identificam os bytes baixados, não certificam a ativação de autorizadores.
 
+Reconferência de 18/10/2026: [review-2026-10-18.json](review-2026-10-18.json) registra horários, URLs, status, hashes e comparação com as fontes históricas. Os catálogos nacional e SVRS, seis PDFs de NTs, a IT 2025.002, o anexo histórico de regras DF, o DODF integral e três consultas públicas de legislação DF foram obtidos; PDFs e respostas DF coincidem com os hashes de 05/10. O portal nacional inicialmente entrou em ciclo HTTP 302, resolvido com cookies de sessão; os downloads SVRS da IT e da planilha `cClassTrib` vieram com corpo vazio, mas a IT foi obtida do portal nacional. Os três ZIPs da baseline foram conferidos localmente e baixados de novo das fontes oficiais; o PL010e v1.02 foi baixado do endereço da listagem atual e é idêntico ao histórico. A planilha RTC não foi reconferida; resultados limitados não comprovam ausência de novas publicações ou ativação fiscal.
+
 | Arquivo local | Origem consultada | SHA-256 | Resultado |
 | --- | --- | --- | --- |
 | national-schemas.html | [fonte oficial](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D) | `4b1a31ff606eae6bd83869b243d3f529938c1bdb39b42e7cb61c549add778ab6` | Obtido |
