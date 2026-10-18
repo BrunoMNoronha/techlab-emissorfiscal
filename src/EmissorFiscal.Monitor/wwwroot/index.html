@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monitor de execução · Emissor Fiscal</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brand-mark">T<span>+</span></span><div><strong>Emissor Fiscal</strong><small>TECHLAB+ / AMBIENTE LOCAL</small></div></div><span class="offline"><span></span> PROVA OFFLINE</span></header>
+  <main>
+    <section class="intro"><div><div class="eyebrow">PAINEL DE EXECUÇÃO <span> / </span> NFC-e</div><h1>Acompanhe cada etapa<span>.</span></h1><p>Execute uma prova local e visualize o processamento em tempo real.</p></div><div class="intro-icon" aria-hidden="true">↗</div></section>
+    <div class="notice"><span aria-hidden="true">ⓘ</span><p><strong>Ambiente de demonstração.</strong> Os dados, certificados e protocolos são sintéticos. Não há transmissão ou autorização fiscal.</p></div>
+    <div class="layout">
+      <section class="panel controls"><div class="panel-heading"><div><span class="number">01 / CONFIGURAÇÃO</span><h2>Iniciar fluxo</h2><p>Escolha a operação que deseja acompanhar.</p></div></div>
+        <label for="flow">Fluxo de execução</label><select id="flow"><option value="demo">Demonstração completa</option><option value="schemas">Validar schemas</option><option value="crt1">Preparação + DANFE · CRT 1</option><option value="crt3">Preparação + DANFE · CRT 3</option><option value="st-crt1">Preparação + DANFE · ST CRT 1</option><option value="exempt-crt1">Preparação + DANFE · Isenção CRT 1</option><option value="red-crt3">Preparação + DANFE · Redução CRT 3</option><option value="basket-crt3">Preparação + DANFE · Cesta CRT 3</option></select>
+        <p class="hint" id="flow-description">Assinatura, envio, consulta e protocolo simulados.</p><button id="start" type="button"><span>Executar fluxo</span><span aria-hidden="true">↗</span></button><p id="request-error" class="request-error" role="alert"></p>
+        <div class="info"><div class="info-icon">✳</div><div><strong>Como funciona</strong><p>As etapas aparecem conforme o processamento avança. Preparações também geram um DANFE de prova.</p></div></div>
+      </section>
+      <section class="panel activity" aria-live="polite"><div class="panel-heading activity-heading"><div><span class="number">02 / ACOMPANHAMENTO</span><h2>Atividade</h2><p id="activity-subtitle">Aguardando uma execução.</p></div><span id="status" class="status idle"><span></span> PRONTO</span></div>
+        <div id="empty" class="empty"><div class="empty-icon">⌁</div><strong>Nenhuma atividade por aqui</strong><p>Selecione um fluxo e inicie a execução para acompanhar as etapas.</p></div>
+        <ol id="steps" class="steps" hidden></ol>
+        <div id="error" class="execution-error" hidden></div>
+        <div id="output-dir" class="output-dir" hidden></div>
+      </section>
+    </div>
+    <section id="results" class="panel results" hidden><div class="results-heading"><div><span class="number">03 / RESULTADO</span><h2>Detalhes da execução</h2><p>Resumo retornado pelo processamento local.</p></div><button id="copy" class="copy" type="button">Copiar JSON</button></div><pre id="json"></pre></section>
+  </main><footer><span>TECHLAB+ <b> / </b> EMISSOR FISCAL</span><span>PROVA TÉCNICA LOCAL · SEM VALIDADE FISCAL</span></footer>
+</body></html>

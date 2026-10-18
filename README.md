@@ -37,6 +37,50 @@ no PATH. Essa versão foi **executada neste host**, com runtime 10.0.12.
 `global.json` exige exatamente essa versão e não permite roll-forward ou preview.
 Fonte: [download oficial .NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0).
 
+### Monitor gráfico local
+
+Com o Docker Desktop em execução, na raiz do projeto execute:
+
+```powershell
+docker compose up -d --build
+```
+
+Abra [http://127.0.0.1:5088](http://127.0.0.1:5088). A porta é publicada
+somente no computador local. Os arquivos gerados ficam em `.validation/monitor/`
+no projeto; o caminho mostrado na interface é o caminho correspondente dentro do
+contêiner. Para ver os logs ou parar o monitor:
+
+```powershell
+docker compose logs -f monitor
+docker compose down
+```
+
+O Compose usa o usuário root no contêiner por padrão para conseguir escrever na
+pasta compartilhada pelo Docker Desktop. Em Linux, é possível executar com o
+usuário dono da pasta definindo `MONITOR_UID` e `MONITOR_GID`, por exemplo:
+
+```bash
+mkdir -p .validation/monitor
+MONITOR_UID=$(id -u) MONITOR_GID=$(id -g) docker compose up -d --build
+```
+
+Se preferir executá-lo diretamente com o SDK .NET, na raiz do projeto execute:
+
+```powershell
+dotnet run --project src/EmissorFiscal.Monitor
+```
+
+Abra [http://127.0.0.1:5088](http://127.0.0.1:5088). O painel permite validar
+schemas, executar a demonstração e preparar os exemplos de venda com DANFE
+sintético. As etapas são atualizadas durante o processamento e o resumo JSON e
+eventuais erros aparecem na tela. As preparações gravam os artefatos em um novo
+diretório dentro de `.validation/monitor/`; o caminho aparece no painel.
+
+O monitor é disponibilizado somente no endereço local, executa um fluxo de cada vez e mantém
+o estado da última execução apenas enquanto estiver aberto. Ele usa exclusivamente
+os exemplos do repositório e não transmite documentos nem recebe certificados ou
+dados fiscais reais. Na execução direta, pressione `Ctrl+C` no terminal para encerrar.
+
 Na raiz do projeto, após disponibilizar o SDK:
 
 ```powershell
@@ -166,6 +210,7 @@ recebe A1 real, senha, CSC, endpoint, comando de transmissão ou parâmetros tri
 
 - `src/EmissorFiscal.Core`: parser, manifest/XSD, chave/CNPJ, assinatura, QR, mensagens e protocolo.
 - `src/EmissorFiscal.Cli`: demonstração/verificação exclusivamente offline.
+- `src/EmissorFiscal.Monitor`: painel local para acompanhar os fluxos sintéticos.
 - `tests/EmissorFiscal.Core.Tests`: casos positivos, negativos, adulteração e falhas de correlação.
 - `samples/OfflineFixtures.cs`: dados e certificados sintéticos compartilhados somente pela CLI e testes.
 - `schemas/nfe/4.00`: manifest e 20 arquivos XSD oficiais preservados byte a byte.
@@ -191,7 +236,7 @@ URLs registradas no manifest. Só deve ser executada durante revisão explícita
 deixa evidência em `.validation/materials.json`. Seus placeholders de assinatura
 são apenas estruturais, criados em memória; não são prova de assinatura.
 
-Não há API, banco, Windows Certificate Store, certificado de contribuinte,
+Não há API fiscal, banco, Windows Certificate Store, certificado de contribuinte,
 transporte fiscal, cancelamento ou inutilização operacionais, contingência ou
 produção. DANFE e eventos existem somente como prova offline sintética. Em
 eventual código Node, o gerenciador obrigatório é pnpm.
