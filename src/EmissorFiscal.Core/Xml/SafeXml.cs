@@ -56,13 +56,16 @@ public static class SafeXml
         return Encoding.UTF8.GetString(output.ToArray());
     }
 
-    public static XmlElement RequireRoot(XmlDocument document, string name)
+    public static XmlElement RequireRoot(XmlDocument document, string name) => RequireRoot(document, name, "4.00");
+
+    // Eventos genéricos (evento/envEvento/procEventoNFe) seguem o leiaute 1.00.
+    public static XmlElement RequireRoot(XmlDocument document, string name, string version)
     {
         var root = document.DocumentElement;
         if (root is null || root.LocalName != name || root.NamespaceURI != NfeNamespace)
             throw new InvalidDataException($"Raiz esperada: {name} no namespace NF-e.");
         var versionElement = name == "NFe" ? Child(root, "infNFe") : root;
-        if (versionElement.GetAttribute("versao") != "4.00")
+        if (versionElement.GetAttribute("versao") != version)
             throw new InvalidDataException("Versão XML não suportada.");
         return root;
     }

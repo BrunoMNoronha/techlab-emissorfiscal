@@ -4,6 +4,7 @@
   "reviewedOn": "2026-10-04",
   "precedence": [
     "PL009n",
+    "PL010dEvento",
     "PL010d",
     "PL010f"
   ],
@@ -16,6 +17,15 @@
       "catalog": "https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos",
       "publishedOn": "2024-03-19",
       "subtree": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/"
+    },
+    {
+      "id": "PL010dEvento",
+      "archive": "PL_010d_v1.03.zip",
+      "sha256": "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+      "origin": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
+      "catalog": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+      "publishedOn": "2026-07-10",
+      "subtree": "PL_010d_v1.03/Evento/"
     },
     {
       "id": "PL010d",
@@ -42,7 +52,13 @@
     "retEnviNFe": "retEnviNFe_v4.00.xsd",
     "consSitNFe": "consSitNFe_v4.00.xsd",
     "retConsSitNFe": "retConsSitNFe_v4.00.xsd",
-    "procNFe": "procNFe_v4.00.xsd"
+    "procNFe": "procNFe_v4.00.xsd",
+    "inutNFe": "inutNFe_v4.00.xsd",
+    "retInutNFe": "retInutNFe_v4.00.xsd",
+    "procInutNFe": "procInutNFe_v4.00.xsd",
+    "envEvento": "envEvento_v1.00.xsd",
+    "retEnvEvento": "retEnvEvento_v1.00.xsd",
+    "procEventoNFe": "procEventoNFe_v1.00.xsd"
   },
   "files": [
     {
@@ -82,6 +98,17 @@
       ]
     },
     {
+      "name": "envEvento_v1.00.xsd",
+      "path": "files/envEvento_v1.00.xsd",
+      "sha256": "e4d61ba81582b5f1f9a2a4b135d33f4c1ec1c8f9138a2343a9abfffa02bb2777",
+      "packageId": "PL010dEvento",
+      "archiveEntry": "PL_010d_v1.03/Evento/envEvento_v1.00.xsd",
+      "dependencies": [
+        "leiauteEvento_v1.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
       "name": "enviNFe_v4.00.xsd",
       "path": "files/enviNFe_v4.00.xsd",
       "sha256": "2abfc6198ece784e7a6a4bd1093002d1513d3dbecd4b51d9a207d4ae81ffc2ef",
@@ -89,6 +116,17 @@
       "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/enviNFe_v4.00.xsd",
       "dependencies": [
         "leiauteNFe_v4.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "inutNFe_v4.00.xsd",
+      "path": "files/inutNFe_v4.00.xsd",
+      "sha256": "bdb5b01bc77885756f4660bb14f120ae5f8853f962deb50fbf42c96df65b8f29",
+      "packageId": "PL009n",
+      "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/inutNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteInutNFe_v4.00.xsd"
       ],
       "supersedes": []
     },
@@ -109,6 +147,38 @@
           "sha256": "5d8826f29ff1b0f2fd3c1ccda808fdc2ebac73f6d4abf716cb9049eb5169c535",
           "packageId": "PL009n",
           "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteConsSitNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
+      "name": "leiauteEvento_v1.00.xsd",
+      "path": "files/leiauteEvento_v1.00.xsd",
+      "sha256": "9a48df8603f685653dfde27dbda72e0f47b5d3c13be0090952f1e82f8d2bc476",
+      "packageId": "PL010dEvento",
+      "archiveEntry": "PL_010d_v1.03/Evento/leiauteEvento_v1.00.xsd",
+      "dependencies": [
+        "tiposBasico_v1.03.xsd",
+        "xmldsig-core-schema_v1.01.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "leiauteInutNFe_v4.00.xsd",
+      "path": "files/leiauteInutNFe_v4.00.xsd",
+      "sha256": "e6aa8f817d445cd7796f5bf448ee462598cc00393608ffa038f3a7539de4b184",
+      "packageId": "PL010d",
+      "archiveEntry": "PL_010d_v1.03/NFe/leiauteInutNFe_v4.00.xsd",
+      "dependencies": [
+        "tiposBasico_v4.00.xsd",
+        "xmldsig-core-schema_v1.01.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "leiauteInutNFe_v4.00.xsd",
+          "path": "files/leiauteInutNFe_v4.00.xsd",
+          "sha256": "0cbd4a8cf24c0a38a1d26d75cef499fd323273e8b914824c6c462e69be6c271c",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/leiauteInutNFe_v4.00.xsd"
         }
       ]
     },
@@ -167,6 +237,36 @@
       ]
     },
     {
+      "name": "procEventoNFe_v1.00.xsd",
+      "path": "files/procEventoNFe_v1.00.xsd",
+      "sha256": "4263ee5d12e7a731efab126310aba4edb25612e5986a1c5dde0c87e6c6173798",
+      "packageId": "PL010dEvento",
+      "archiveEntry": "PL_010d_v1.03/Evento/procEventoNFe_v1.00.xsd",
+      "dependencies": [
+        "leiauteEvento_v1.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "procInutNFe_v4.00.xsd",
+      "path": "files/procInutNFe_v4.00.xsd",
+      "sha256": "c71ce9ed656e22161923d77af47839421fa41c63703a064655880fed76e20334",
+      "packageId": "PL010d",
+      "archiveEntry": "PL_010d_v1.03/NFe/procInutNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteInutNFe_v4.00.xsd"
+      ],
+      "supersedes": [
+        {
+          "name": "procInutNFe_v4.00.xsd",
+          "path": "files/procInutNFe_v4.00.xsd",
+          "sha256": "fe95c091dab0f35cc56734ffb870d753d35770501dc360956283cad52deb8239",
+          "packageId": "PL009n",
+          "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/procInutNFe_v4.00.xsd"
+        }
+      ]
+    },
+    {
       "name": "procNFe_v4.00.xsd",
       "path": "files/procNFe_v4.00.xsd",
       "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0",
@@ -197,6 +297,17 @@
       ]
     },
     {
+      "name": "retEnvEvento_v1.00.xsd",
+      "path": "files/retEnvEvento_v1.00.xsd",
+      "sha256": "5eb93a244c5b26c983c08f725f8eafaa1923664a992181b9d78f60cc8523fa72",
+      "packageId": "PL010dEvento",
+      "archiveEntry": "PL_010d_v1.03/Evento/retEnvEvento_v1.00.xsd",
+      "dependencies": [
+        "leiauteEvento_v1.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
       "name": "retEnviNFe_v4.00.xsd",
       "path": "files/retEnviNFe_v4.00.xsd",
       "sha256": "c905bc7690f9171a9183e868b6906edf518a2142531b5977f05d38e7b6768299",
@@ -205,6 +316,26 @@
       "dependencies": [
         "leiauteNFe_v4.00.xsd"
       ],
+      "supersedes": []
+    },
+    {
+      "name": "retInutNFe_v4.00.xsd",
+      "path": "files/retInutNFe_v4.00.xsd",
+      "sha256": "f088a06df63d8b4e24a726b73ec3328cdb54a575a75351fbf4a9476934c9dafd",
+      "packageId": "PL009n",
+      "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/retInutNFe_v4.00.xsd",
+      "dependencies": [
+        "leiauteInutNFe_v4.00.xsd"
+      ],
+      "supersedes": []
+    },
+    {
+      "name": "tiposBasico_v1.03.xsd",
+      "path": "files/tiposBasico_v1.03.xsd",
+      "sha256": "d89d4fe1136f89abc7878b440d91ac0e770fbc128dd35b483284c961d6c3fd5d",
+      "packageId": "PL010dEvento",
+      "archiveEntry": "PL_010d_v1.03/Evento/tiposBasico_v1.03.xsd",
+      "dependencies": [],
       "supersedes": []
     },
     {
@@ -221,6 +352,13 @@
           "sha256": "1ab4a4ebb9580a7efb45c9d545a9d3b7316cc965213345f667c86a5c7e56e33f",
           "packageId": "PL009n",
           "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/tiposBasico_v4.00.xsd"
+        },
+        {
+          "name": "tiposBasico_v4.00.xsd",
+          "path": "files/tiposBasico_v4.00.xsd",
+          "sha256": "e73476a037832fa1b8aea8323de5385d8a6ac4e73f98ac5d0805735a77ec36c2",
+          "packageId": "PL010dEvento",
+          "archiveEntry": "PL_010d_v1.03/Evento/tiposBasico_v4.00.xsd"
         },
         {
           "name": "tiposBasico_v4.00.xsd",
@@ -245,6 +383,13 @@
           "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
           "packageId": "PL009n",
           "archiveEntry": "PL_009n_NT2023_004_v101_e_NT2019_001_v162/xmldsig-core-schema_v1.01.xsd"
+        },
+        {
+          "name": "xmldsig-core-schema_v1.01.xsd",
+          "path": "files/xmldsig-core-schema_v1.01.xsd",
+          "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+          "packageId": "PL010dEvento",
+          "archiveEntry": "PL_010d_v1.03/Evento/xmldsig-core-schema_v1.01.xsd"
         },
         {
           "name": "xmldsig-core-schema_v1.01.xsd",

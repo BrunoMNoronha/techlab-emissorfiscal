@@ -10,6 +10,7 @@ using EmissorFiscal.Core.Xml;
 namespace EmissorFiscal.Core.Signature;
 
 public sealed record SignatureProof(AccessKey Key, string DigestBase64, string XmlSha256, string CertificateSha256);
+public sealed record ElementSignatureProof(string Id, string DigestBase64, string XmlSha256, string CertificateSha256);
 
 public static class A1Signer
 {
@@ -29,10 +30,32 @@ public static class A1Signer
         var document = SafeXml.Load(unsignedXml);
         var invoice = SafeXml.RequireRoot(document, "NFe");
         NfceMessages.RequireInvoiceScope(invoice);
+        var serialized = SignCore(document, invoice, SafeXml.Child(invoice, "infNFe"), certificate);
+        Verify(serialized, certificate);
+        return serialized;
+    }
+
+    // Assinatura de evento/inutilização: o elemento identificado por Id (infEvento,
+    // infInut) é assinado e a Signature anexada ao seu contêiner direto (evento,
+    // inutNFe), com as mesmas regras do MOC usadas na NFC-e.
+    public static string SignElement(string unsignedXml, X509Certificate2 certificate, string rootName, string infoName,
+        string version)
+    {
+        RequireSigningCertificate(certificate);
+        var document = SafeXml.Load(unsignedXml);
+        var root = SafeXml.RequireRoot(document, rootName, version);
+        var info = SafeXml.Child(root, infoName);
+        if (info.GetAttribute("Id").Length == 0) throw new CryptographicException("Elemento a assinar sem Id.");
+        var serialized = SignCore(document, root, info, certificate);
+        VerifyElement(serialized, rootName, rootName, infoName, version, certificate);
+        return serialized;
+    }
+
+    private static string SignCore(XmlDocument document, XmlElement container, XmlElement info, X509Certificate2 certificate)
+    {
         if (document.GetElementsByTagName("Signature", DsNamespace).Count != 0)
             throw new CryptographicException("XML já contém assinatura.");
         RequireUniqueIds(document);
-        var info = SafeXml.Child(invoice, "infNFe");
         using var key = certificate.GetRSAPrivateKey() ?? throw new CryptographicException("Chave RSA ausente.");
         var signedXml = new InvoiceSignedXml(document, info) { SigningKey = key, Resolver = new RejectingXmlResolver() };
         var signedInfo = signedXml.SignedInfo ?? throw new CryptographicException("SignedInfo ausente.");
@@ -46,10 +69,8 @@ public static class A1Signer
         keyInfo.AddClause(new KeyInfoX509Data(certificate));
         signedXml.KeyInfo = keyInfo;
         signedXml.ComputeSignature();
-        invoice.AppendChild(document.ImportNode(signedXml.GetXml(), deep: true));
-        var serialized = SafeXml.Serialize(document);
-        Verify(serialized, certificate);
-        return serialized;
+        container.AppendChild(document.ImportNode(signedXml.GetXml(), deep: true));
+        return SafeXml.Serialize(document);
     }
 
     // Somente prova criptográfica local. verifySignatureOnly evita chain/revocation I/O.
@@ -60,7 +81,29 @@ public static class A1Signer
         RequireUniqueIds(document);
         var invoice = NfceMessages.InvoiceIn(document);
         var key = NfceMessages.RequireInvoiceScope(invoice);
-        var info = SafeXml.Child(invoice, "infNFe");
+        var (digest, certificateSha256) = VerifyCore(document, invoice, SafeXml.Child(invoice, "infNFe"), expectedCertificate);
+        return new(key, digest, Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(xml))), certificateSha256);
+    }
+
+    // Verifica a única assinatura de um documento de evento/inutilização. O elemento
+    // assinado (signedName) é a raiz ou um filho direto dela (evento dentro de
+    // envEvento/procEventoNFe); o Id vem do elemento infoName.
+    public static ElementSignatureProof VerifyElement(string xml, string rootName, string signedName, string infoName,
+        string version, X509Certificate2? expectedCertificate = null)
+    {
+        var document = SafeXml.Load(xml);
+        RequireUniqueIds(document);
+        var root = SafeXml.RequireRoot(document, rootName, version);
+        var signed = rootName == signedName ? root : SafeXml.Child(root, signedName);
+        var info = SafeXml.Child(signed, infoName);
+        var (digest, certificateSha256) = VerifyCore(document, signed, info, expectedCertificate);
+        return new(info.GetAttribute("Id"), digest,
+            Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(xml))), certificateSha256);
+    }
+
+    private static (string DigestBase64, string CertificateSha256) VerifyCore(XmlDocument document, XmlElement invoice,
+        XmlElement info, X509Certificate2? expectedCertificate)
+    {
         if (document.GetElementsByTagName("Signature", DsNamespace).Count != 1)
             throw new CryptographicException("Esperada uma única assinatura de NFC-e.");
         var signature = SafeXml.Child(invoice, "Signature", DsNamespace);
@@ -81,9 +124,7 @@ public static class A1Signer
             "Reference", DsNamespace), "DigestValue", DsNamespace).InnerText;
         var digestBytes = Convert.FromBase64String(digest);
         if (digestBytes.Length != 20) throw new CryptographicException("Digest fiscal SHA-1 deve ter 20 bytes.");
-        return new(key, Convert.ToBase64String(digestBytes),
-            Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(xml))),
-            Convert.ToHexStringLower(SHA256.HashData(certificate.RawData)));
+        return (Convert.ToBase64String(digestBytes), Convert.ToHexStringLower(SHA256.HashData(certificate.RawData)));
     }
 
     private static void RequireSigningCertificate(X509Certificate2 certificate)
