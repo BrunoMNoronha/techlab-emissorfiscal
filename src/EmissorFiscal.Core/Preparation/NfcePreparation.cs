@@ -140,12 +140,25 @@ public static class NfcePreparation
             var rtc = taxes.IbsCbs.Tax;
             var group = Element(document, ibsCbs, "gIBSCBS");
             Fields(document, group, ("vBC", rtc.Base));
-            Fields(document, Element(document, group, "gIBSUF"), ("pIBSUF", rtc.Uf.Rate), ("vIBSUF", rtc.Uf.Value));
-            Fields(document, Element(document, group, "gIBSMun"),
-                ("pIBSMun", rtc.Municipality.Rate), ("vIBSMun", rtc.Municipality.Value));
+            // TCIBS_NFe: gRed fica entre a alíquota e o valor de cada subgrupo.
+            RtcSubgroup(document, Element(document, group, "gIBSUF"), ("pIBSUF", rtc.Uf.Rate),
+                rtc.Uf.Reduction, ("vIBSUF", rtc.Uf.Value));
+            RtcSubgroup(document, Element(document, group, "gIBSMun"), ("pIBSMun", rtc.Municipality.Rate),
+                rtc.Municipality.Reduction, ("vIBSMun", rtc.Municipality.Value));
             Fields(document, group, ("vIBS", rtc.Ibs));
-            Fields(document, Element(document, group, "gCBS"), ("pCBS", rtc.Cbs.Rate), ("vCBS", rtc.Cbs.Value));
+            RtcSubgroup(document, Element(document, group, "gCBS"), ("pCBS", rtc.Cbs.Rate),
+                rtc.Cbs.Reduction, ("vCBS", rtc.Cbs.Value));
         }
+    }
+
+    private static void RtcSubgroup(XmlDocument document, XmlElement parent, (string Name, string? Value) rate,
+        PreparationRtcReduction? reduction, (string Name, string? Value) value)
+    {
+        Fields(document, parent, rate);
+        if (reduction is not null)
+            Fields(document, Element(document, parent, "gRed"),
+                ("pRedAliq", reduction.ReductionRate), ("pAliqEfet", reduction.EffectiveRate));
+        Fields(document, parent, value);
     }
 
     private static void RtcTotals(XmlDocument document, XmlElement parent, PreparationIbsCbsTotals totals)

@@ -494,3 +494,34 @@ declaradas; nenhum benefício real foi aprovado, a aplicabilidade no DF depende
 do RICMS-DF (pendência da matriz) e o enquadramento permanece com o responsável
 tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
 homologação fiscal; issues #2/#3 permanecem abertas.
+
+## RTC cesta básica nacional no preparador — 18/10/2026
+
+Issue [#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30),
+resolvendo a pendência impeditiva registrada no P2 na linha transversal RTC da
+[matriz de cobertura do varejo](RETAIL-COVERAGE-MATRIX.md): o grupo opcional
+`gRed` (tipo `TRed`: `pRedAliq`+`pAliqEfet`) é representado em `gIBSUF`,
+`gIBSMun` e `gCBS` e serializado entre a alíquota e o valor de cada subgrupo,
+conforme `TCIBS_NFe` do XSD fixado. O par CST `200`/`cClassTrib` `200003`
+(cesta básica nacional, alíquota reduzida a zero, art. 199 da LC 214/2025) é
+aceito exigindo `gRed` declarado nos três subgrupos; o par `000`/`000001`
+continua sem `gRed`; outros pares, `gRed` ausente/parcial/desconhecido e má
+formação decimal são recusados. Valores declarados, sem consistência
+aritmética imposta. Registro CFF reconferido (bytes idênticos às coletas
+P2/P3) em [FONTES.md](evidence/retail-coverage/FONTES.md). Novo exemplo
+sintético [sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json),
+15 casos de teste novos e sexto `prepare` em `verify.ps1`.
+
+**Validação: 192/192 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, CLI `schemas`/`demo` e os seis `prepare` (CRT 1, CRT 3,
+ST CRT 1, isenções CRT 1, redução CRT 3 e cesta básica CRT 3) validados no XSD
+fixado. Evidência: `docker compose run --rm verify` local em 18/10/2026
+(exit 0, Ubuntu/SDK 10.0.401, evidência
+`TestResults/ci/2f6849590b7949c083ba614fbe698cef`). A contagem 192/192 substitui
+177/177 como estado atual; contagens anteriores permanecem como marcos
+históricos.
+
+NCM, redução e alíquota efetiva do exemplo são hipóteses de teste declaradas;
+nenhum enquadramento de mercadoria real no Anexo I da LC 214/2025 foi aprovado,
+e ele permanece com o responsável tributário do caso aprovado. Sem transmissão,
+credencial real, DANFE ou homologação fiscal; issues #2/#3 permanecem abertas.

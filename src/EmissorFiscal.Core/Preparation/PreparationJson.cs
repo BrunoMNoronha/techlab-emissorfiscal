@@ -332,18 +332,43 @@ internal static class PreparationValidation
         if (taxes.TotalTaxes is not null) Money(taxes.TotalTaxes, "vTotTrib");
         if (taxes.IbsCbs is not null)
         {
-            Equal(taxes.IbsCbs.Cst, "000", "CST IBS/CBS suportado");
-            Equal(taxes.IbsCbs.Classification, "000001", "cClassTrib suportado como hipótese de teste");
+            // Tabela CFF: 000/000001 tributação regular; 200/200003 cesta básica nacional
+            // (alíquota reduzida a zero, art. 199 da LC 214/2025), que exige gRed declarado.
+            // O enquadramento da mercadoria no Anexo I da LC 214/2025 não é verificado aqui.
+            var reduced = (taxes.IbsCbs.Cst, taxes.IbsCbs.Classification) switch
+            {
+                ("000", "000001") => false,
+                ("200", "200003") => true,
+                _ => throw new InvalidDataException("Par CST/cClassTrib IBS/CBS não mapeado neste subconjunto: " +
+                                                    taxes.IbsCbs.Cst + "/" + taxes.IbsCbs.Classification)
+            };
             var rtc = taxes.IbsCbs.Tax;
             Money(rtc.Base, "IBSCBS/vBC");
             Rate(rtc.Uf.Rate, "pIBSUF");
+            RtcReduction(rtc.Uf.Reduction, reduced, "gIBSUF");
             Money(rtc.Uf.Value, "vIBSUF");
             Rate(rtc.Municipality.Rate, "pIBSMun");
+            RtcReduction(rtc.Municipality.Reduction, reduced, "gIBSMun");
             Money(rtc.Municipality.Value, "vIBSMun");
             Money(rtc.Ibs, "vIBS");
             Rate(rtc.Cbs.Rate, "pCBS");
+            RtcReduction(rtc.Cbs.Reduction, reduced, "gCBS");
             Money(rtc.Cbs.Value, "vCBS");
         }
+    }
+
+    // gRed (TRed) é obrigatório no par reduzido e ausente no regular; sem consistência
+    // aritmética entre pRedAliq, pAliqEfet e o valor do subgrupo.
+    private static void RtcReduction(PreparationRtcReduction? reduction, bool required, string group)
+    {
+        if (!required)
+        {
+            if (reduction is not null) Fail("gRed em " + group + " é suportado somente no par CST 200/cClassTrib 200003.");
+            return;
+        }
+        if (reduction is null) Fail("gRed em " + group + " é obrigatório no par CST 200/cClassTrib 200003.");
+        Rate(reduction.ReductionRate, group + "/gRed/pRedAliq");
+        Rate(reduction.EffectiveRate, group + "/gRed/pAliqEfet");
     }
 
     // Campos próprios dos grupos tributados (ICMS00/ICMS20): fora de ICMSSN102/ICMS40/ICMSSN500/ICMS60.

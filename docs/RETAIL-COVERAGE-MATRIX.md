@@ -86,7 +86,7 @@ exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
 | **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Implementado em 17/10/2026 ([#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)): campos obrigatórios representados, validados e serializados; FCP e desoneração recusados; exemplo [sale-red-crt3.json](../samples/preparation/sale-red-crt3.json) | Entregue; percentual real por caso segue exigindo fonte (RICMS-DF pendente) |
 | **P4** | CST 90 / CSOSN 900 (outros) | `ICMS90`/`ICMSSN900`: combinações amplas de campos opcionais | Sem representação; grupos recusados | Genéricos; implementar somente com caso aprovado que os exija |
 | **P4** | PIS/COFINS `Outr` (CST 49+) e `Qtde` | `PISOutr`/`PISQtde` e equivalentes COFINS | Sem representação | Conforme caso; monofásico de bebidas (CST 04) já é representável via `PISNT`/`COFINSNT` |
-| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular; consulta CFF do P2 (17/10/2026) confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410, e que cesta básica nacional é CST 200/`cClassTrib` 200003 (alíquota zero, art. 199 da LC 214/2025) — grupo não representado, **pendência impeditiva** registrada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
+| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações; `gRed` (`pRedAliq`+`pAliqEfet`) em `gIBSUF`/`gIBSMun`/`gCBS` | Par regular e, desde 18/10/2026 ([#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30)), cesta básica nacional CST 200/`cClassTrib` 200003 (alíquota zero, art. 199 da LC 214/2025) com `gRed` declarado nos três subgrupos; exemplo [sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json). A consulta CFF do P2 confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410; demais pares seguem recusados ([FONTES.md](evidence/retail-coverage/FONTES.md)) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
 
 Gate comum a todas as linhas: preencher a matriz de validação (seção 3 do
 [dicionário](PILOT-DATA-DICTIONARY.md)) com fonte oficial, regra, equações e
@@ -160,6 +160,26 @@ seguindo a convenção dos incrementos P1/P2:
 
 Nenhum percentual de redução real foi aprovado; a aplicabilidade no DF depende
 do RICMS-DF (pendência da seção 5) e do responsável tributário do caso aprovado.
+
+## 4-C. RTC cesta básica nacional — entregue
+
+Pendência impeditiva do P2, resolvida em 18/10/2026 pela issue
+[#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30):
+
+- Grupo opcional `gRed` (tipo `TRed`: `pRedAliq`+`pAliqEfet`) representado em
+  `gIBSUF`, `gIBSMun` e `gCBS`, serializado entre a alíquota e o valor de cada
+  subgrupo, conforme `TCIBS_NFe` do XSD fixado.
+- Par CST `200`/`cClassTrib` `200003` aceito exigindo `gRed` nos três
+  subgrupos; par `000`/`000001` mantido sem `gRed`; qualquer outro par, `gRed`
+  ausente ou parcial e má formação decimal são recusados. Valores declarados,
+  sem consistência aritmética imposta entre redução, alíquota efetiva e valor.
+- Registro CFF `200003` reconferido e hasheado em
+  [FONTES.md](evidence/retail-coverage/FONTES.md); exemplo sintético
+  [sale-basket-crt3.json](../samples/preparation/sale-basket-crt3.json) e
+  `prepare` correspondente em `scripts/verify.ps1`.
+
+O enquadramento de mercadoria real nos NCM do Anexo I da LC 214/2025 segue com o
+responsável tributário; a redução e o NCM do exemplo são hipóteses de teste.
 
 ## 5. Fontes a levantar
 

@@ -109,11 +109,44 @@ redução aplicável ou enquadramento de mercadoria real no DF, que seguem com o
 responsável tributário (RICMS-DF permanece pendente abaixo). Nenhum benefício
 real foi aprovado; o percentual do exemplo sintético é valor de teste.
 
+## Coleta de 18/10/2026 — RTC cesta básica nacional (issue #30)
+
+Recoleta da tabela CFF, com bytes idênticos aos das coletas P2/P3 (a primeira
+tentativa, às 01:21:34Z, recebeu HTTP 503 "The service is unavailable." e foi
+descartada):
+
+| Arquivo local | Origem consultada (URL final) | Data/hora UTC | SHA-256 dos bytes | Resultado |
+| --- | --- | --- | --- | --- |
+| cff-page.html (não versionado; apenas hash) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | 2026-10-18T01:22:04Z | `0c2d7b19379f605e9d9a98b1045984e2da8c2ce7a57ba677e4057b401207cace` | Obtido (HTTP 200, 4.189.528 bytes; idêntico às coletas P2/P3) |
+
+Fatos conferidos, usados pela issue
+[#30](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/30):
+
+- **Tabela CFF, CST `200`** "Alíquota reduzida": `IndReducaoAliq` verdadeiro e
+  `IndReducaoBc` falso — redução de alíquota, não de base.
+- **Tabela CFF, `cClassTrib` `200003`** (CST `200`): vendas de produtos
+  destinados à alimentação humana do Anexo I da LC 214/2025 que compõem a Cesta
+  Básica Nacional de Alimentos; `PercRedIbs` e `PercRedCbs` 100, `IndNfce`
+  verdadeiro, `TipoAliq` 2, `NroAnexo` 1, texto regulatório do art. 199 da
+  LC 214/2025 (alíquotas de IBS e CBS reduzidas a zero), início de vigência
+  2025-05-05 e publicação 2026-06-22.
+- **XSD local da baseline** ([DFeTiposBasicos_v1.00.xsd](../../../schemas/nfe/4.00/files/DFeTiposBasicos_v1.00.xsd)):
+  tipo `TRed` com a sequência `pRedAliq`, `pAliqEfet` (ambos `TDec_0302_04RTC`);
+  em `TCIBS_NFe`, o elemento opcional `gRed` aparece em `gIBSUF`, `gIBSMun` e
+  `gCBS`, depois de `gDif`/`gDevTrib` e antes do valor do subgrupo (em `gCBS`,
+  antes de `gALCZFMCBS`).
+
+Conclusão aplicada: o preparador aceita o par `200`/`200003` exigindo `gRed`
+declarado nos três subgrupos e mantém `000`/`000001` sem `gRed`; demais pares
+seguem recusados. Limitações: o registro CFF não comprova enquadramento de
+mercadoria real nos NCM do Anexo I, nem aplicação em autorizador; os valores do
+exemplo sintético (redução 100, alíquota efetiva 0) são hipóteses de teste.
+
 | Fonte externa | URL de partida | Status |
 | --- | --- | --- |
 | Convênio ICMS 142/18 + tabela CEST | <https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18> | Obtido em 17/10/2026 (P1) |
 | Convênio s/nº de 1970 (Tabela B CST e Anexo III-A CSOSN) | <https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70> | Obtido em 17/10/2026 (P2; reconferido no P3, tabela acima) |
-| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2; reconferido no P3 para redução de base) |
+| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2; reconferido no P3 para redução de base e em 18/10/2026 para `200003`) |
 | Regulamento do ICMS do DF e anexos ST/benefícios | A identificar (ato vigente) | Pendente |
 | Base legal do monofásico PIS/COFINS de bebidas frias | A identificar | Pendente |
 | Convênio ICMS 100/97 (insumos agropecuários) | <https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97> | Pendente |
