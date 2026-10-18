@@ -482,10 +482,12 @@ redução declarado como valor de teste), 12 casos de teste novos e quinto
 avisos/erros**, CLI `schemas`/`demo` e os cinco `prepare` (CRT 1, CRT 3,
 ST CRT 1, isenções CRT 1 e redução CRT 3) validados no XSD fixado. Evidências:
 `docker compose run --rm verify` local em 17/10/2026 (exit 0, Ubuntu/SDK
-10.0.401, evidência `TestResults/ci/2aa4dd5f4a2b46858d0acb13e8631778`). A
-contagem 177/177 substitui 165/165 como estado atual; contagens anteriores
-permanecem como marcos históricos. A execução no Actions será registrada na PR
-do incremento.
+10.0.401, evidência `TestResults/ci/2aa4dd5f4a2b46858d0acb13e8631778`) e Actions
+[run 39083752354](https://github.com/BrunoMNoronha/techlab-emissorfiscal/actions/runs/39083752354)
+(Windows 2025 + job `docker`, 17/10/2026, PR
+[#29](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/29)) sobre o
+commit `b37a55f`. A contagem 177/177 substitui 165/165 como estado atual;
+contagens anteriores permanecem como marcos históricos.
 
 O percentual de redução, NCM e CFOP do exemplo são hipóteses de teste
 declaradas; nenhum benefício real foi aprovado, a aplicabilidade no DF depende
