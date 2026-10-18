@@ -1,4 +1,21 @@
 services:
+  # Painel local: docker compose up -d --build
+  monitor:
+    build:
+      context: .
+      target: monitor
+    image: emissorfiscal-monitor
+    # O bind mount do Docker Desktop pode pertencer a root. No Linux, defina
+    # MONITOR_UID/MONITOR_GID para executar com o usuário dono da pasta.
+    user: "${MONITOR_UID:-0}:${MONITOR_GID:-0}"
+    environment:
+      Logging__LogLevel__Microsoft.AspNetCore: Warning
+    ports:
+      - "127.0.0.1:5088:5088"
+    volumes:
+      - ./.validation/monitor:/app/.validation/monitor
+    restart: unless-stopped
+
   # CLI empacotada (schemas | demo | prepare | danfe). Exemplos:
   #   docker compose run --rm cli schemas
   #   docker compose run --rm cli demo
@@ -8,6 +25,7 @@ services:
   #   docker compose run --rm -v ./.validation:/out cli \n  #     danfe /out/docker-crt1/signed.xml /out/docker-crt1-danfe
   # (os diretórios de saída de prepare/danfe não podem existir antes da execução)
   cli:
+    profiles: ["tools"]
     build:
       context: .
       target: runtime
@@ -18,6 +36,7 @@ services:
   # As evidências ficam em TestResults/ci/<guid>/ no host. Em caso de erro de
   # build por artefatos do Windows em bin/obj, rode antes: git clean -xdf src tests
   verify:
+    profiles: ["tools"]
     build:
       context: .
       target: verify

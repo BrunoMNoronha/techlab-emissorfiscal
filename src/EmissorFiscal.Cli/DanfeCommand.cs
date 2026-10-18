@@ -15,8 +15,9 @@ namespace EmissorFiscal.Cli;
 // rotulado como sintético. Nenhum transporte; nada é consultado.
 internal static class DanfeCommand
 {
-    public static int Run(string inputPath, string outputPath)
+    public static int Run(string inputPath, string outputPath, Action<string>? progress = null, Action<string>? output = null)
     {
+        progress?.Invoke("Lendo o XML e carregando os schemas");
         var target = Path.GetFullPath(outputPath);
         if (Directory.Exists(target) || File.Exists(target))
             throw new IOException("Escolha um diretório novo; os artefatos existentes não são sobrescritos.");
@@ -32,6 +33,7 @@ internal static class DanfeCommand
         }
         else if (root == "nfeProc") processed = input;
         else throw new InvalidDataException("Entrada deve ser nfeProc ou NFe assinada.");
+        progress?.Invoke("Gerando o DANFE e o QR Code");
         var danfe = DanfeRenderer.Render(processed, validator);
         var artifacts = new Dictionary<string, string>(StringComparer.Ordinal)
         {
@@ -67,10 +69,11 @@ internal static class DanfeCommand
             fiscalIo = false, taxpayerCertificate = false, fiscalHomologationObtained = false
         };
         var json = JsonSerializer.Serialize(summary, new JsonSerializerOptions { WriteIndented = true });
+        progress?.Invoke("Gravando o DANFE de prova");
         Directory.CreateDirectory(target);
         foreach (var artifact in artifacts) WriteNew(Path.Combine(target, artifact.Key), artifact.Value);
         WriteNew(Path.Combine(target, "summary.json"), json);
-        Console.WriteLine(json);
+        if (output is null) Console.WriteLine(json); else output(json);
         return 0;
     }
 

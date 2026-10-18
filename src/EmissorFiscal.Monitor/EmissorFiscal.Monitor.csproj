@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../EmissorFiscal.Cli/EmissorFiscal.Cli.csproj" />
+    <None Include="../../samples/preparation/*.json" Link="samples/preparation/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot/**/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

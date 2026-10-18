@@ -11,16 +11,19 @@ namespace EmissorFiscal.Cli;
 
 internal static class PreparationCommand
 {
-    public static int Run(string salePath, string emitterPath, string contextPath, string outputPath)
+    public static int Run(string salePath, string emitterPath, string contextPath, string outputPath, Action<string>? progress = null, Action<string>? output = null)
     {
+        progress?.Invoke("Lendo e validando os dados de entrada");
         var sale = PreparationJson.ParseSale(ReadInput(salePath));
         var emitter = PreparationJson.ParseEmitter(ReadInput(emitterPath));
         var context = PreparationJson.ParseContext(ReadInput(contextPath));
         var target = Path.GetFullPath(outputPath);
         if (Directory.Exists(target) || File.Exists(target))
             throw new IOException("Escolha um diretório novo; os artefatos existentes não são sobrescritos.");
+        progress?.Invoke("Preparando o XML e o QR Code");
         var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
         var unsigned = QrCode3.AddToInvoice(prepared.UnsignedXml);
+        progress?.Invoke("Carregando os schemas e assinando com certificado sintético");
         var validator = OfflineFixtures.Validator();
         var pfx = OfflineFixtures.RsaPkcs12();
         string signed;
@@ -31,6 +34,7 @@ internal static class PreparationCommand
             validator.RequireValid("nfe", signed);
         }
         finally { CryptographicOperations.ZeroMemory(pfx); }
+        progress?.Invoke("Verificando assinatura e montando mensagens");
         var proof = A1Signer.Verify(signed);
         var submission = NfceMessages.BuildSubmission(signed, "1", validator);
         var consultation = NfceMessages.BuildConsultation(proof.Key, validator);
@@ -62,10 +66,11 @@ internal static class PreparationCommand
         };
         var json = JsonSerializer.Serialize(summary, new JsonSerializerOptions { WriteIndented = true });
         // Todas as entradas e todos os XMLs são validados antes de criar a saída.
+        progress?.Invoke("Gravando os artefatos validados");
         Directory.CreateDirectory(target);
         foreach (var artifact in artifacts) WriteNew(Path.Combine(target, artifact.Key), artifact.Value);
         WriteNew(Path.Combine(target, "summary.json"), json);
-        Console.WriteLine(json);
+        if (output is null) Console.WriteLine(json); else output(json);
         return 0;
     }
 

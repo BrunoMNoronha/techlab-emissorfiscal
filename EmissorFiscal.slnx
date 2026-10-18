@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/EmissorFiscal.Core/EmissorFiscal.Core.csproj" />
     <Project Path="src/EmissorFiscal.Cli/EmissorFiscal.Cli.csproj" />
+    <Project Path="src/EmissorFiscal.Monitor/EmissorFiscal.Monitor.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/EmissorFiscal.Core.Tests/EmissorFiscal.Core.Tests.csproj" />
