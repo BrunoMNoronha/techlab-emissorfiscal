@@ -599,8 +599,11 @@ próprio passo `danfe` do script (`Count` sob `Set-StrictMode`), corrigido em
 rasterizado em canvas no navegador integrado e decodificado pelo jsQR 1.4.0
 (jsdelivr) com a string exata
 `http://www.fazenda.df.gov.br/nfce/qrcode?p=<chave>|3|2`, versão 6, 91 bytes:
-prova manual, não automatizada. A contagem 260/260 substitui 192/192 (194/194
-após o PR #33) como estado atual.
+prova manual, não automatizada. A contagem 260/260 vale para a branch isolada
+(sobre 194/194 após o PR #33); após o merge de `main` com os incrementos 1 e 2
+(PRs #36 e #37) no PR #38, a suíte combinada passou com **313/313** no
+contêiner SDK 10.0.401 local, e o run do Actions sobre o commit de merge fica
+registrado no próprio PR.
 
 Decisão técnica reversível (H20 em
 [DECISIONS.md](evidence/ef06/DECISIONS.md)): texto + SVG é a saída mínima;
