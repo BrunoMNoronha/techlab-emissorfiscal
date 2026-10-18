@@ -141,6 +141,41 @@ public sealed class OperationLifecycleTests(OfflineProof proof) : IClassFixture<
     }
 
     [Fact]
+    public void ConsultationWithAlertsOutsidePinnedSchemaKeepsEvidenceAndCannotResubmit()
+    {
+        var h = NewHarness();
+        var lease = h.Acquire();
+        var submitted = h.FrozenAndSubmitted(lease, proof.Signed);
+        var response = OfflineFixtures.Response(proof.Signed, "120", consultation: true, alerts: true);
+
+        var unresolved = h.Lifecycle.RecordConsultation(lease, response);
+
+        Assert.Equal(OperationState.Unknown, unresolved.State);
+        Assert.Equal(FiscalState.InvalidResponse, unresolved.LastResult!.State);
+        Assert.False(unresolved.IsAuthorized);
+        Assert.Null(unresolved.ProtocolNumber);
+        Assert.Equal(NextAction.Consult, unresolved.NextAction);
+        Assert.Equal(1, unresolved.Attempts);
+        Assert.Equal(1, unresolved.Consultations);
+        Assert.Equal(submitted.Reservation, unresolved.Reservation);
+        Assert.Equal(submitted.SignedXml, unresolved.SignedXml);
+        Assert.Equal(submitted.XmlSha256, unresolved.XmlSha256);
+        var recorded = Assert.IsType<ConsultationRecorded>(unresolved.Events[^1]);
+        Assert.Equal(response, recorded.ResponseXml);
+        Assert.Throws<InvalidTransitionException>(() => h.Lifecycle.RecordSubmission(lease));
+        Assert.Throws<InvalidDataException>(() => NfceProtocol.BuildProcessed(proof.Signed, response, proof.Validator));
+
+        // Outra resposta sintética compatível com a baseline só prova retomada local,
+        // não resolve a incompatibilidade nem demonstra comportamento da SEFAZ.
+        var later = h.Lifecycle.RecordConsultation(lease,
+            OfflineFixtures.Response(proof.Signed, consultation: true));
+        Assert.True(later.IsAuthorized);
+        Assert.Equal(1, later.Attempts);
+        Assert.Equal(2, later.Consultations);
+        Assert.Equal(response, Assert.IsType<ConsultationRecorded>(later.Events[^2]).ResponseXml);
+    }
+
+    [Fact]
     public void ProcessingResponseLeadsToConsultationAndThenAuthorization()
     {
         var h = NewHarness();
