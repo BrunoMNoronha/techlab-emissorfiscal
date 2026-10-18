@@ -16,7 +16,10 @@ mapeiam-se variantes tributárias, que são finitas. A classificação de cada
 mercadoria real (NCM, CEST, CST/CSOSN, CFOP, benefício) permanece responsabilidade
 do sistema cliente/responsável tributário, como o dicionário já fixa. A decisão
 de produto deste repositório é **quais grupos o preparador representa e valida**
-— e em que ordem.
+— e em que ordem. **Atualização de 17/10/2026 (2):** o incremento P2
+(isenções/não incidência) foi implementado pela issue
+[#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26); ver
+seções 3 e 4-A.
 
 As associações segmento→variante abaixo são **hipóteses de produto para
 priorização**, baseadas em perfis usuais de sortimento; não são determinações
@@ -74,12 +77,12 @@ exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
 | **P1** | CSOSN 500 (Simples, ST retido/antecipação) | `ICMSSN500`: sequências opcionais `vBCSTRet`+`pST`+`vICMSSubstituto`?+`vICMSSTRet`, FCP-ST (`vBCFCPSTRet`/`pFCPSTRet`/`vFCPSTRet`) e efetivos (`pRedBCEfet`/`vBCEfet`/`pICMSEfet`/`vICMSEfet`) | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)): campos representados, validados e serializados; exemplo [sale-st-crt1.json](../samples/preparation/sale-st-crt1.json) | Entregue; totais já existiam |
 | **P1** | CST 60 (normal, ST retido) | `ICMS60`: mesmas sequências do `ICMSSN500` | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)), compartilhando os campos do `ICMSSN500`; coberto por teste com XSD | Entregue |
 | **P1** | CEST condicional ao ST | `prod/CEST` | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)): CEST exigido quando o grupo declarado é `ICMSSN500`/`ICMS60`; fonte baixada e hasheada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Entregue; Convênio ICMS 142/18, cláusula vigésima, I |
-| **P2** | CSOSN 103/300/400 (isenção de faixa, imune, não tributada) | Mesmo grupo `ICMSSN102`, enumeração já admite os quatro códigos | Parser restringe a `102` | Extensão de enumeração + casos; sem campos novos |
-| **P2** | CST 40/41 (isenta, não tributada) | `ICMS40` (admite 40/41/50): opcionais `vICMSDeson`+`motDesICMS` | Sem representação; grupo recusado | Grupo pequeno; desoneração opcional pode ficar fora do primeiro recorte |
+| **P2** | CSOSN 103/300/400 (isenção de faixa, imune, não tributada) | Mesmo grupo `ICMSSN102`, enumeração já admite os quatro códigos | Implementado em 17/10/2026 ([#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)): enumeração estendida, exemplo [sale-exempt-crt1.json](../samples/preparation/sale-exempt-crt1.json); fonte Anexo III-A hasheada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Entregue; sem campos novos |
+| **P2** | CST 40/41 (isenta, não tributada) | `ICMS40` (admite 40/41/50): opcionais `vICMSDeson`+`motDesICMS` | Implementado em 17/10/2026 ([#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)): `orig`+CST 40/41 aceitos e cobertos por teste com XSD; CST 50 e desoneração recusados | Entregue; desoneração fora do recorte |
 | **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Sem representação; grupo recusado | Campos simples; exige fonte do percentual por caso |
 | **P4** | CST 90 / CSOSN 900 (outros) | `ICMS90`/`ICMSSN900`: combinações amplas de campos opcionais | Sem representação; grupos recusados | Genéricos; implementar somente com caso aprovado que os exija |
 | **P4** | PIS/COFINS `Outr` (CST 49+) e `Qtde` | `PISOutr`/`PISQtde` e equivalentes COFINS | Sem representação | Conforme caso; monofásico de bebidas (CST 04) já é representável via `PISNT`/`COFINSNT` |
-| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
+| Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular; consulta CFF do P2 (17/10/2026) confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410, e que cesta básica nacional é CST 200/`cClassTrib` 200003 (alíquota zero, art. 199 da LC 214/2025) — grupo não representado, **pendência impeditiva** registrada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
 
 Gate comum a todas as linhas: preencher a matriz de validação (seção 3 do
 [dicionário](PILOT-DATA-DICTIONARY.md)) com fonte oficial, regra, equações e
@@ -106,6 +109,30 @@ pela issue [#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/2
 Os valores do exemplo serão sintéticos e declarados, como nos casos CRT 1/3
 atuais; nenhuma alíquota ou MVA real é embutida.
 
+## 4-A. Incremento P2 — entregue
+
+Escopo implementado em 17/10/2026 pela issue
+[#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26),
+seguindo a convenção do P1:
+
+- Enumeração do grupo `ICMSSN102` estendida para CSOSN `102|103|300|400`
+  (Anexo III-A do Convênio s/nº de 1970, redação do Ajuste SINIEF 39/23).
+- Grupo `ICMS40` representado com `orig`+CST `40|41` (Tabela B, mesma redação);
+  CST `50` (suspensão) e a sequência de desoneração (`vICMSDeson`/`motDesICMS`)
+  permanecem recusados neste recorte.
+- Exemplo sintético [sale-exempt-crt1.json](../samples/preparation/sale-exempt-crt1.json)
+  com três itens (CSOSN 103/300/400) e o caso `ICMS40` coberto por teste
+  derivado do exemplo CRT 3; validação XSD via CLI `prepare` incluída em
+  `scripts/verify.ps1`.
+- Gate transversal RTC consultado na tabela CFF: o par regular `000`/`000001`
+  segue único aceito; CST 200/`cClassTrib` 200003 (cesta básica nacional) e os
+  CST RTC 400/410 ficam como pendência impeditiva com fonte registrada em
+  [FONTES.md](evidence/retail-coverage/FONTES.md).
+
+Nenhuma isenção, imunidade ou benefício real foi aprovado; os códigos dos
+exemplos continuam hipóteses de teste e o enquadramento permanece com o
+responsável tributário do caso aprovado.
+
 ## 5. Fontes a levantar
 
 Na entrega original da matriz nenhuma fonte externa havia sido baixada. O
@@ -120,15 +147,16 @@ as demais fontes seguem pendentes e devem ser registradas no mesmo padrão
 | Regulamento do ICMS do DF e anexos de ST/benefícios vigentes | Quais segmentos/mercadorias têm ST ou benefício no DF; conecta-se à pendência 2 do roadmap (anexo DF não reconciliado) | `TBD` — identificar ato vigente; não usar tabela histórica como cobertura atual |
 | Base legal do regime monofásico de PIS/COFINS para bebidas frias | Confirmar CST aplicável na revenda (hipótese: 04) | `TBD` — identificar lei/ato e vigência |
 | [Convênio ICMS 100/97 — CONFAZ](https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97) | Reduções/isenções de insumos agropecuários e vigência | `TBD` — confirmar prorrogações e aplicação no DF |
-| [Tabela de Classificação Tributária IBS/CBS — CFF](https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria) | CST/`cClassTrib` RTC correspondentes a cada variante nova | `TBD` — consulta por variante, como feito para 000001 |
+| [Tabela de Classificação Tributária IBS/CBS — CFF](https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria) | CST/`cClassTrib` RTC correspondentes a cada variante nova | Consultada e hasheada em 17/10/2026 (incremento P2) para isenção/não incidência; demais variantes seguem exigindo consulta própria |
 
 ## 6. Limites desta entrega
 
 - Documento de priorização: não escolhe enquadramento de mercadoria real nem
   altera contratos existentes. Na entrega original não habilitava variantes no
-  código; o P1 foi implementado depois, com issue própria
-  ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)),
-  conforme a convenção. P2–P4 continuam exigindo issue, matriz de validação do
+  código; P1 e P2 foram implementados depois, com issues próprias
+  ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24),
+  [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)),
+  conforme a convenção. P3–P4 continuam exigindo issue, matriz de validação do
   dicionário e fontes antes de qualquer implementação.
 - As frequências por segmento são hipóteses de produto; a cobertura efetiva do
   piloto continua determinada pela empresa selecionada e seus casos aprovados.

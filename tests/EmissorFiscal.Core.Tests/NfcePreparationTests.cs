@@ -35,6 +35,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [InlineData("crt1")]
     [InlineData("crt3")]
     [InlineData("st-crt1")]
+    [InlineData("exempt-crt1")]
     public void DeclaredModelsProduceNewSignedNfeSubmissionAndConsultationValidatedByPinnedXsd(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -60,6 +61,7 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
     [InlineData("crt1")]
     [InlineData("crt3")]
     [InlineData("st-crt1")]
+    [InlineData("exempt-crt1")]
     public void DeclaredValuesGroupsUnitsDiscountsPaymentsAndEmitterArePreserved(string scenario)
     {
         var (sale, emitter, context) = Models(scenario);
@@ -491,6 +493,89 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
         Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
     }
 
+    [Theory]
+    [InlineData("40")]
+    [InlineData("41")]
+    public void Icms40DeclaredCstPreparesSignsAndValidatesAgainstPinnedXsd(string cst)
+    {
+        var sale = PreparationJson.ParseSale(Icms40Sale(cst).ToJsonString());
+        var (_, emitter, context) = Models("crt3");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var icms = SafeXml.Child(SafeXml.Child(SafeXml.Child(
+            SafeXml.Children(Info(prepared.UnsignedXml), "det")[0], "imposto"), "ICMS"), "ICMS40");
+        Assert.Equal(new[] { "orig", "CST" }, icms.ChildNodes.OfType<XmlElement>()
+            .Select(element => element.LocalName).ToArray());
+        Assert.Equal(cst, SafeXml.Text(icms, "CST"));
+        proof.Validator.RequireValid("nfe", Sign(prepared));
+        // Valores declarados preservados; desoneração fica fora do recorte P2.
+    }
+
+    [Fact]
+    public void ExemptDeclaredCsosnCodesAreSerializedWithoutExtraFields()
+    {
+        var (sale, emitter, context) = Models("exempt-crt1");
+        var prepared = NfcePreparation.BuildUnsigned(sale, emitter, context);
+        var details = SafeXml.Children(Info(prepared.UnsignedXml), "det");
+        Assert.Equal(new[] { "103", "300", "400" }, details.Select(detail => SafeXml.Text(
+            SafeXml.Child(SafeXml.Child(SafeXml.Child(detail, "imposto"), "ICMS"), "ICMSSN102"), "CSOSN")).ToArray());
+        foreach (var detail in details)
+        {
+            var icms = SafeXml.Child(SafeXml.Child(SafeXml.Child(detail, "imposto"), "ICMS"), "ICMSSN102");
+            Assert.Equal(new[] { "orig", "CSOSN" }, icms.ChildNodes.OfType<XmlElement>()
+                .Select(element => element.LocalName).ToArray());
+        }
+    }
+
+    [Theory]
+    [InlineData("csosn-500-in-sn102")]
+    [InlineData("cst-in-sn102")]
+    [InlineData("cst50-in-icms40")]
+    [InlineData("csosn-in-icms40")]
+    [InlineData("own-tax-in-icms40")]
+    [InlineData("st-field-in-icms40")]
+    [InlineData("deson-in-icms40")]
+    public void ExemptRepresentationViolationsAreRejected(string scenario)
+    {
+        var json = scenario.EndsWith("icms40", StringComparison.Ordinal)
+            ? Icms40Sale("40")
+            : JsonNode.Parse(Sample("sale-crt1"))!.AsObject();
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        switch (scenario)
+        {
+            case "csosn-500-in-sn102": icms["CSOSN"] = "500"; break;
+            case "cst-in-sn102": icms["CST"] = "40"; break;
+            case "cst50-in-icms40": icms["CST"] = "50"; break;
+            case "csosn-in-icms40": icms["CSOSN"] = "400"; break;
+            case "own-tax-in-icms40": icms["vBC"] = "10.00"; break;
+            case "st-field-in-icms40": icms["vBCSTRet"] = "10.00"; break;
+            case "deson-in-icms40": icms["vICMSDeson"] = "1.00"; break;
+        }
+        Assert.Throws<InvalidDataException>(() => PreparationJson.ParseSale(json.ToJsonString()));
+    }
+
+    [Fact]
+    public void ExemptGroupsRequireTheMatchingCrtWithoutSubstitution()
+    {
+        var sale40 = PreparationJson.ParseSale(Icms40Sale("40").ToJsonString());
+        var (saleExempt, _, context) = Models("exempt-crt1");
+        var (_, emitter1, _) = Models("crt1");
+        var (_, emitter3, _) = Models("crt3");
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            sale40 with { EmitterProfileId = emitter1.ProfileId }, emitter1, context));
+        Assert.Throws<InvalidDataException>(() => NfcePreparation.BuildUnsigned(
+            saleExempt with { EmitterProfileId = emitter3.ProfileId }, emitter3, context));
+    }
+
+    private static JsonObject Icms40Sale(string cst)
+    {
+        var json = JsonNode.Parse(Sample("sale-crt3"))!.AsObject();
+        var icms = json["items"]![0]!["taxes"]!["ICMS"]!.AsObject();
+        icms["group"] = "ICMS40";
+        icms["CST"] = cst;
+        foreach (var field in new[] { "modBC", "vBC", "pICMS", "vICMS" }) icms.Remove(field);
+        return json;
+    }
+
     private static JsonObject Icms60Sale()
     {
         var json = JsonNode.Parse(Sample("sale-crt3"))!.AsObject();
@@ -515,6 +600,6 @@ public sealed class NfcePreparationTests(PreparationProof proof) : IClassFixture
 
     private static (PreparationSale Sale, PreparationEmitterProfile Emitter, PreparationTestContext Context) Models(string scenario) =>
         (PreparationJson.ParseSale(Sample("sale-" + scenario)),
-         PreparationJson.ParseEmitter(Sample("emitter-" + (scenario == "st-crt1" ? "crt1" : scenario))),
+         PreparationJson.ParseEmitter(Sample("emitter-" + (scenario is "st-crt1" or "exempt-crt1" ? "crt1" : scenario))),
          PreparationJson.ParseContext(Sample("test-context")));
 }

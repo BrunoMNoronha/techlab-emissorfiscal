@@ -125,7 +125,8 @@ try {
     foreach ($taskCase in @(
         @{ regime = 'crt1'; sale = 'sale-crt1'; emitter = 'emitter-crt1' },
         @{ regime = 'crt3'; sale = 'sale-crt3'; emitter = 'emitter-crt3' },
-        @{ regime = 'st-crt1'; sale = 'sale-st-crt1'; emitter = 'emitter-crt1' }
+        @{ regime = 'st-crt1'; sale = 'sale-st-crt1'; emitter = 'emitter-crt1' },
+        @{ regime = 'exempt-crt1'; sale = 'sale-exempt-crt1'; emitter = 'emitter-crt1' }
     )) {
         $taskRegime = $taskCase.regime
         $taskPreparationDir = Join-Path $taskEvidence "preparation-$taskRegime"
