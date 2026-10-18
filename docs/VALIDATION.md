@@ -1,5 +1,18 @@
 # Relatório do incremento NFC-e offline
 
+## Preparação EF-06/EF-07 — 18/10/2026
+
+Revisão documental da seleção do piloto e das opções de arquitetura sobre a
+base `bc1b38b`, com alterações locais: links locais dos cinco arquivos
+documentais conferidos e `git diff --check` sem erros. O comando Docker Compose
+`docker compose run --rm verify` executou `scripts/verify.ps1` no Linux: restore, build Release sem
+avisos ou erros, **359/359 testes aprovados**, doze entrypoints XSD, CLI demo,
+seis preparações e seis DANFEs sintéticos; exit 0. Manifest SHA-256
+`27ed88facc541bc88584231adb7b435000ad785b02d73c04ae9c17a129429366`.
+Resumo e TRX: `TestResults/ci/5c14d76b54c24b3b8d2b58f662f06da9/`, diretório
+local ignorado. Não houve I/O fiscal ou homologação; esta prova não decide
+empresa, tributação, arquitetura, serviços ou custódia e não encerra #3 ou #4.
+
 ## Reconferência EF-05 — 18/10/2026
 
 `docker compose run --rm verify` executou `scripts/verify.ps1` no Linux, com

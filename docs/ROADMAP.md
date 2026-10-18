@@ -75,6 +75,11 @@ podem avançar agora; o fechamento das regras aplicáveis depende dessas
 decisões. EF-07 usa o contrato do piloto. A conclusão do CI não escolhe serviços,
 regimes ou custódia para a operação fiscal.
 
+Em 18/10/2026, Bruno informou que ainda não há empresa definida. O [roteiro de
+seleção](PILOT-SELECTION.md) prepara a EF-06, e a [comparação de opções](ARCHITECTURE-OPTIONS.md)
+antecipa a análise da EF-07 sem escolher infraestrutura. EF-06 permanece parcial;
+EF-07 permanece bloqueada até os fatos e decisões indispensáveis.
+
 ### Etapa 2 — base operacional antes de I/O fiscal
 
 | ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
