@@ -12,11 +12,16 @@ namespace EmissorFiscal.Core.Tests;
 public sealed class XsdAndWireTests(OfflineProof proof) : IClassFixture<OfflineProof>
 {
     [Fact]
-    public void AllSixEntrypointsCompile()
+    public void AllTwelveEntrypointsCompile()
     {
-        Assert.Equal(new[] { "consSitNFe", "enviNFe", "nfe", "procNFe", "retConsSitNFe", "retEnviNFe" },
+        // Seis da NFC-e, três de evento (leiaute 1.00) e três de inutilização, desde 18/10/2026.
+        Assert.Equal(new[]
+            {
+                "consSitNFe", "envEvento", "enviNFe", "inutNFe", "nfe", "procEventoNFe", "procInutNFe", "procNFe",
+                "retConsSitNFe", "retEnvEvento", "retEnviNFe", "retInutNFe"
+            },
             proof.Validator.CompiledEntrypoints);
-        Assert.Equal(11, proof.Validator.Manifest.Files.Count);
+        Assert.Equal(20, proof.Validator.Manifest.Files.Count);
     }
 
     [Theory]

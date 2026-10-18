@@ -108,8 +108,13 @@ public static class NfceMessages
 
     internal static void RequireScope(string entrypoint, XmlDocument document)
     {
-        var rootName = entrypoint switch { "nfe" => "NFe", "procNFe" => "nfeProc", _ => entrypoint };
-        var root = SafeXml.RequireRoot(document, rootName);
+        // procInutNFe_v4.00.xsd declara a raiz oficial como "ProcInutNFe" (P maiúsculo).
+        var rootName = entrypoint switch
+        {
+            "nfe" => "NFe", "procNFe" => "nfeProc", "procInutNFe" => "ProcInutNFe", _ => entrypoint
+        };
+        var version = entrypoint is "envEvento" or "retEnvEvento" or "procEventoNFe" ? "1.00" : "4.00";
+        var root = SafeXml.RequireRoot(document, rootName, version);
         if (entrypoint is "nfe" or "enviNFe" or "procNFe")
         {
             RequireInvoiceScope(InvoiceIn(document));

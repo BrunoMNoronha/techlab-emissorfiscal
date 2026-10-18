@@ -51,17 +51,22 @@ reconciliado, e sua aplicação aos futuros regimes/operações continua pendent
 | Ordem | ZIP e recorte | SHA-256 do ZIP | Publicação no catálogo |
 | --- | --- | --- | --- |
 | 1 | PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip | 8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62 | 19/03/2024 |
-| 2 | PL_010d_v1.03.zip, somente NFe | 45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b | 10/07/2026 |
-| 3 | PL_010f_v1.04.zip | b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998 | 31/08/2026 |
+| 2 | PL_010d_v1.03.zip, subárvore Evento (leiaute de eventos 1.00; fonte `PL010dEvento`, acrescentada em 18/10/2026) | 45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b | 10/07/2026 |
+| 3 | PL_010d_v1.03.zip, subárvore NFe | 45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b | 10/07/2026 |
+| 4 | PL_010f_v1.04.zip | b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998 | 31/08/2026 |
 
 Aplicar sobreposição por nome nessa ordem e guardar somente o fechamento das
-dependências dos seis entrypoints. O manifest lista 11 XSDs, com os hashes de
+dependências dos doze entrypoints (seis da NFC-e, três de evento, três de
+inutilização). O manifest lista 20 XSDs, com os hashes de
 todos os bytes selecionados e a proveniência das versões sobrescritas. O nome
 literal do ZIP 009n contém `v101`; o catálogo descreve NT 2023.004 v1.11. Preservar
 ambas as referências sem renomear ou corrigir arquivo oficial.
 
 `nfe`, `enviNFe`, `retEnviNFe` e `procNFe` compartilham leiauteNFe do PL010f.
-`consSitNFe` e `retConsSitNFe` usam leiauteConsSitNFe do PL010d/NFe. Compilar cada
+`consSitNFe` e `retConsSitNFe` usam leiauteConsSitNFe do PL010d/NFe.
+`inutNFe`/`retInutNFe` vêm do PL009n e `procInutNFe`/`leiauteInutNFe` do PL010d/NFe;
+`envEvento`, `retEnvEvento` e `procEventoNFe` usam leiauteEvento 1.00 e
+`tiposBasico_v1.03` da subárvore Evento do PL010d (desde 18/10/2026). Compilar cada
 entrypoint separadamente: juntar ambos os leiautes cria tipos homônimos.
 O resolver só entrega bytes locais previamente verificados, usando URIs virtuais
 sem rede. DTD, resolução externa, schemaLocation na instância, dependência fora
@@ -76,10 +81,10 @@ futura deve resolver essa diferença com pacote oficial revisado e testes de reg
 ## Contrato local do núcleo
 
 - `SafeXml.Load`: parsing com DTD proibido, resolver nulo, preservação de whitespace e limite de tamanho.
-- `SchemaManifest.Load`/`XsdValidator`: origem/hash/dependências confiáveis, seis conjuntos XSD e recorte adicional 65/53/2/1.
+- `SchemaManifest.Load`/`XsdValidator`: origem/hash/dependências confiáveis, doze conjuntos XSD e recorte adicional 65/53/2/1.
 - `AccessKey`: strings, DV numérico/alfanumérico, CNPJ e consistência entre chave e infNFe. Não consulta cadastros.
 - `A1Signer.ImportPkcs12`: somente bytes/senha em memória, limites do loader e EphemeralKeySet; exige chave privada RSA de pelo menos 2048 bits, validade temporal e uso digital quando indicado. Esse mínimo é política técnica da prova, não uma escolha de custódia real.
-- `A1Signer.Sign`/`Verify`: SignedXml, URI exata #NFe+chave, uma referência, IDs únicos, algoritmos/transforms explícitos e certificado embutido. Sem algoritmos alternativos automáticos. Verificação local com verifySignatureOnly=true não consulta cadeia/revogação nem comprova ICP-Brasil/titularidade.
+- `A1Signer.Sign`/`Verify`: SignedXml, URI exata #NFe+chave, uma referência, IDs únicos, algoritmos/transforms explícitos e certificado embutido. `SignElement`/`VerifyElement` aplicam as mesmas regras a `evento`/`infEvento` (leiaute 1.00) e `inutNFe`/`infInut`, com a Signature anexada ao contêiner direto. Sem algoritmos alternativos automáticos. Verificação local com verifySignatureOnly=true não consulta cadeia/revogação nem comprova ICP-Brasil/titularidade.
 - `QrCode3`: somente URL online DF/chave|3|2; não renderiza a imagem e não pede CSC.
 - `NfceMessages`: enviNFe com uma nota/indSinc=1 e consSitNFe; valida assinatura após envelope.
 - `NfceProtocol`: respostas completas, schema válido, chave/ambiente e digVal compatíveis; nProt string de 15 ou 17 posições. nfeProc só é montado depois dessa correlação. XML/protocolo histórico de outra nota não autoriza o original.

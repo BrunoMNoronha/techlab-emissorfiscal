@@ -112,7 +112,7 @@ try {
     $taskSummary.runtime = $taskDemo.stack
     if ($taskSchemas.manifestSha256 -ne $taskSummary.manifestSha256 -or
         $taskSchemas.baseline -ne $taskSummary.baseline -or $taskDemo.baseline -ne $taskSummary.baseline -or
-        @($taskSchemas.compiledEntrypoints).Count -ne 6 -or @($taskDemo.compiledEntrypoints).Count -ne 6 -or
+        @($taskSchemas.compiledEntrypoints).Count -ne 12 -or @($taskDemo.compiledEntrypoints).Count -ne 12 -or
         $taskSchemas.fiscalIo -ne $false -or $taskDemo.fiscalIo -ne $false -or
         $taskDemo.taxpayerCertificate -ne $false -or $taskDemo.fiscalHomologationObtained -ne $false -or
         $taskDemo.signatureAfterSerialization -ne $true -or $taskDemo.signatureInEnvelope -ne $true -or

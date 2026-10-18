@@ -38,8 +38,8 @@ operacional de certificados/empresas reais.
 | Núcleo | `src/EmissorFiscal.Core/EmissorFiscal.Core.csproj`; `Xml/SafeXml.cs`; `Xsd/SchemaManifest.cs`, `Xsd/XsdValidator.cs`; `Domain/AccessKey.cs`; `Signature/A1Signer.cs`; `QrCode/QrCode3.cs`; `Wire/NfceMessages.cs`; `Protocols/NfceProtocol.cs` |
 | CLI | `src/EmissorFiscal.Cli/EmissorFiscal.Cli.csproj`, `Program.cs` |
 | Dados técnicos | `samples/OfflineFixtures.cs`; fixtures XML/README em `tests/EmissorFiscal.Core.Tests/Fixtures` |
-| Testes | Projeto `EmissorFiscal.Core.Tests`; `OfflineProof`, `SafeXmlTests`, `AccessKeyAndQrTests`, `A1SignatureTests`, `XsdAndWireTests`, `ProtocolTests`, `ManifestTests`, `OfflineBoundaryTests` |
-| Schemas | `schemas/nfe/4.00/manifest.json` e 11 XSD oficiais em `files/` |
+| Testes | Projeto `EmissorFiscal.Core.Tests`; `OfflineProof`, `SafeXmlTests`, `AccessKeyAndQrTests`, `A1SignatureTests`, `XsdAndWireTests`, `ProtocolTests`, `ManifestTests`, `OfflineBoundaryTests`, `NfcePreparationTests`, `NumberingTests`, `RequestHashTests`, `OperationLifecycleTests`, `EventsTests` |
+| Schemas | `schemas/nfe/4.00/manifest.json` e 20 XSD oficiais em `files/` (11 originais + 9 de evento/inutilização, 18/10/2026) |
 | Execução/manutenção | `scripts/verify.ps1`, `scripts/review-schemas.py`, `scripts/verify-materials.py` |
 | Documentação | `docs/TECHNICAL-SCOPE.md`, este relatório e atualização técnica em `docs/PROJECT.md` |
 
@@ -641,3 +641,57 @@ Limites: em memória, sem durabilidade, fila ou trabalhador real; o lease não
 cancela I/O em voo na SEFAZ, só impede que seu resultado tardio seja gravado.
 Política de reenvio manual após 217 confirmado, prazos e eventos (cancelamento)
 permanecem TBD/EF-17. Nenhuma transmissão, credencial real ou homologação.
+
+## Incremento EF-17/EF-18 (núcleo) — cancelamento e inutilização offline — 18/10/2026
+
+Issues [#14](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/14) e
+[#15](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/15), quarto
+incremento de núcleo da sequência aprovada em 18/10/2026. **Baseline de schemas
+ampliada sem trocar pacote:** os três ZIPs oficiais já fixados foram baixados de
+novo (SHA-256 idênticos aos do manifest) e `scripts/review-schemas.py` passou a
+ler também a subárvore `PL_010d_v1.03/Evento/` como quarta fonte
+(`PL010dEvento`, precedência PL009n < PL010d/Evento < PL010d/NFe < PL010f). O
+manifest tem agora **doze entrypoints e 20 XSDs**: aos seis da NFC-e somam-se
+`inutNFe`/`retInutNFe` (PL009n), `procInutNFe`/`leiauteInutNFe` (PL010d/NFe) e
+`envEvento`/`retEnvEvento`/`procEventoNFe` com `leiauteEvento_v1.00` e
+`tiposBasico_v1.03` (PL010d/Evento). Os 11 XSDs anteriores não mudaram de byte
+([baseline-byte-verification.json](evidence/ef05/baseline-byte-verification.json)
+regenerado: 20/20 idênticos aos ZIPs). `SchemaManifest.CheckMetadata`,
+`XsdAndWireTests` e `verify.ps1` passaram a exigir exatamente esse conjunto.
+
+Núcleo: `A1Signer.SignElement`/`VerifyElement` aplicam as regras do MOC a
+`evento`/`infEvento` (leiaute 1.00) e `inutNFe`/`infInut`, com a Signature no
+contêiner direto; `Sign`/`Verify` da NFC-e foram refatorados sobre o mesmo
+núcleo, sem mudança de comportamento. `Core/Events/NfceEvents` monta e assina o
+cancelamento 110111 (`cOrgao` 53, `tpAmb` 2, `nSeqEvento` 1–99, `xJust` 15–255,
+`nProt` 15 ou 17), prova o XSD no lote `envEvento` de um evento, interpreta
+`retEnvEvento` correlacionando chave/ambiente/`tpEvento`/`nSeqEvento`
+(135/136/155 registrados com `nProt`; 218/220/501/502/573/594 rejeitados;
+demais `Unknown`) e monta `procEventoNFe`. `NfceInutilization` monta e assina
+`inutNFe` (Id de 43 posições, série sem zeros no elemento e com três na chave),
+interpreta `retInutNFe` exigindo UF 53, ambiente 2 e coincidência dos campos
+devolvidos com o pedido (102 homologado com `nProt` e faixa; 215/241/256/563
+rejeitados; demais `Unknown`) e monta `ProcInutNFe` (raiz com P maiúsculo, como
+no XSD oficial). `InutilizationIntervalRegistry` bloqueia faixas sobrepostas por
+pool, em memória. `NfceMessages.RequireScope` conhece a versão 1.00 dos
+entrypoints de evento e a raiz `ProcInutNFe`.
+
+**Validação: 276/276 testes aprovados, zero ignorados, build Release sem
+avisos/erros** antes da integração com o incremento DANFE (PR #38); 29 casos
+novos em `EventsTests` (cancelamento assinado, validado e correlacionado em
+`procEventoNFe`; mapeamento de códigos só quando conhecidos; retornos sem
+correlação, sem `nProt` ou com lote incompatível nunca registram; retorno
+truncado e evento adulterado; sequência como identidade; pedidos inválidos
+recusados antes de assinar; inutilização assinada, validada e correlacionada em
+`ProcInutNFe`; faixas e ambiente conferidos; faixas inválidas; bloqueio
+concorrente de intervalos; API da NFC-e inalterada). CLI `schemas`/`demo`
+compilam doze entrypoints. Execução oficial via `docker compose run verify`
+(Linux, SDK 10.0.401); sem SDK local nesta máquina. CI do Actions identificada
+no PR, já com o DANFE integrado.
+
+Limites: nenhuma política de prazo, elegibilidade ou escolha de faixa — H13 e a
+ficha seção 2 continuam valendo; as listas de códigos conhecidos vêm do MOC 7
+Anexo I e qualquer outro `cStat` fica `Unknown`; `detEvento` é
+`processContents="skip"` no XSD, então o conteúdo do cancelamento só tem a
+checagem local. Sem transmissão, credencial real ou homologação; eventos além de
+110111 fora do recorte.

@@ -89,19 +89,33 @@ public sealed class SchemaManifest
         var packageHashes = new Dictionary<string, string>(StringComparer.Ordinal)
         {
             ["PL009n"] = "8e269cd5d5d60532b709c8a88bf590323b94002efd3a49935fb5fd2db5957a62",
+            // Subárvore Evento/ do mesmo ZIP PL010d (leiaute de eventos 1.00), fixada em 18/10/2026.
+            ["PL010dEvento"] = "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
             ["PL010d"] = "45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
             ["PL010f"] = "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998"
         };
-        var names = new[] { "nfe", "enviNFe", "retEnviNFe", "consSitNFe", "retConsSitNFe", "procNFe" };
+        // Seis entrypoints da NFC-e (leiaute 4.00), três de inutilização (4.00) e
+        // três de evento (leiaute 1.00). Qualquer outro conjunto é baseline nova.
+        var expected = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["nfe"] = "nfe_v4.00.xsd", ["enviNFe"] = "enviNFe_v4.00.xsd", ["retEnviNFe"] = "retEnviNFe_v4.00.xsd",
+            ["consSitNFe"] = "consSitNFe_v4.00.xsd", ["retConsSitNFe"] = "retConsSitNFe_v4.00.xsd",
+            ["procNFe"] = "procNFe_v4.00.xsd",
+            ["inutNFe"] = "inutNFe_v4.00.xsd", ["retInutNFe"] = "retInutNFe_v4.00.xsd",
+            ["procInutNFe"] = "procInutNFe_v4.00.xsd",
+            ["envEvento"] = "envEvento_v1.00.xsd", ["retEnvEvento"] = "retEnvEvento_v1.00.xsd",
+            ["procEventoNFe"] = "procEventoNFe_v1.00.xsd"
+        };
         if (data.ManifestVersion != 1 || data.BaselineId != Baseline || data.ReviewedOn != "2026-10-04" ||
-            data.Precedence is null || !data.Precedence.SequenceEqual(new[] { "PL009n", "PL010d", "PL010f" }) ||
-            data.Packages is null || data.Packages.Length != 3 ||
-            data.Packages.Select(p => p.Id).Distinct(StringComparer.Ordinal).Count() != 3 ||
-            data.Files is null || data.Files.Length != 11 || data.Entrypoints is null ||
-            !new HashSet<string>(names, StringComparer.Ordinal).SetEquals(data.Entrypoints.Keys))
+            data.Precedence is null ||
+            !data.Precedence.SequenceEqual(new[] { "PL009n", "PL010dEvento", "PL010d", "PL010f" }) ||
+            data.Packages is null || data.Packages.Length != 4 ||
+            data.Packages.Select(p => p.Id).Distinct(StringComparer.Ordinal).Count() != 4 ||
+            data.Files is null || data.Files.Length != 20 || data.Entrypoints is null ||
+            !new HashSet<string>(expected.Keys, StringComparer.Ordinal).SetEquals(data.Entrypoints.Keys))
             throw new InvalidDataException("Baseline não revisada; pacote novo exige revisão explícita.");
-        foreach (var name in names)
-            if (data.Entrypoints[name] != $"{name}_v4.00.xsd")
+        foreach (var (name, file) in expected)
+            if (data.Entrypoints[name] != file)
                 throw new InvalidDataException("Entrypoint divergente.");
         foreach (var package in data.Packages)
             if (!packageHashes.TryGetValue(package.Id, out var hash) || hash != package.Sha256 ||

@@ -1,7 +1,8 @@
 """Manutenção explícita do manifest; não faz downloads nem integra o runtime.
 
 Recebe os três ZIPs oficiais já baixados em tmp/official. Preserva bytes e
-seleciona apenas o fechamento das dependências dos seis entrypoints.
+seleciona apenas o fechamento das dependências dos doze entrypoints (seis da
+NFC-e, três de evento e três de inutilização).
 Qualquer mudança de pacote/hash exige revisão deste script e dos testes.
 """
 import hashlib
@@ -20,6 +21,14 @@ SOURCES = [
          origin="https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009n_NT2023_004_v101_e_NT2019_001_v162.zip",
          catalog="https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos",
          publishedOn="2024-03-19", subtree="PL_009n_NT2023_004_v101_e_NT2019_001_v162/"),
+    # Mesmo ZIP/hash do PL010d, subárvore Evento/ (leiaute de eventos 1.00, que
+    # inclui tiposBasico_v1.03 — nome exclusivo). Precede NFe/ e PL010f para que
+    # xmldsig/tiposBasico_v4.00 continuem vindo das fontes já fixadas.
+    dict(id="PL010dEvento", archive="PL_010d_v1.03.zip",
+         sha256="45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
+         origin="https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
+         catalog="https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D",
+         publishedOn="2026-07-10", subtree="PL_010d_v1.03/Evento/"),
     dict(id="PL010d", archive="PL_010d_v1.03.zip",
          sha256="45ceefe4dfbbfec93958283b650a2f1e1734784f4770d070b9907754de081d9b",
          origin="https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=%2BpBOYTXBtbk%3D",
@@ -32,7 +41,12 @@ SOURCES = [
          publishedOn="2026-08-31", subtree="PL_010f_v1.04/"),
 ]
 ENTRYPOINTS = {name: f"{name}_v4.00.xsd" for name in (
-    "nfe", "enviNFe", "retEnviNFe", "consSitNFe", "retConsSitNFe", "procNFe")}
+    "nfe", "enviNFe", "retEnviNFe", "consSitNFe", "retConsSitNFe", "procNFe",
+    # EF-17/EF-18 (18/10/2026): inutilização no leiaute 4.00 do mesmo pacote.
+    "inutNFe", "retInutNFe", "procInutNFe")}
+# Eventos genéricos (cancelamento 110111) permanecem no leiaute 1.00 dentro dos
+# mesmos pacotes oficiais; versão distinta do arquivo não é versão distinta do PL.
+ENTRYPOINTS.update({name: f"{name}_v1.00.xsd" for name in ("envEvento", "retEnvEvento", "procEventoNFe")})
 selected = {}
 history = {}
 for source in SOURCES:
@@ -80,4 +94,4 @@ manifest = dict(manifestVersion=1, baselineId="nfe-4.00-offline-2026-10-04",
                 packages=SOURCES, entrypoints=ENTRYPOINTS,
                 files=[files[name] for name in sorted(files)])
 (TARGET / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print(f"{len(files)} XSDs oficiais, bytes preservados; precedência PL009n < PL010d/NFe < PL010f.")
+print(f"{len(files)} XSDs oficiais, bytes preservados; precedência PL009n < PL010d/Evento < PL010d/NFe < PL010f.")
