@@ -49,6 +49,38 @@ continua condicionada a uma solução oficial identificada e validada na EF-05. 
 fatos da empresa e os casos tributários ainda são indispensáveis para concluir a
 EF-06 e para aplicar a matriz normativa ao piloto.
 
+### Casos fictícios executáveis — EF-05
+
+A pedido de Bruno, a prova usa os arquivos sintéticos versionados em
+[`samples/preparation`](../samples/preparation), com `test-context.json` marcado
+`syntheticOnly`, certificado gerado em memória e respostas fabricadas localmente.
+São hipóteses para testar o fluxo de XML, não decisões sobre contribuinte, operação,
+tributação ou série real. O preparador não calcula nem comprova enquadramento fiscal.
+
+| Venda fictícia | Perfil de teste | Grupos declarados no exemplo |
+| --- | --- | --- |
+| `sale-crt1.json` | `emitter-crt1.json` | `ICMSSN102`; sem grupo RTC |
+| `sale-st-crt1.json` | `emitter-crt1.json` | `ICMSSN500`; sem grupo RTC |
+| `sale-exempt-crt1.json` | `emitter-crt1.json` | `ICMSSN102`; sem grupo RTC |
+| `sale-crt3.json` | `emitter-crt3.json` | `ICMS00`; RTC `000/000001` |
+| `sale-red-crt3.json` | `emitter-crt3.json` | `ICMS20`; RTC `000/000001` |
+| `sale-basket-crt3.json` | `emitter-crt3.json` | `ICMS40`; RTC `200/200003` |
+
+`SyntheticEf05ScenariosTests` prepara e assina cada venda. Com retornos simulados,
+testa código 100 em envio e consulta e a construção de `nfeProc`, além de código
+120 com mensagens em envio e `nfeProc`. Em todos os casos verifica protocolo
+sintético de 17 posições e preservação do digest assinado. Uma consulta simulada
+com alertas é rejeitada pela baseline e não pode produzir `nfeProc`. Os estados
+de autorização desses testes descrevem apenas a interpretação local dos XMLs
+fabricados. Eles não resolvem a incompatibilidade oficial, não provam que a SEFAZ
+retornará qualquer dessas mensagens e não substituem os casos reais da EF-06.
+
+Validação local em 18/10/2026: `docker compose run --build --rm verify` passou
+com 366/366 testes, build sem avisos, doze entrypoints compilados e exemplos de
+preparação/DANFE. Evidências locais em
+`TestResults/ci/90e292bb8e6543c1a612e13e18b5ecca` (diretório ignorado pelo Git).
+CI e homologação fiscal permanecem evidências separadas.
+
 ## 1. Resultado e recomendação
 
 1. **Não promover uma nova baseline agora.** Nos catálogos Nacional e SVRS consultados e nos nove ZIPs examinados, não foi identificado leiaute oficial de consulta que admita os alertas previstos na NT 2026.002. Isso delimita a pesquisa; não afirma inexistência em toda fonte possível.
