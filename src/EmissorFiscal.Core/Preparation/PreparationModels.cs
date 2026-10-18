@@ -216,6 +216,9 @@ public sealed record PreparationIcms
     public string? Csosn { get; init; }
     [JsonPropertyName("modBC")]
     public string? BaseMode { get; init; }
+    // Percentual de redução da BC do grupo ICMS20 do leiauteNFe_v4.00.xsd.
+    [JsonPropertyName("pRedBC")]
+    public string? BaseReductionRate { get; init; }
     [JsonPropertyName("vBC")]
     public string? Base { get; init; }
     [JsonPropertyName("pICMS")]

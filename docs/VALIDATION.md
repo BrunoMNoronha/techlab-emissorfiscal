@@ -456,3 +456,39 @@ Os códigos dos exemplos (NCM, CFOP 5102, CSOSN 103/300/400, PIS/COFINS CST
 imunidade ou benefício real foi aprovado e o enquadramento permanece com o
 responsável tributário do caso aprovado. Sem transmissão, credencial real,
 DANFE ou homologação fiscal; issues #2/#3 permanecem abertas.
+
+## Incremento P3 — redução de base de cálculo no preparador — 17/10/2026
+
+Issue [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28),
+terceiro incremento da priorização da
+[matriz de cobertura do varejo](RETAIL-COVERAGE-MATRIX.md): o grupo `ICMS20` é
+representado com `orig`+CST `20` e os campos obrigatórios `modBC`, `pRedBC`,
+`vBC`, `pICMS`, `vICMS` (Tabela B do Convênio s/nº de 1970, redação do Ajuste
+SINIEF 39/23), aceito somente sob CRT 3 e serializado na ordem do XSD fixado;
+as sequências opcionais de FCP (`vBCFCP`/`pFCP`/`vFCP`) e de desoneração
+(`vICMSDeson`/`motDesICMS`/`indDeduzDeson`) permanecem recusadas, como as
+demais combinações, sem recalcular valores declarados. O gate transversal RTC
+foi reconferido na tabela CFF: o CST RTC `222` (Redução de Base de Cálculo) tem
+classificação única `222001`, restrita a transporte internacional de
+passageiros, sem correspondência genérica com a redução de base do ICMS; o par
+regular `000`/`000001` segue único aceito. Fontes reconferidas com bytes
+idênticos aos da coleta P2 e registradas em
+[FONTES.md](evidence/retail-coverage/FONTES.md). Novo exemplo sintético
+[sale-red-crt3.json](../samples/preparation/sale-red-crt3.json) (percentual de
+redução declarado como valor de teste), 12 casos de teste novos e quinto
+`prepare` em `verify.ps1`.
+
+**Validação: 177/177 testes aprovados, zero ignorados, build Release sem
+avisos/erros**, CLI `schemas`/`demo` e os cinco `prepare` (CRT 1, CRT 3,
+ST CRT 1, isenções CRT 1 e redução CRT 3) validados no XSD fixado. Evidências:
+`docker compose run --rm verify` local em 17/10/2026 (exit 0, Ubuntu/SDK
+10.0.401, evidência `TestResults/ci/2aa4dd5f4a2b46858d0acb13e8631778`). A
+contagem 177/177 substitui 165/165 como estado atual; contagens anteriores
+permanecem como marcos históricos. A execução no Actions será registrada na PR
+do incremento.
+
+O percentual de redução, NCM e CFOP do exemplo são hipóteses de teste
+declaradas; nenhum benefício real foi aprovado, a aplicabilidade no DF depende
+do RICMS-DF (pendência da matriz) e o enquadramento permanece com o responsável
+tributário do caso aprovado. Sem transmissão, credencial real, DANFE ou
+homologação fiscal; issues #2/#3 permanecem abertas.

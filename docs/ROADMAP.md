@@ -222,9 +222,14 @@ variantes por segmento, estado no preparador e priorização P1 (ST retido:
 [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)
 (CSOSN 103/300/400 e CST 40/41, 165/165 testes, fontes CONFAZ/CFF hasheadas;
 par RTC regular mantido com pendência impeditiva para CST 200/`cClassTrib`
-200003). P3–P4 seguem exigindo issue própria, matriz de validação do dicionário
-e fontes antes da implementação. A decisão de transmissão permanece a direta
-via SEFAZ/SVRS, já coberta por EF-14, sem mudança de aceite.
+200003) e **o P3 em 17/10/2026** pela issue
+[#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)
+(`ICMS20`/CST 20 com `modBC`/`pRedBC`/`vBC`/`pICMS`/`vICMS` declarados; FCP e
+desoneração recusados; gate RTC reconferido na CFF — CST 222 restrito a
+transporte internacional, par regular mantido). P4 segue exigindo issue
+própria, matriz de validação do dicionário e fontes antes da implementação.
+A decisão de transmissão permanece a direta via SEFAZ/SVRS, já coberta por
+EF-14, sem mudança de aceite.
 
 A pesquisa de **EF-05** foi incorporada; a compatibilidade depende de material oficial. Preencher a ficha **EF-06/0.2**, identificar empresa/CRT/sistema/autoridades/delegação, comprovar série exclusiva/histórico e validar casos tributários com fontes. O dicionário separa limites do leiaute e limites da fixture. Reconciliar regras DF/RTC dos casos escolhidos sem habilitar grupo não suportado.
 Resolver **EF-06** antes de
@@ -256,6 +261,7 @@ fonte, nem reabrir EF-01/EF-02 sem regressão ou mudança de recorte comprovada.
 | 17/10/2026 | Incremento P1 entregue (issue #24, commit `94fb267`): `ICMSSN500`/`ICMS60` com CEST condicional no preparador, exemplo ST sintético e 152/152 testes no Actions (run 39071294072). Convênio 142/18 coletado e hasheado. Sem transmissão ou homologação. |
 | 17/10/2026 | Decisão de Bruno: NFS-e saúde vira trilha exploratória com interessado real (seção própria acima), fora do MVP NFC-e, sem issue ou compromisso de implementação. Documentação sincronizada com o estado real (contagens, matriz de varejo, decisões H18/H19). |
 | 17/10/2026 | Incremento P2 entregue (issue [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26), PR [#27](https://github.com/BrunoMNoronha/techlab-emissorfiscal/pull/27), commit `265122c`): CSOSN 103/300/400 em `ICMSSN102` e `ICMS40`/CST 40-41 no preparador, com 165/165 testes no Actions (run 39081972979), fontes CONFAZ/CFF hasheadas e pendência impeditiva registrada para RTC CST 200/`cClassTrib` 200003. Sem transmissão ou homologação. |
+| 17/10/2026 | Incremento P3 entregue (issue [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)): `ICMS20`/CST 20 (redução de base) no preparador com valores declarados, FCP/desoneração recusados, exemplo sintético e quinto `prepare` em `verify.ps1`, com 177/177 testes no `docker compose run verify` local. Gate RTC reconferido na CFF (CST 222 restrito a transporte internacional de passageiros; par regular `000`/`000001` mantido), fontes reconferidas e hasheadas. Sem transmissão ou homologação. |
 
 ### EF-05 — incremento documental e regressões
 

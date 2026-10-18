@@ -73,11 +73,47 @@ identificam os bytes na data da coleta, não certificam vigência, enquadramento
 de mercadoria real ou aplicabilidade no DF, que seguem com o responsável
 tributário. Nenhum benefício, isenção ou imunidade real foi aprovado.
 
+## Coleta de 17/10/2026 — incremento P3 (redução de base de cálculo)
+
+Recoleta das mesmas duas fontes do P2, com bytes idênticos (mesmos SHA-256),
+feita para conferir os fatos específicos do CST 20 e o gate transversal RTC:
+
+| Arquivo local | Origem consultada (URL final) | Data/hora UTC | SHA-256 dos bytes | Resultado |
+| --- | --- | --- | --- | --- |
+| CVSN_70.html (não versionado; apenas hash) | <https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70> | 2026-10-18T00:30:59Z | `7eeb4e45976812c2951d190c158b6d2da77c282e115376f620e2a74c5527d190` | Obtido (HTTP 200, 452.001 bytes; idêntico à coleta P2) |
+| cff-page.html (não versionado; apenas hash) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | 2026-10-18T00:31:52Z | `0c2d7b19379f605e9d9a98b1045984e2da8c2ce7a57ba677e4057b401207cace` | Obtido (HTTP 200, 4.189.528 bytes; idêntico à coleta P2) |
+
+Fatos conferidos nos textos baixados, usados pelo incremento P3:
+
+- **Convênio s/nº de 15/12/1970, Anexo I, Tabela B** (nova redação do Ajuste
+  SINIEF 39/23, efeitos a partir de 01.12.23): CST `20` "Tributada com redução
+  de base de cálculo — classificam-se neste código as operações e prestações
+  contempladas com redução de base de cálculo do imposto". A redação verde
+  posterior na mesma página ("Tributada com redução de base de cálculo ou
+  redução do imposto") é a Tabela B do Ajuste SINIEF 11/19, marcada
+  **sem efeitos**, e não foi usada.
+- **Tabela de Classificação Tributária IBS/CBS (CFF)**, gate transversal da
+  matriz: o CST RTC `222` "Redução de Base de Cálculo" (`IndReducaoBc`) possui
+  **uma única classificação**, `222001`, restrita a transporte internacional de
+  passageiros com trechos de ida e volta vendidos em conjunto — sem
+  correspondência genérica com a redução de base do ICMS no varejo. O CST `200`
+  "Alíquota reduzida" lista hipóteses fechadas da LC 214/2025 (anexos/artigos
+  específicos), que também não espelham benefício de ICMS. Conclusão aplicada:
+  o par regular `000`/`000001` permanece o único aceito pelo preparador; a
+  classificação RTC de cada caso real de redução segue com o responsável
+  tributário, e nenhum par novo foi habilitado neste incremento.
+
+Limitações: as páginas consolidam redações e dados dinâmicos; os hashes
+identificam os bytes na data da coleta, não certificam vigência, percentual de
+redução aplicável ou enquadramento de mercadoria real no DF, que seguem com o
+responsável tributário (RICMS-DF permanece pendente abaixo). Nenhum benefício
+real foi aprovado; o percentual do exemplo sintético é valor de teste.
+
 | Fonte externa | URL de partida | Status |
 | --- | --- | --- |
 | Convênio ICMS 142/18 + tabela CEST | <https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18> | Obtido em 17/10/2026 (P1) |
-| Convênio s/nº de 1970 (Tabela B CST e Anexo III-A CSOSN) | <https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70> | Obtido em 17/10/2026 (P2, tabela acima) |
-| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2, tabela acima); antes consultada somente para 000001/CST 000 |
+| Convênio s/nº de 1970 (Tabela B CST e Anexo III-A CSOSN) | <https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cvsn_70> | Obtido em 17/10/2026 (P2; reconferido no P3, tabela acima) |
+| Tabela de Classificação Tributária IBS/CBS (CFF) | <https://dfe-portal.svrs.rs.gov.br/CFF/ClassificacaoTributaria> | Obtido em 17/10/2026 (P2; reconferido no P3 para redução de base) |
 | Regulamento do ICMS do DF e anexos ST/benefícios | A identificar (ato vigente) | Pendente |
 | Base legal do monofásico PIS/COFINS de bebidas frias | A identificar | Pendente |
 | Convênio ICMS 100/97 (insumos agropecuários) | <https://www.confaz.fazenda.gov.br/legislacao/convenios/1997/CV100_97> | Pendente |

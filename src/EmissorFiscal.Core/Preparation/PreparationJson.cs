@@ -101,8 +101,8 @@ internal static class PreparationValidation
         {
             if (emitter.Crt == "1" && item.Taxes.Icms.Group is not ("ICMSSN102" or "ICMSSN500"))
                 Fail("CRT1: este subconjunto prepara somente ICMSSN102/CSOSN 102-103-300-400 e ICMSSN500/CSOSN500.");
-            if (emitter.Crt == "3" && item.Taxes.Icms.Group is not ("ICMS00" or "ICMS40" or "ICMS60"))
-                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00, ICMS40/CST 40-41 e ICMS60/CST60.");
+            if (emitter.Crt == "3" && item.Taxes.Icms.Group is not ("ICMS00" or "ICMS20" or "ICMS40" or "ICMS60"))
+                Fail("CRT3: este subconjunto prepara somente ICMS00/CST00, ICMS20/CST20, ICMS40/CST 40-41 e ICMS60/CST60.");
             if (emitter.Crt == "3" && item.Taxes.IbsCbs is null)
                 Fail("CRT3: IBSCBS explícito é obrigatório neste recorte de homologação RTC.");
             if (emitter.Crt == "1" && item.Taxes.IbsCbs is not null)
@@ -273,6 +273,22 @@ internal static class PreparationValidation
             Money(taxes.Icms.Base, "vBC ICMS00");
             Rate(taxes.Icms.Rate, "pICMS");
             Money(taxes.Icms.Value, "vICMS");
+            Absent(taxes.Icms.BaseReductionRate, "pRedBC em ICMS00");
+            NoStRetainedFields(taxes.Icms);
+        }
+        else if (taxes.Icms.Group == "ICMS20")
+        {
+            // Tabela B do Convênio s/nº de 1970 (Ajuste SINIEF 39/23): 20 tributada
+            // com redução de base de cálculo. As sequências opcionais de FCP
+            // (vBCFCP/pFCP/vFCP) e de desoneração (vICMSDeson/motDesICMS/indDeduzDeson)
+            // ficam fora do recorte P3; valores permanecem declarados, nunca calculados.
+            Equal(taxes.Icms.Cst, "20", "CST de ICMS20");
+            Absent(taxes.Icms.Csosn, "CSOSN em ICMS20");
+            OneOf(taxes.Icms.BaseMode, "modBC", "0", "1", "2", "3");
+            Rate(taxes.Icms.BaseReductionRate, "pRedBC");
+            Money(taxes.Icms.Base, "vBC ICMS20");
+            Rate(taxes.Icms.Rate, "pICMS");
+            Money(taxes.Icms.Value, "vICMS");
             NoStRetainedFields(taxes.Icms);
         }
         else if (taxes.Icms.Group == "ICMSSN102")
@@ -330,10 +346,11 @@ internal static class PreparationValidation
         }
     }
 
-    // Campos próprios dos grupos tributados (ICMS00): fora de ICMSSN102/ICMS40/ICMSSN500/ICMS60.
+    // Campos próprios dos grupos tributados (ICMS00/ICMS20): fora de ICMSSN102/ICMS40/ICMSSN500/ICMS60.
     private static void NoOwnTaxFields(PreparationIcms icms)
     {
         Absent(icms.BaseMode, "modBC em " + icms.Group);
+        Absent(icms.BaseReductionRate, "pRedBC em " + icms.Group);
         Absent(icms.Base, "vBC em " + icms.Group);
         Absent(icms.Rate, "pICMS em " + icms.Group);
         Absent(icms.Value, "vICMS em " + icms.Group);

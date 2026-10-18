@@ -25,6 +25,10 @@ As associações segmento→variante abaixo são **hipóteses de produto para
 priorização**, baseadas em perfis usuais de sortimento; não são determinações
 fiscais. Cada variante só entra em operação com a matriz de validação da
 seção 3 do dicionário preenchida e fontes conferidas para o caso aprovado.
+**Atualização de 17/10/2026 (3):** o incremento P3 (redução de base de
+cálculo) foi implementado pela issue
+[#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28); ver
+seções 3 e 4-B.
 
 ## 1. Estado do preparador no levantamento original
 
@@ -79,7 +83,7 @@ exigência ou dispensa fiscal, conforme a regra de leitura do dicionário.
 | **P1** | CEST condicional ao ST | `prod/CEST` | Implementado em 17/10/2026 ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24)): CEST exigido quando o grupo declarado é `ICMSSN500`/`ICMS60`; fonte baixada e hasheada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Entregue; Convênio ICMS 142/18, cláusula vigésima, I |
 | **P2** | CSOSN 103/300/400 (isenção de faixa, imune, não tributada) | Mesmo grupo `ICMSSN102`, enumeração já admite os quatro códigos | Implementado em 17/10/2026 ([#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)): enumeração estendida, exemplo [sale-exempt-crt1.json](../samples/preparation/sale-exempt-crt1.json); fonte Anexo III-A hasheada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Entregue; sem campos novos |
 | **P2** | CST 40/41 (isenta, não tributada) | `ICMS40` (admite 40/41/50): opcionais `vICMSDeson`+`motDesICMS` | Implementado em 17/10/2026 ([#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)): `orig`+CST 40/41 aceitos e cobertos por teste com XSD; CST 50 e desoneração recusados | Entregue; desoneração fora do recorte |
-| **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Sem representação; grupo recusado | Campos simples; exige fonte do percentual por caso |
+| **P3** | CST 20 (redução de base) | `ICMS20`: `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` + FCP/desoneração opcionais | Implementado em 17/10/2026 ([#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)): campos obrigatórios representados, validados e serializados; FCP e desoneração recusados; exemplo [sale-red-crt3.json](../samples/preparation/sale-red-crt3.json) | Entregue; percentual real por caso segue exigindo fonte (RICMS-DF pendente) |
 | **P4** | CST 90 / CSOSN 900 (outros) | `ICMS90`/`ICMSSN900`: combinações amplas de campos opcionais | Sem representação; grupos recusados | Genéricos; implementar somente com caso aprovado que os exija |
 | **P4** | PIS/COFINS `Outr` (CST 49+) e `Qtde` | `PISOutr`/`PISQtde` e equivalentes COFINS | Sem representação | Conforme caso; monofásico de bebidas (CST 04) já é representável via `PISNT`/`COFINSNT` |
 | Transversal | RTC além de CST 000/`cClassTrib` 000001 | `IBSCBS` com outras classificações | Somente o par regular; consulta CFF do P2 (17/10/2026) confirmou que isenção/não incidência de ICMS **não** tem correspondência genérica nos CST RTC 400/410, e que cesta básica nacional é CST 200/`cClassTrib` 200003 (alíquota zero, art. 199 da LC 214/2025) — grupo não representado, **pendência impeditiva** registrada em [FONTES.md](evidence/retail-coverage/FONTES.md) | Cada variante nova de ICMS exige conferir a classificação IBS/CBS correspondente na tabela CFF antes da implementação |
@@ -133,6 +137,30 @@ Nenhuma isenção, imunidade ou benefício real foi aprovado; os códigos dos
 exemplos continuam hipóteses de teste e o enquadramento permanece com o
 responsável tributário do caso aprovado.
 
+## 4-B. Incremento P3 — entregue
+
+Escopo implementado em 17/10/2026 pela issue
+[#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28),
+seguindo a convenção dos incrementos P1/P2:
+
+- Grupo `ICMS20` representado com `orig`+CST `20` e os campos obrigatórios
+  `modBC`, `pRedBC`, `vBC`, `pICMS`, `vICMS` (Tabela B do Convênio s/nº de 1970,
+  redação do Ajuste SINIEF 39/23), aceito somente sob CRT 3; valores declarados,
+  nunca recalculados. As sequências opcionais de FCP (`vBCFCP`/`pFCP`/`vFCP`) e
+  de desoneração (`vICMSDeson`/`motDesICMS`/`indDeduzDeson`) permanecem
+  recusadas neste recorte; redução de base no Simples (CSOSN 900) segue P4.
+- Exemplo sintético [sale-red-crt3.json](../samples/preparation/sale-red-crt3.json)
+  com percentual de redução declarado como valor de teste; validação XSD via
+  CLI `prepare` incluída em `scripts/verify.ps1`.
+- Gate transversal RTC consultado na tabela CFF: o CST RTC `222` (Redução de
+  Base de Cálculo) tem classificação única `222001`, restrita a transporte
+  internacional de passageiros, sem correspondência genérica com a redução de
+  base do ICMS; o par regular `000`/`000001` segue único aceito, com fonte
+  registrada em [FONTES.md](evidence/retail-coverage/FONTES.md).
+
+Nenhum percentual de redução real foi aprovado; a aplicabilidade no DF depende
+do RICMS-DF (pendência da seção 5) e do responsável tributário do caso aprovado.
+
 ## 5. Fontes a levantar
 
 Na entrega original da matriz nenhuma fonte externa havia sido baixada. O
@@ -153,10 +181,11 @@ as demais fontes seguem pendentes e devem ser registradas no mesmo padrão
 
 - Documento de priorização: não escolhe enquadramento de mercadoria real nem
   altera contratos existentes. Na entrega original não habilitava variantes no
-  código; P1 e P2 foram implementados depois, com issues próprias
+  código; P1, P2 e P3 foram implementados depois, com issues próprias
   ([#24](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/24),
-  [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26)),
-  conforme a convenção. P3–P4 continuam exigindo issue, matriz de validação do
+  [#26](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/26),
+  [#28](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/28)),
+  conforme a convenção. P4 continua exigindo issue, matriz de validação do
   dicionário e fontes antes de qualquer implementação.
 - As frequências por segmento são hipóteses de produto; a cobertura efetiva do
   piloto continua determinada pela empresa selecionada e seus casos aprovados.
