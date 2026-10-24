@@ -33,7 +33,7 @@ A escolha entre portal e API é operacional (`TBD`: volume mensal de notas da cl
 
 ## 4. Pré-requisitos cadastrais e credenciais
 
-1. **CNPJ ativo** com CNAE compatível (8650-0/04 principal) — situação da empresa `TBD`.
+1. **CNPJ ativo** com CNAE compatível (8650-0/04 principal) — empresa piloto do recorte EF-22 (issue [#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48)), indicada em 24/10/2026: Ortosport Fisioterapia Especializada Ltda, ativa, CNAE principal 8650-0/04 e secundários 8690-9/03 (acupuntura) e 9313-1/00 (condicionamento físico) por fonte secundária ([PILOT-COMPANY.md](PILOT-COMPANY.md)); reconferir no cartão CNPJ. Acupuntura (item 4.05) e condicionamento físico (item 6.04) têm itens próprios na lista da LC 116, com `cTribNac` distintos de 04.08.02, a confirmar com o contador se forem faturados.
 2. **Inscrição no CF/DF** (cadastro fiscal do DF) do estabelecimento.
 3. **Acesso gov.br** (emissor web) e/ou **certificado digital ICP-Brasil** (API); custódia da credencial fora do conteúdo das notas e de logs.
 4. **Cadastro das operadoras tomadoras**: tabela registro ANS → CNPJ/razão social/endereço/IM, como definido na seção 4.1 do [mapeamento TISS](TISS-NFSE-FIELD-MAP.md); `TBD` por operadora conveniada.

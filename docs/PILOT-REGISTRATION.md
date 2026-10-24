@@ -2,7 +2,7 @@
 
 Modelo ligado ao contrato documental [nfce-df-homologacao/0.2](PILOT-CONTRACT.md). Data: 05/10/2026. **Não preenchido: empresa e responsáveis ainda não selecionados.** `TBD` não tem valor padrão. Regime, série e códigos da simulação não preenchem esta ficha.
 
-Em 18/10/2026, Bruno confirmou que ainda não há empresa definida. O [roteiro de seleção](PILOT-SELECTION.md) organiza a triagem e os próximos passos sem preencher fatos por suposição.
+Em 18/10/2026, Bruno confirmou que ainda não havia empresa definida. Em 24/10/2026, indicou a **Ortosport Fisioterapia Especializada Ltda** como empresa piloto e, por decisão H22, direcionou-a ao recorte **NFS-e padrão nacional** (EF-22, issue [#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48); dados em [PILOT-COMPANY.md](PILOT-COMPANY.md)). Esta ficha é do piloto **NFC-e** e **não** é preenchida pela Ortosport: continua sem empresa. O [roteiro de seleção](PILOT-SELECTION.md) organiza a triagem e os próximos passos sem preencher fatos por suposição.
 
 Durante a seleção EF-06, as evidências ficam sob guarda do emitente em registro privado já autorizado, com acesso aprovado aos revisores e referência publicável sem conteúdo privado. Identificar esse meio na ficha, sem provisionar armazenamento do serviço; a custódia operacional fiscal será decidida na EF-07 depois. Versionar somente o modelo/referências publicáveis; documentos privados, dados de compradores, PFX/senhas/tokens e connection strings ficam fora do Git/chat. Preenchimento cadastral não autoriza credencial/transmissão.
 
@@ -12,7 +12,7 @@ Durante a seleção EF-06, as evidências ficam sob guarda do emitente em regist
 | --- | --- | --- | --- |
 | Identificador/versão da ficha | `TBD` | Registro seguro, revisão e vínculo ao contrato 0.2 | Sem correlacionar aprovação e configuração |
 | Meio privado de evidência da seleção | `TBD` | Emitente indica registro já autorizado, responsável por sua guarda e acesso dos revisores; referência publicável sem conteúdo privado | Sem comprovar fatos da seleção; não é escolha de armazenamento operacional EF-07 |
-| Empresa/estabelecimento emitente | `TBD` | Cadastro, CNPJ/IE/endereço/UF e identidade fiscal canônica | Sem configurar identidade real |
+| Empresa/estabelecimento emitente | `TBD` — a Ortosport não é emitente deste piloto (H22) | Cadastro, CNPJ/IE/endereço/UF e identidade fiscal canônica | Sem configurar identidade real |
 | CRT efetivo e vigência cadastral | `TBD` | Cadastro comprovado e validação tributária | Não escolher grupo nem inferir CRT da fixture |
 | Sistema(s) cliente(s) e proprietário do conteúdo | `TBD` | Identificação técnica e vínculo emitente/ambiente | Sem emitir/consultar/baixar por cliente |
 | Pessoa que exerce operador central | `TBD` | Identidade, vínculo com serviço e alcance administrativo | Papel de produto não comprova pessoa/autoridade |

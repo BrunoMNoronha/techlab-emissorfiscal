@@ -43,6 +43,15 @@ H17 — Após reafirmar que o objetivo é emitir notas fiscais, o usuário pediu
 
 **18/10/2026 — estado da seleção:** Bruno informou neste chat que ainda não há empresa definida. É um fato sobre o estado da seleção, não uma escolha de emitente, regime, responsável ou autoridade. O [roteiro de seleção](../../PILOT-SELECTION.md) organiza a preparação; EF-06 permanece parcial e aberta.
 
+**24/10/2026 — empresa indicada:** Bruno indicou a Ortosport Fisioterapia Especializada Ltda como empresa piloto (H21 abaixo). Supera o estado de 18/10 quanto à indicação; não comprova cadastro, regime, autoridades ou série.
+
+## Decisão de 24/10/2026 — empresa piloto indicada
+
+| ID | Fonte e evidência | Alcance / limites |
+| --- | --- | --- |
+| H21 | Mensagem de Bruno neste chat, 24/10/2026, apontando a página pública da empresa na Casa dos Dados: a **Ortosport Fisioterapia Especializada Ltda** (CNPJ 66.979.142/0001-50, Brasília/DF) será a empresa piloto. Dados públicos e fonte em [PILOT-COMPANY.md](../../PILOT-COMPANY.md) | Indica o emitente; não comprova cadastro (fonte secundária, a reconferir na Receita e no CF/DF), CRT, IE, autoridades, delegação, série ou caso tributário. A atividade principal declarada (CNAE 8650-0/04, fisioterapia) é serviço sujeito ao ISS, cujo documento é a NFS-e, enquanto o MVP é NFC-e 65/DF de mercadoria; a escolha entre piloto NFS-e, NFC-e condicionado a venda de mercadoria, ou ambos, ficou como decisão pendente de Bruno (caminhos A/B/C em PILOT-COMPANY), **resolvida no mesmo dia por H22**. Dados pessoais de sócios e contatos ficam no registro privado T01, fora do Git. Não autoriza certificado, credencial, transmissão ou produção; #3 segue parcial |
+| H22 | Resposta de Bruno neste chat, 24/10/2026, à escolha entre os caminhos A/B/C de [PILOT-COMPANY](../../PILOT-COMPANY.md): **caminho A** — o piloto da Ortosport é **NFS-e padrão nacional** (leiaute DPS, Ambiente Nacional, DF); promover a trilha exploratória NFS-e saúde a recorte com issue própria | Supera a parte "sem issue, sem épico EF, sem compromisso" de H19: a trilha passa a ser o recorte **EF-22** com issue própria ([#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48)) e a Ortosport como emitente indicado. O MVP NFC-e 65/DF (EF-04 a EF-21, contrato 0.2, ficha e cenários C01–C13) permanece como está, sem empresa indicada; a Ortosport **não** entra no recorte NFC-e, e a ficha de PILOT-REGISTRATION não é a ficha do piloto NFS-e. O novo recorte exige contrato documental, matriz normativa (Anexo I do leiaute DPS, LC 116, legislação do DF), ficha própria e casos aprovados pelo contador antes de qualquer código de emissão; princípios do núcleo (tributação decidida por responsável, decimal exato, idempotência, auditoria, LGPD) são reaproveitados, código NF-e 4.00 não. Não autoriza certificado, credencial gov.br, transmissão ou produção; cadastro da empresa segue `em análise` |
+
 ## Decisões de 17/10/2026 — varejo amplo e trilha NFS-e
 
 | ID | Fonte e evidência | Alcance / limites |

@@ -1,8 +1,13 @@
 # EF-06 — seleção e preparação do primeiro piloto
 
-Atualização: 18/10/2026. Bruno informou que **ainda não há empresa definida**.
-Este roteiro operacionaliza a [ficha obrigatória](PILOT-REGISTRATION.md); não a
-substitui nem comprova dados de um emitente. A issue [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3)
+Atualização: 24/10/2026. Bruno indicou a **Ortosport Fisioterapia Especializada
+Ltda** (CNPJ 66.979.142/0001-50, Brasília/DF) como empresa piloto e, por decisão
+H22, direcionou-a ao recorte **NFS-e padrão nacional** (EF-22, issue
+[#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48)); dados
+públicos e pendências em [PILOT-COMPANY.md](PILOT-COMPANY.md). Para **este**
+piloto NFC-e continua **não havendo empresa definida**; o roteiro abaixo segue
+válido para uma futura candidata de varejo. Este roteiro operacionaliza a [ficha obrigatória](PILOT-REGISTRATION.md);
+não a substitui nem comprova dados de um emitente. A issue [#3](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/3)
 continua parcial e aberta.
 
 ## Ponto de partida
@@ -78,7 +83,7 @@ deve ficar identificada no registro privado; passar no XSD não a substitui.
 
 | Ação | Estado atual | Condição de conclusão |
 | --- | --- | --- |
-| Indicar empresa candidata | Pendente — nenhuma empresa definida, informado por Bruno em 18/10/2026 | Empresa e estabelecimento identificados em registro autorizado |
+| Indicar empresa candidata (NFC-e) | Pendente — a Ortosport, indicada em 24/10/2026, foi direcionada ao recorte NFS-e EF-22 por H22 ([PILOT-COMPANY.md](PILOT-COMPANY.md)); nenhuma candidata de varejo para NFC-e | Empresa e estabelecimento identificados em registro autorizado |
 | Nomear autorizante e responsável tributário | `TBD` | Vínculo e alcance comprovados |
 | Preencher ficha, histórico e série | `TBD` | Evidência e aprovação conforme ficha |
 | Definir primeiro caso fiscal | `TBD` | Caso e tributação aprovados pelo responsável |
