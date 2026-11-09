@@ -1,9 +1,17 @@
+# CI offline NFC-e.
+#
+# A prova (scripts/verify.ps1) é offline e multiplataforma (pwsh + dotnet, sem
+# IO fiscal nem certificado), então roda em Linux no caminho principal — o
+# ubuntu-24.04 já traz o pwsh. O Windows passou a rodar só semanalmente e sob
+# demanda, para manter a garantia de plataforma sem gastar minutos a cada push.
+# NUGET_PACKAGES fica em runner.temp de propósito: o valor da prova é o restore
+# bloqueado a frio, então este workflow não usa cache de NuGet.
 name: CI offline NFC-e
 
 on:
   push:
     branches: [main]
-    paths: &validation-paths
+    paths:
       - 'src/**'
       - 'tests/**'
       - 'samples/**'
@@ -17,15 +25,33 @@ on:
       - 'global.json'
       - 'NuGet.Config'
       - '.gitattributes'
-      - '.github/workflows/ci-offline.yml'
-      - 'README.md'
-      - 'docs/**'
       - 'Dockerfile'
       - '.dockerignore'
       - 'docker-compose.yml'
+      - '.github/workflows/ci-offline.yml'
   pull_request:
     branches: [main]
-    paths: *validation-paths
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'samples/**'
+      - 'schemas/**'
+      - 'scripts/**'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '**/*.targets'
+      - '**/packages.lock.json'
+      - 'EmissorFiscal.slnx'
+      - 'global.json'
+      - 'NuGet.Config'
+      - '.gitattributes'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'docker-compose.yml'
+      - '.github/workflows/ci-offline.yml'
+  schedule:
+    # Prova semanal em Windows (segunda, 06:00 UTC).
+    - cron: '0 6 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -37,8 +63,10 @@ concurrency:
 
 jobs:
   validate:
-    name: Prova offline / Windows / SDK fixado
-    runs-on: windows-2025
+    name: Prova offline / Linux / SDK fixado
+    # Não roda no agendamento: o agendamento existe para a prova em Windows.
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     defaults:
       run:
@@ -48,11 +76,11 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: '1'
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
       - name: Instalar SDK de global.json
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
         with:
           global-json-file: global.json
       - name: Restore bloqueado, build, testes e CLI
@@ -66,11 +94,11 @@ jobs:
           if ($taskSummaryFile) {
             $taskSummary = Get-Content -LiteralPath $taskSummaryFile.FullName -Raw | ConvertFrom-Json
             @(
-              '### Prova NFC-e exclusivamente offline'
+              '### Prova NFC-e exclusivamente offline (Linux)'
               "Estado: $($taskSummary.status); exit: $($taskSummary.exitCode)"
               "Commit: $($taskSummary.commit)"
               "SDK: $($taskSummary.sdk); runtime: $($taskSummary.runtime)"
-              "Runner: $($taskSummary.runner.image) / $($taskSummary.runner.imageVersion)"
+              "Runner: $($taskSummary.runner.os) / $($taskSummary.runner.architecture)"
               "Testes: $($taskSummary.testCounters | ConvertTo-Json -Compress)"
               "Modelos preparados: $($taskSummary.modelPreparations | ConvertTo-Json -Compress)"
               "Erro: $($taskSummary.error)"
@@ -79,9 +107,9 @@ jobs:
           }
       - name: Publicar evidências selecionadas
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: offline-${{ github.run_id }}-${{ github.run_attempt }}
+          name: offline-linux-${{ github.run_id }}-${{ github.run_attempt }}
           if-no-files-found: error
           retention-days: 30
           path: |
@@ -99,22 +127,69 @@ jobs:
             TestResults/ci/*/preparation-*/summary.json
             TestResults/ci/*/preparation-*/*.xml
 
-  docker:
-    name: Containerização / Linux / Docker
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
+  validate-windows:
+    name: Prova offline / Windows / SDK fixado
+    # Garantia de plataforma: só no agendamento semanal e sob demanda.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: windows-2025
+    timeout-minutes: 15
     defaults:
       run:
-        shell: bash
+        shell: pwsh
+    env:
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: 'false'
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
+      - name: Instalar SDK de global.json
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
+        with:
+          global-json-file: global.json
+      - name: Restore bloqueado, build, testes e CLI
+        env:
+          NUGET_PACKAGES: ${{ runner.temp }}/ef04-nuget
+        run: ./scripts/verify.ps1
+      - name: Publicar evidências selecionadas
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: offline-windows-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            TestResults/ci/*/summary.json
+            TestResults/ci/*/test-results.trx
+            TestResults/ci/*/cli-schemas.json
+            TestResults/ci/*/cli-demo.json
+            TestResults/ci/*/*.log
+            TestResults/ci/*/preparation-*/summary.json
+            TestResults/ci/*/preparation-*/*.xml
+
+  docker:
+    name: Containerização / Linux / Docker
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Configurar Buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
       - name: Build da imagem (restore bloqueado, build Release e testes)
-        run: docker build -t emissorfiscal .
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: .
+          load: true
+          tags: emissorfiscal:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Smoke test da CLI (schemas e demo emitem JSON)
         run: |
-          docker run --rm emissorfiscal schemas | jq -e . > /dev/null
-          docker run --rm emissorfiscal demo | jq -e . > /dev/null
+          docker run --rm emissorfiscal:ci schemas | jq -e . > /dev/null
+          docker run --rm emissorfiscal:ci demo | jq -e . > /dev/null
           echo 'CLI containerizada respondeu schemas e demo com JSON válido.' >> "$GITHUB_STEP_SUMMARY"
