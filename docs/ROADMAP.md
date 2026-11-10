@@ -2,7 +2,7 @@
 
 ## Preparação do piloto real — contrato documental 0.2
 
-Plano de preparação aprovado em 05/10/2026. [Contrato](PILOT-CONTRACT.md), [ficha obrigatória](PILOT-REGISTRATION.md) e [dicionário](PILOT-DATA-DICTIONARY.md) definem presencial/retirada/consumo próprio, regime conforme empresa comprovada, série exclusiva validada, operações próprias por cliente e operador central com delegação do emitente. Empresa, pessoas/autoridades, série/histórico e casos tributários ainda são `TBD`; EF-06/#3 permanece parcial e EF-07 condicionada.
+Plano de preparação aprovado em 05/10/2026. [Contrato](PILOT-CONTRACT.md), [ficha obrigatória](PILOT-REGISTRATION.md) e [dicionário](PILOT-DATA-DICTIONARY.md) definem presencial/retirada/consumo próprio, regime conforme empresa comprovada, série exclusiva validada, operações próprias por cliente e operador central com delegação do emitente. Empresa, pessoas/autoridades, série/histórico e casos tributários do piloto NFC-e ainda são `TBD`: a Ortosport, indicada em 24/10/2026, foi direcionada por decisão H22 ao recorte NFS-e [EF-22](#ef-22--piloto-nfs-e-padrão-nacional--ortosport-df) e não entra neste piloto. EF-06/#3 permanece parcial e EF-07 condicionada.
 
 O primeiro piloto completo exige **EF-15 + EF-16**: emissão/consulta/XML/protocolo e DANFE/QR. A dependência EF-16 → EF-15 permanece, sem criar ciclo. Correção, eventos EF-17/18, contingência EF-19 e entrega/remoto ficam indisponíveis inicialmente, como evolução posterior. Não há transmissão ou mudança de API/banco/transporte nesta preparação; o contrato fiscal documental tem identificação própria, distinta dos exemplos sintéticos.
 
@@ -139,13 +139,27 @@ este recorte documental.
 | EF-20 | Preparar operação e eventual liberação de produção | Bloqueado | EF-15 e itens EF-16 a EF-19 exigidos pelo MVP; decisões/autoridade de produção `TBD` | Definir volumes/limites, disponibilidade, SLA/RPO/RTO, alertas, retenção e resposta a incidentes; provar carga, backup/restauração, recuperação e segregação de ambientes. Alvo, aceite tributário/operacional, credenciais e autoridade de liberação definidos antes de qualquer deploy/operação em produção. | [#17](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/17) |
 | EF-21 | NF-e modelo 55 e ampliação de UFs/operações | Diferido, fora do recorte atual | EF-15; novo recorte aprovado | Matriz/contratos/testes próprios para modelo 55 e operações aprovadas. Não liberar 55 removendo apenas o bloqueio de modelo do núcleo; rever eventos, DANFE, transporte, regimes e novas NTs aplicáveis. Marco de início e demais UFs seguem `TBD`. | [#18](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/18) |
 
-## Trilha exploratória — NFS-e saúde (fora do recorte NFC-e)
+## EF-22 — piloto NFS-e padrão nacional — Ortosport (DF)
 
-Decisão de Bruno em 17/10/2026: há **interessado real** (prestador de saúde;
-identidade no registro privado da decisão T01, fora do Git) e a trilha NFS-e
-passa a ser acompanhada como **exploração paralela**, sem issue, sem épico EF e
-sem compromisso de implementação. O MVP e o piloto NFC-e 65/DF permanecem
-inalterados; nenhuma dependência das etapas EF-04 a EF-21 foi criada.
+**Promovida a recorte em 24/10/2026** (decisões H21/H22 em
+[DECISIONS](evidence/ef06/DECISIONS.md)): Bruno indicou a Ortosport
+Fisioterapia Especializada Ltda (CNPJ 66.979.142/0001-50, Brasília/DF) como
+empresa piloto e escolheu o caminho A, piloto **NFS-e padrão nacional**. A
+issue [#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48)
+define escopo, exclusões, dependências e critérios de aceite; os dados públicos
+da empresa, a fonte e as verificações pendentes estão em
+[PILOT-COMPANY.md](PILOT-COMPANY.md). O MVP e o piloto NFC-e 65/DF permanecem
+inalterados e sem empresa indicada; nenhuma dependência das etapas EF-04 a
+EF-21 foi criada, e a Ortosport não entra no recorte NFC-e.
+
+| ID | Trabalho | Estado | Dependências | Aceite mínimo | Issue |
+| --- | --- | --- | --- | --- | --- |
+| EF-22 | Piloto NFS-e padrão nacional (leiaute DPS, Ambiente Nacional, DF) para a Ortosport | Planejado — empresa indicada, cadastro `em análise`; contrato, matriz normativa, ficha e casos pendentes | H21/H22; confirmação formal da empresa e do contador; nenhuma issue NFC-e | Cadastro conferido em fonte primária; autoridades documentadas; matriz normativa NFS-e (Anexo I DPS, LC 116, DF) com fontes e hashes; contrato documental e ficha próprios; ao menos um caso PF e um convênio aprovados pelo contador; canal portal × API decidido; plano técnico de reaproveitamento publicado. Sem emissão, credencial ou produção até os gates. | [#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48) |
+
+Histórico: decisão de Bruno em 17/10/2026 (H19) registrou **interessado real**
+(prestador de saúde; identidade então no registro privado T01) e abriu a trilha
+NFS-e como **exploração paralela**, sem issue, sem épico EF e sem compromisso de
+implementação. Essa condição foi superada por H22.
 
 Contexto que motiva a exploração: a emissão de NFS-e no padrão nacional
 (leiaute DPS) tornou-se obrigatória no DF em 01/10/2026, substituindo o padrão
@@ -157,11 +171,11 @@ distinto do recorte atual (ISS municipal/DPS/Ambiente Nacional, não
 ICMS/SEFAZ/XSD NF-e 4.00); reaproveitam-se princípios — tributação decidida por
 responsável, decimal exato, idempotência de importação e LGPD — não código.
 
-O que destravaria uma decisão de produto (promover a trilha a recorte com issue
-própria): confirmação formal do interessado e de seu contador/responsável
+O que ainda falta para passar de planejamento a preparação técnica, conforme a
+issue #48: confirmação formal da empresa e de seu contador/responsável
 tributário, ambiente/leiaute vigente no DF conferido no Anexo I oficial,
 granularidade lote×guia escolhida e volume estimado (portal × API). Até lá,
-nenhum destes documentos autoriza implementação, emissão ou compromisso.
+nenhum destes documentos autoriza implementação, emissão ou credencial.
 
 ## Pontos que a revisão exige resolver
 
@@ -293,6 +307,8 @@ Pesquisa de 05/10 incorporada à [matriz](EF05-NORMATIVE-MATRIX.md), com proveni
 ### EF-06 — preparação documental 0.2 em 05/10/2026
 
 Decisões humanas H08–H16 incorporadas, ficha obrigatória e dicionário fiscal preparados; cenários C01–C13 revisados com estados previsto/adiado/regressão offline existente. [Pesquisa 0.2](evidence/ef06/FONTES-v0.2.md) preserva tentativas históricas e condições DF/ativação pendentes. A preparação não identifica empresa/autoridades nem valida casos reais; issue #3 permanece parcial/aberta. Provas e limites desta entrega em [VALIDATION](VALIDATION.md). Extração somente documental a partir de 952c74c, sem implementação fiscal ou transmissão; alterações locais da integração simulada preservadas no checkout original.
+| 24/10/2026 | Bruno indicou a **Ortosport Fisioterapia Especializada Ltda** (CNPJ 66.979.142/0001-50, Brasília/DF) como empresa piloto (decisão H21). Dados públicos por fonte secundária, verificações pendentes e caminhos de recorte em [PILOT-COMPANY.md](PILOT-COMPANY.md); atividade principal é fisioterapia (NFS-e), o que abriu a escolha entre piloto NFS-e, NFC-e ou ambos. Sem mudança de código, certificado ou transmissão. |
+| 24/10/2026 | Decisão H22 de Bruno: **caminho A**, piloto da Ortosport é NFS-e padrão nacional. Trilha exploratória NFS-e saúde promovida ao recorte **EF-22** com a issue [#48](https://github.com/BrunoMNoronha/techlab-emissorfiscal/issues/48) (escopo, exclusões, aceite); seção própria neste roadmap. MVP NFC-e 65/DF inalterado e sem empresa indicada; ficha `PILOT-REGISTRATION` volta a `TBD` em empresa/CRT, pois a Ortosport não entra no recorte NFC-e. Sem código, contrato executável, credencial ou emissão; #3 segue parcial e #48 aberta. |
 
 ### Modelo de entrada — pedido posterior em 05/10/2026
 
